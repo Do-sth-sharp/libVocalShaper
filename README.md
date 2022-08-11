@@ -1,2 +1,2 @@
 # libVocalShaper
-The library of VocalShaper engines, scipts and plugins development.
+The library of VocalShaper engines, scripts and plugins development.
