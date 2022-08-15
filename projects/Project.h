@@ -2,7 +2,7 @@
 #include "../Macros.h"
 
 namespace vocalshaper {
-	class VSDLL Project
+	class VSAPI Project
 	{
 
 	};

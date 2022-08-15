@@ -27,7 +27,7 @@
 #endif
 
 #if VS_BUILD_DLL
-#define VSDLL VSExport
+#define VSAPI VSExport
 #else
-#define VSDLL VSImport
+#define VSAPI VSImport
 #endif // VS_BUILD_DLL
