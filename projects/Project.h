@@ -2,30 +2,19 @@
 #include "../Macros.h"
 
 #include <JuceHeader.h>
+#include "SerializableProjectStructure.h"
 
 namespace vocalshaper {
-	class VSAPI Project
+	class VSAPI Project : public SerializableProjectStructure
 	{
 	public:
-		Project() = delete;
-		Project(const juce::String& name, const juce::String& path);
-		~Project() = default;
-
-	public:
-		const juce::String& getName() const;
-		const juce::String& getPath() const;
-
-		bool getSaved() const;
+		Project()
+			:SerializableProjectStructure(SerializableProjectStructure::Type::Project)
+		{};
+		~Project() override = default;
 
 	private:
-		// name:项目文件名
-		// path:项目路径
-		const juce::String name;
-		const juce::String path;
-
-		// saved:已保存
-		bool saved = true;
-
+		friend class ProjectDAO;
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Project)
 	};
 }
