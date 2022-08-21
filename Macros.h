@@ -11,19 +11,19 @@
 #ifdef __clang__
 #define VSExport __attribute__((visibility("default")))
 #define VSImport __attribute__((visibility("default")))
-#define VSCall __attribute__((cdecl))
+#define VSCall
 #endif
 
 #ifdef __GNUC__
 #define VSExport __attribute__((visibility("default")))
 #define VSImport __attribute__((visibility("default")))
-#define VSCall __attribute__((cdecl))
+#define VSCall
 #endif
 
 #if ! (defined (_MSC_VER) || defined (__clang__) || defined (__GNUC__))
 #define VSExport 
 #define VSImport 
-#define VSCall _cdecl
+#define VSCall
 #endif
 
 #if VS_BUILD_DLL
