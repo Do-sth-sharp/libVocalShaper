@@ -20,7 +20,9 @@ namespace vocalshaper {
 			Script,	//脚本片段
 			Wave,	//波形片段
 			Plugin,	//音频插件
-			Json	//Json数据
+			Json,	//Json数据
+			Label,	//标签
+			Instr	//乐器
 		};
 
 		Type getType() const;
@@ -28,6 +30,7 @@ namespace vocalshaper {
 	public:
 		SerializableProjectStructure(Type type);
 		virtual ~SerializableProjectStructure() = default;
+
 	private:
 		Type type = Type::Empty;
 	};

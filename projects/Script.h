@@ -13,6 +13,15 @@ namespace vocalshaper {
 		{};
 		~Script() override = default;
 
+		enum class ScriptType {
+			Lua,
+			Js
+		}scriptType = ScriptType::Lua;		//脚本类型
+
+	private:
+		juce::String data;					//脚本数据
+		bool enables = true;				//脚本生效
+
 	private:
 		friend class ProjectDAO;
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Script)
