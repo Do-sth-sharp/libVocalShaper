@@ -14,6 +14,9 @@ namespace vocalshaper {
 		~Json() override = default;
 
 	private:
+		juce::var data;						//数据
+
+	private:
 		friend class ProjectDAO;
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Json)
 	};

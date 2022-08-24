@@ -13,6 +13,7 @@ namespace vocalshaper {
 			Project,//工程
 			Track,	//轨道
 			Note,	//音符
+			Phoneme,//音素
 			Param,	//参数值
 			Point,	//二维点
 			Curve,	//曲线段

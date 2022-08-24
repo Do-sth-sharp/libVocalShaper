@@ -14,6 +14,10 @@ namespace vocalshaper {
 		~Point() override = default;
 
 	private:
+		double x = 0;
+		double y = 0;
+
+	private:
 		friend class ProjectDAO;
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Point)
 	};

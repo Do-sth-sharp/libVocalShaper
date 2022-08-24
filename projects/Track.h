@@ -8,6 +8,7 @@
 #include "Plugin.h"
 #include "Instr.h"
 #include "Wave.h"
+#include "Param.h"
 
 namespace vocalshaper {
 	class VSAPI Track : public SerializableProjectStructure
@@ -45,6 +46,9 @@ namespace vocalshaper {
 
 		//Wave
 		juce::OwnedArray<Wave> waves;									//音频片段
+
+		//Voice & Wave
+		juce::OwnedArray<Param> params;									//轨道参数
 
 	private:
 		friend class ProjectDAO;

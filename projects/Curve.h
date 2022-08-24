@@ -3,6 +3,7 @@
 
 #include <JuceHeader.h>
 #include "SerializableProjectStructure.h"
+#include "DPoint.h"
 
 namespace vocalshaper {
 	class VSAPI Curve : public SerializableProjectStructure
@@ -12,6 +13,8 @@ namespace vocalshaper {
 			:SerializableProjectStructure(SerializableProjectStructure::Type::Curve)
 		{};
 		~Curve() override = default;
+
+	private:
 
 	private:
 		friend class ProjectDAO;

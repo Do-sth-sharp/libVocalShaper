@@ -15,7 +15,8 @@ namespace vocalshaper {
 
 		enum class ScriptType {
 			Lua,
-			Js
+			Js,
+			AIL
 		}scriptType = ScriptType::Lua;		//脚本类型
 
 	private:

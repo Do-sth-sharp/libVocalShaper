@@ -6,6 +6,7 @@
 #include "Track.h"
 #include "Label.h"
 #include "Script.h"
+#include "Json.h"
 
 namespace vocalshaper {
 	class VSAPI Project : public SerializableProjectStructure
@@ -27,6 +28,7 @@ namespace vocalshaper {
 		std::unique_ptr<Track> masterTrack = std::make_unique<Track>();	//主轨道
 
 		juce::OwnedArray<Script> scripts;								//脚本
+		juce::OwnedArray<Json> additions;								//附加属性
 
 	private:
 		friend class ProjectDAO;
