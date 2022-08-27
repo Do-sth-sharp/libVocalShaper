@@ -1,0 +1,12 @@
+﻿syntax = "proto3";
+
+package vocalshaper.files.vsp3;
+
+message ProjectTime {
+  uint32 beat_pos = 1;   //节拍位置
+  uint32 deviation = 2; //偏移
+}
+
+message Color {
+  uint64 value = 1; //值，RGBA各8位
+}

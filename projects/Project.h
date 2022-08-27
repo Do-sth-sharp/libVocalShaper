@@ -23,7 +23,7 @@ namespace vocalshaper {
 
 		uint32_t sampleRate = 48000;									//采样率
 		uint32_t bitDeepth = 16;										//位深度
-		uint32_t curveQuantification = 480;								//参数曲线量化
+		uint32_t curveQuantification = 480;								//参数曲线量化（时间偏移最小量化，点每拍）
 
 		std::unique_ptr<Track> masterTrack = std::make_unique<Track>();	//主轨道
 

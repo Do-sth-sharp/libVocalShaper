@@ -1,0 +1,27 @@
+﻿syntax = "proto3";
+
+package vocalshaper.files.vsp3;
+
+import "Utils.proto";
+import "Phoneme.proto";
+import "Param.proto";
+
+message Note {
+  enum NoteType {
+    MIDI = 0;
+    VOICE = 1;
+  }
+
+  NoteType note_type = 1; //音符类型
+  ProjectTime st = 2;    //起始位置
+  uint32 length = 3;     //音符长度
+  uint32 pitch = 4;      //音高
+  bool tenuto = 5;       //延音
+
+  // Voice
+  string name = 6;               //歌词
+  repeated Phoneme phonemes = 7; //音素
+
+  // Midi & Voice
+  repeated Param params = 8; //参数
+}

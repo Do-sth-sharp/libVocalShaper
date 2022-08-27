@@ -30,10 +30,10 @@ namespace vocalshaper {
 		bool tenuto = false;										//延音
 
 		//Voice
-		uint32_t consonant = 0;										//辅音长度
 		juce::String name = "a";									//歌词
 		juce::OwnedArray<Phoneme> phonemes = { new Phoneme };		//音素
 
+		//MIDI & Voice
 		juce::OwnedArray<Param> params;								//参数
 
 	private:

@@ -1,0 +1,43 @@
+﻿syntax = "proto3";
+
+package vocalshaper.files.vsp3;
+
+import "Utils.proto";
+import "Curve.proto";
+import "Plugin.proto";
+import "Note.proto";
+import "Instr.proto";
+import "Wave.proto";
+import "Param.proto";
+
+message Track {
+  enum TrackType {
+    EMPTY = 0;
+    VOICE = 1;
+    MIDI = 2;
+    WAVE = 3;
+  }
+
+  TrackType track_type = 1;     //轨道类型
+  Color color = 2;             //轨道颜色
+  bool solo = 3;               //独奏开关（优先于mute）
+  bool mute = 4;               //静音开关
+  repeated Curve curves = 5;   //自动化曲线
+  repeated Plugin plugins = 6; //效果器
+
+  // Voice & Midi
+  repeated Note notes = 7; //音符
+
+  // Voice
+  string singer = 8; //歌手
+  string style = 9;  //音色
+
+  // Midi
+  repeated Instr instrument = 10; // midi乐器
+
+  // Wave
+  repeated Wave waves = 11; //音频片段
+
+  // Voice & Wave
+  repeated Param params = 12; //轨道参数
+}

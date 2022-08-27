@@ -1,0 +1,15 @@
+﻿syntax = "proto3";
+
+package vocalshaper.files.vsp3;
+
+message Script {
+  enum ScriptType {
+    LUA = 0;
+    JS = 1;
+    AIL = 2;
+  }
+
+  ScriptType script_type = 1; //脚本类型
+  string data = 2;           //脚本数据
+  bool enabled = 3;          //脚本生效
+}

@@ -22,7 +22,7 @@ namespace vocalshaper {
 		}labelType = LabelType::Lua;					//标签数据类型
 
 	private:
-		ProjectTime positon = make_time(0, 0);			//标签位置
+		ProjectTime position = make_time(0, 0);			//标签位置
 		juce::String data;								//标签内容
 
 		/*

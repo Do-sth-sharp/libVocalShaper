@@ -25,7 +25,7 @@ namespace vocalshaper {
 
 	private:
 		int uniqueId = 0;									//效果器唯一标识
-		bool isOn = false;									//效果器开启
+		bool enabled = false;								//效果器开启
 
 		juce::OwnedArray<Param> params;						//参数
 

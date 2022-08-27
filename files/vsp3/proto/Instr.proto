@@ -1,0 +1,19 @@
+﻿syntax = "proto3";
+
+package vocalshaper.files.vsp3;
+
+import "Param.proto";
+
+message Instr {
+  enum InstrType {
+    UNKNOWN = 0;
+    VST = 1;
+    VST3 = 2;
+    AU = 4;
+    LADSPA = 5;
+  }
+
+  InstrType instr_type = 1; //乐器类型
+  int64 unique_id = 2;      //乐器唯一标识
+  repeated Param params = 3; //参数
+}

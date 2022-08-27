@@ -1,0 +1,21 @@
+﻿syntax = "proto3";
+
+package vocalshaper.files.vsp3;
+
+import "Param.proto";
+
+message Plugin {
+  enum PluginType {
+    UNKNOWN = 0;
+    VST = 1;
+    VST3 = 2;
+    AU = 3;
+    LADSPA = 4;
+    BUILD_IN = 5;
+  }
+
+  PluginType plugin_type = 1; //效果器类型
+  int64 unique_id = 2;        //效果器唯一标识
+  bool enabled = 3;          //效果器开启
+  repeated Param params = 4; //参数
+}

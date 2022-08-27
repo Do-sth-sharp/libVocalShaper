@@ -1,0 +1,9 @@
+﻿syntax = "proto3";
+
+package vocalshaper.files.vsp3;
+
+import "DPoint.proto";
+
+message Curve {
+  repeated DPoint points = 1; //控制点
+}

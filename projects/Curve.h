@@ -15,7 +15,8 @@ namespace vocalshaper {
 		~Curve() override = default;
 
 	private:
-
+		juce::OwnedArray<DPoint> points;				//控制点
+		
 	private:
 		friend class ProjectDAO;
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Curve)

@@ -1,0 +1,12 @@
+﻿syntax = "proto3";
+
+package vocalshaper.files.vsp3;
+
+import "Point.proto";
+
+message Phoneme {
+  uint32 deviation = 1;       //起始位置偏移
+  string name = 2;            //音素名
+  bool is_pre = 3;             //先导音素
+  repeated Point time_map = 4; //时间映射
+}

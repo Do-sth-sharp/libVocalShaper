@@ -1,0 +1,8 @@
+﻿syntax = "proto3";
+
+package vocalshaper.files.vsp3;
+
+message Point {
+  double x = 1;
+  double y = 2;
+}

@@ -1,0 +1,7 @@
+﻿syntax = "proto3";
+
+package vocalshaper.files.vsp3;
+
+message Json {
+  string data = 1; // json序列数据
+}

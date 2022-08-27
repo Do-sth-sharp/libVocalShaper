@@ -21,7 +21,7 @@ namespace vocalshaper {
 
 	private:
 		juce::String data;					//脚本数据
-		bool enables = true;				//脚本生效
+		bool enabled = true;				//脚本生效
 
 	private:
 		friend class ProjectDAO;

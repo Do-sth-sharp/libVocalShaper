@@ -1,0 +1,27 @@
+﻿syntax = "proto3";
+
+package vocalshaper.files.vsp3;
+
+import "Track.proto";
+import "Label.proto";
+import "Script.proto";
+import "Json.proto";
+
+message Project {
+  // Meta
+  string editor_create = 1; //创建的编辑器
+  string editor_save = 2;   //上次保存的编辑器
+  uint64 time_spent = 3;    //在当前工程花费的时间
+  uint64 create_time = 4;   //创建时间
+  uint64 save_time = 5;     //上次保存时间
+  uint64 version = 6;      // vsp3协议版本
+
+  repeated Track tracks = 7; //轨道
+  repeated Label labels = 8; //标签
+  uint32 sample_rate = 9;     //采样率
+  uint32 bit_deepth = 10;     //位深度
+  uint32 curve_quantification = 11; //参数曲线量化（时间偏移最小量化，点每拍）
+  Track master_track = 12;       //主轨道
+  repeated Script scripts = 13; //脚本
+  repeated Json additions = 14; //附加属性
+}

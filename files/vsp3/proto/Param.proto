@@ -1,0 +1,26 @@
+﻿syntax = "proto3";
+
+package vocalshaper.files.vsp3;
+
+message Param {
+  enum ParamType {
+    EMPTY = 0;
+    BOOL = 1;
+    CHOICE = 2;
+    FLOAT = 3;
+    INT = 4;
+  }
+
+  ParamType param_type = 1; //参数类型
+  string id = 2;           //唯一id
+
+  message Value {
+    bool bool_data = 1;
+    int64 choice_data = 2;
+    float float_data = 3;
+    int64 int_data = 4;
+  }
+  
+  Value value = 3;      //值
+  string controler = 4; //连接至控制器
+}
