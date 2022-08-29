@@ -3,6 +3,9 @@ include_directories (${CMAKE_SOURCE_DIR})
 include_directories (${JUCEHEADER_DIR})
 include_directories (${JUCELIBRARY_DIR})
 
+#依赖库
+find_package (Protobuf 3 REQUIRED)
+
 #设置语言标准
 set(CMAKE_CXX_STANDARD 20)#使用C++20
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -11,12 +14,20 @@ set(CMAKE_C_STANDARD 17)#使用C17
 set(CMAKE_C_EXTENSIONS OFF)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
+#添加子项目-Proto生成
+add_subdirectory (files/vsp3)
+
 #libVocalShaper库文件搜索目录
+include_directories (${Protobuf_INCLUDE_DIRS})
 include_directories (projects)
+include_directories (files)
+include_directories (files/vsp3)
 
 #添加源文件
 aux_source_directory (. TARGET_SRC)
 aux_source_directory (projects TARGET_SRC)
+aux_source_directory (files TARGET_SRC)
+aux_source_directory (files/vsp3 TARGET_SRC)
 
 #设置编译目标
 set (TARGET_NAME libVocalShaper)
@@ -31,6 +42,9 @@ add_compile_definitions (JUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1)
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
 add_compile_definitions (JUCE_DLL=1)
 add_compile_definitions (JUCE_DISABLE_DLL_ALLOCATORS=1)
+add_compile_definitions ("VSAPI=__declspec(dllexport)")
+else ()
+add_compile_definitions ("VSAPI=__attribute__((visibility(\"default\")))")
 endif ()
 add_compile_definitions (VS_BUILD_DLL=1)
 add_compile_definitions (JUCE_MODAL_LOOPS_PERMITTED=1)
@@ -108,6 +122,7 @@ add_library (
 target_link_libraries (
 	${TARGET_NAME}
 	JUCE
+	protobuf::libprotobuf
 )
 
 #设置目标位置
@@ -124,4 +139,5 @@ set_target_properties (
 add_dependencies (
 	${TARGET_NAME}
 	JUCE
+	files_vsp3_proto_generate
 )

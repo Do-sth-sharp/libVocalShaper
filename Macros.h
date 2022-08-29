@@ -26,6 +26,10 @@
 #define VSCall
 #endif
 
+#ifdef VSAPI
+#undef VSAPI
+#endif // VSAPI
+
 #if VS_BUILD_DLL
 #define VSAPI VSExport
 #else
