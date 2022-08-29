@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "../Macros.h"
+#include "../../Macros.h"
 
 #include <JuceHeader.h>
 #include "SerializableProjectStructure.h"
@@ -22,7 +22,7 @@ namespace vocalshaper {
 		juce::OwnedArray<Point> timeMap;	//时间映射
 
 	private:
-		friend class ProjectDAO;
+		friend class PhonemeDAO;
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Phoneme)
 	};
 }

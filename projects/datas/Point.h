@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "../Macros.h"
+#include "../../Macros.h"
 
 #include <JuceHeader.h>
 #include "SerializableProjectStructure.h"
@@ -18,7 +18,7 @@ namespace vocalshaper {
 		double y = 0;
 
 	private:
-		friend class ProjectDAO;
+		friend class PointDAO;
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Point)
 	};
 }

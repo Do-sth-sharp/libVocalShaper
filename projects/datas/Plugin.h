@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "../Macros.h"
+#include "../../Macros.h"
 
 #include <JuceHeader.h>
 #include "SerializableProjectStructure.h"
@@ -30,7 +30,7 @@ namespace vocalshaper {
 		juce::OwnedArray<Param> params;						//参数
 
 	private:
-		friend class ProjectDAO;
+		friend class PluginDAO;
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Plugin)
 	};
 }

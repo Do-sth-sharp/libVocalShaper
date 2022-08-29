@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "../Macros.h"
+#include "../../Macros.h"
 
 #include <JuceHeader.h>
 #include "SerializableProjectStructure.h"

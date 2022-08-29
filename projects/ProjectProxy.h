@@ -2,15 +2,14 @@
 #include "../Macros.h"
 
 #include <JuceHeader.h>
-#include "Project.h"
 
 namespace vocalshaper {
-	class VSAPI ProjectDAO
+	class VSAPI ProjectProxy
 	{
 	public:
-		ProjectDAO() = delete;
-		ProjectDAO(const juce::String& name, const juce::String& path);
-		~ProjectDAO() = default;
+		ProjectProxy() = delete;
+		ProjectProxy(const juce::String& name, const juce::String& path);
+		~ProjectProxy() = default;
 
 	public:
 		const juce::String& getName() const;
@@ -24,9 +23,6 @@ namespace vocalshaper {
 		const juce::String name;
 		const juce::String path;
 
-		// saved:ÒÑ±£´æ
-		bool saved = true;
-
-		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ProjectDAO)
+		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ProjectProxy)
 	};
 }

@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "../Macros.h"
+#include "../../Macros.h"
 
 #include <JuceHeader.h>
 #include "SerializableProjectStructure.h"
@@ -24,7 +24,7 @@ namespace vocalshaper {
 		bool enabled = true;				//脚本生效
 
 	private:
-		friend class ProjectDAO;
+		friend class ScriptDAO;
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Script)
 	};
 }

@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "../Macros.h"
+#include "../../Macros.h"
 
 #include <JuceHeader.h>
 #include "SerializableProjectStructure.h"
@@ -28,12 +28,12 @@ namespace vocalshaper {
 			int choiceData;
 			float floatData;
 			int intData;
-		}value;								//值
+		}value = { .intData = 0 };			//值
 
 		juce::String controler;				//连接至控制器
 
 	private:
-		friend class ProjectDAO;
+		friend class ParamDAO;
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Param)
 	};
 }
