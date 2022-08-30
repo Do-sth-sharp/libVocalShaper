@@ -34,5 +34,8 @@ namespace vocalshaper {
 
 	private:
 		Type type = Type::Empty;
+
+	protected:
+		bool saved = false;
 	};
 }

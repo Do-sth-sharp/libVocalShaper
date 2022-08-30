@@ -14,7 +14,7 @@ namespace vocalshaper {
 		~Json() override = default;
 
 	private:
-		juce::var data;						//数据
+		juce::var data = new juce::DynamicObject;			//数据
 
 	private:
 		friend class JsonDAO;

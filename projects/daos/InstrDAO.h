@@ -10,6 +10,22 @@ namespace vocalshaper {
 		InstrDAO() = default;
 
 	public:
+		static Instr::InstrType getInstrType(const Instr* ptr);
 
+		static int getUniqueId(const Instr* ptr);
+		static void setUniqueId(Instr* ptr, int uniqueId);
+
+		static int paramSize(const Instr* ptr);
+		static Param* getParam(const Instr* ptr, int index);
+		static Param* insertParam(Instr* ptr, int index, Param* point);
+		static Param* releaseParam(Instr* ptr, int index);
+
+	public:
+		static bool isSaved(const Instr* ptr);
+		static void save(Instr* ptr);
+
+	public:
+		static Instr* create(Instr::InstrType type);
+		static void destory(Instr* ptr);
 	};
 }
