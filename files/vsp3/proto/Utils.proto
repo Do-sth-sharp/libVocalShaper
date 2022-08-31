@@ -8,5 +8,5 @@ message ProjectTime {
 }
 
 message Color {
-  uint64 value = 1; //值，RGBA各8位
+  uint32 value = 1; //值，RGBA各8位
 }
