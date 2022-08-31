@@ -12,7 +12,7 @@ namespace vocalshaper {
 	int InstrDAO::getUniqueId(const Instr* ptr)
 	{
 		if (!ptr) {
-			return 0;
+			return -1;
 		}
 		return ptr->uniqueId;
 	}
@@ -42,13 +42,13 @@ namespace vocalshaper {
 		return ptr->params[index];
 	}
 
-	Param* InstrDAO::insertParam(Instr* ptr, int index, Param* point)
+	Param* InstrDAO::insertParam(Instr* ptr, int index, Param* param)
 	{
-		if (!ptr || !point) {
+		if (!ptr || !param) {
 			return nullptr;
 		}
 		ptr->saved = false;
-		return ptr->params.insert(index, point);
+		return ptr->params.insert(index, param);
 	}
 
 	Param* InstrDAO::releaseParam(Instr* ptr, int index)

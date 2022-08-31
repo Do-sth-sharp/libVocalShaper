@@ -17,7 +17,7 @@ namespace vocalshaper {
 
 		static int paramSize(const Instr* ptr);
 		static Param* getParam(const Instr* ptr, int index);
-		static Param* insertParam(Instr* ptr, int index, Param* point);
+		static Param* insertParam(Instr* ptr, int index, Param* param);
 		static Param* releaseParam(Instr* ptr, int index);
 
 	public:
