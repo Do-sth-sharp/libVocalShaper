@@ -6,12 +6,17 @@ namespace vocalshaper {
 		if (!ptr) {
 			return Script::ScriptType::Lua;
 		}
+		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->scriptType;
 	}
 
 	void ScriptDAO::setScriptType(Script* ptr, Script::ScriptType type)
 	{
 		if (!ptr) {
+			return;
+		}
+		juce::ScopedWriteLock locker(ptr->lock);
+		if (ptr->scriptType == type) {
 			return;
 		}
 		ptr->saved = false;
@@ -23,12 +28,17 @@ namespace vocalshaper {
 		if (!ptr) {
 			return juce::String();
 		}
+		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->data;
 	}
 
 	void ScriptDAO::setData(Script* ptr, juce::String data)
 	{
 		if (!ptr) {
+			return;
+		}
+		juce::ScopedWriteLock locker(ptr->lock);
+		if (ptr->data == data) {
 			return;
 		}
 		ptr->saved = false;
@@ -40,6 +50,7 @@ namespace vocalshaper {
 		if (!ptr) {
 			return false;
 		}
+		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->enabled;
 	}
 
@@ -48,18 +59,30 @@ namespace vocalshaper {
 		if (!ptr) {
 			return;
 		}
+		juce::ScopedWriteLock locker(ptr->lock);
+		if (ptr->enabled == enabled) {
+			return;
+		}
 		ptr->saved = false;
 		ptr->enabled = enabled;
 	}
 
 	bool ScriptDAO::isSaved(const Script* ptr)
 	{
-		return true;
+		if (!ptr) {
+			return true;
+		}
+		juce::ScopedReadLock locker(ptr->lock);
+		return ptr->saved;
 	}
 
 	void ScriptDAO::save(Script* ptr)
 	{
-
+		if (!ptr) {
+			return;
+		}
+		juce::ScopedWriteLock locker(ptr->lock);
+		ptr->saved = true;
 	}
 
 	Script* ScriptDAO::create()

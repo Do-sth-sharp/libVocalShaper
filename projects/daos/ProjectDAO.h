@@ -3,6 +3,10 @@
 
 #include <JuceHeader.h>
 #include "../datas/Project.h"
+#include "TrackDAO.h"
+#include "LabelDAO.h"
+#include "ScriptDAO.h"
+#include "JsonDAO.h"
 
 namespace vocalshaper {
 	class VSAPI ProjectDAO

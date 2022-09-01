@@ -3,6 +3,7 @@
 
 #include <JuceHeader.h>
 #include "../datas/Plugin.h"
+#include "ParamDAO.h"
 
 namespace vocalshaper {
 	class VSAPI PluginDAO

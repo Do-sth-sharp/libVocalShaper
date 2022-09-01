@@ -3,6 +3,7 @@
 
 #include <JuceHeader.h>
 #include "../datas/Curve.h"
+#include "DPointDAO.h"
 
 namespace vocalshaper {
 	class VSAPI CurveDAO

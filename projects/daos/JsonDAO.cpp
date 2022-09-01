@@ -6,6 +6,7 @@ namespace vocalshaper {
 		if (!ptr) {
 			return nullptr;
 		}
+		juce::ScopedReadLock locker(ptr->lock);
 		return &(ptr->data);
 	}
 
@@ -14,18 +15,27 @@ namespace vocalshaper {
 		if (!ptr) {
 			return nullptr;
 		}
+		juce::ScopedWriteLock locker(ptr->lock);
 		ptr->saved = false;
 		return &(ptr->data);
 	}
 
 	bool JsonDAO::isSaved(const Json* ptr)
 	{
-		return true;
+		if (!ptr) {
+			return true;
+		}
+		juce::ScopedReadLock locker(ptr->lock);
+		return ptr->saved;
 	}
 
 	void JsonDAO::save(Json* ptr)
 	{
-
+		if (!ptr) {
+			return;
+		}
+		juce::ScopedWriteLock locker(ptr->lock);
+		ptr->saved = true;
 	}
 
 	Json* JsonDAO::create()

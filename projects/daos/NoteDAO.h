@@ -3,6 +3,8 @@
 
 #include <JuceHeader.h>
 #include "../datas/Note.h"
+#include "ParamDAO.h"
+#include "PhonemeDAO.h"
 
 namespace vocalshaper {
 	class VSAPI NoteDAO

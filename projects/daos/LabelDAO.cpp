@@ -6,12 +6,17 @@ namespace vocalshaper {
 		if (!ptr) {
 			return Label::LabelType::Lua;
 		}
+		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->labelType;
 	}
 
 	void LabelDAO::setLabelType(Label* ptr, Label::LabelType type)
 	{
 		if (!ptr) {
+			return;
+		}
+		juce::ScopedWriteLock locker(ptr->lock);
+		if (ptr->labelType == type) {
 			return;
 		}
 		ptr->saved = false;
@@ -23,12 +28,17 @@ namespace vocalshaper {
 		if (!ptr) {
 			return make_time(0, 0);
 		}
+		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->position;
 	}
 
 	void LabelDAO::setPosition(Label* ptr, ProjectTime time)
 	{
 		if (!ptr) {
+			return;
+		}
+		juce::ScopedWriteLock locker(ptr->lock);
+		if (ptr->position == time) {
 			return;
 		}
 		ptr->saved = false;
@@ -40,6 +50,7 @@ namespace vocalshaper {
 		if (!ptr) {
 			return juce::String();
 		}
+		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->data;
 	}
 
@@ -48,18 +59,30 @@ namespace vocalshaper {
 		if (!ptr) {
 			return;
 		}
+		juce::ScopedWriteLock locker(ptr->lock);
+		if (ptr->data == data) {
+			return;
+		}
 		ptr->saved = false;
 		ptr->data = data;
 	}
 
 	bool LabelDAO::isSaved(const Label* ptr)
 	{
-		return true;
+		if (!ptr) {
+			return true;
+		}
+		juce::ScopedReadLock locker(ptr->lock);
+		return ptr->saved;
 	}
 
 	void LabelDAO::save(Label* ptr)
 	{
-
+		if (!ptr) {
+			return;
+		}
+		juce::ScopedWriteLock locker(ptr->lock);
+		ptr->saved = true;
 	}
 
 	Label* LabelDAO::create()

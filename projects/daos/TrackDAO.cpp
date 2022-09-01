@@ -6,6 +6,7 @@ namespace vocalshaper {
 		if (!ptr) {
 			return Track::TrackType::Empty;
 		}
+		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->trackType;
 	}
 
@@ -14,12 +15,17 @@ namespace vocalshaper {
 		if (!ptr) {
 			return juce::Colour();
 		}
+		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->color;
 	}
 
 	void TrackDAO::setColour(Track* ptr, juce::Colour color)
 	{
 		if (!ptr) {
+			return;
+		}
+		juce::ScopedWriteLock locker(ptr->lock);
+		if (ptr->color == color) {
 			return;
 		}
 		ptr->saved = false;
@@ -31,12 +37,17 @@ namespace vocalshaper {
 		if (!ptr) {
 			return false;
 		}
+		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->solo;
 	}
 
 	void TrackDAO::setSolo(Track* ptr, bool solo)
 	{
 		if (!ptr) {
+			return;
+		}
+		juce::ScopedWriteLock locker(ptr->lock);
+		if (ptr->solo == solo) {
 			return;
 		}
 		ptr->saved = false;
@@ -48,12 +59,17 @@ namespace vocalshaper {
 		if (!ptr) {
 			return false;
 		}
+		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->mute;
 	}
 
 	void TrackDAO::setMute(Track* ptr, bool mute)
 	{
 		if (!ptr) {
+			return;
+		}
+		juce::ScopedWriteLock locker(ptr->lock);
+		if (ptr->mute == mute) {
 			return;
 		}
 		ptr->saved = false;
@@ -65,6 +81,7 @@ namespace vocalshaper {
 		if (!ptr) {
 			return -1;
 		}
+		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->curves.size();
 	}
 
@@ -73,6 +90,7 @@ namespace vocalshaper {
 		if (!ptr) {
 			return nullptr;
 		}
+		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->curves[index];
 	}
 
@@ -81,6 +99,7 @@ namespace vocalshaper {
 		if (!ptr || !curve) {
 			return nullptr;
 		}
+		juce::ScopedWriteLock locker(ptr->lock);
 		ptr->saved = false;
 		return ptr->curves.insert(index, curve);
 	}
@@ -90,6 +109,7 @@ namespace vocalshaper {
 		if (!ptr) {
 			return nullptr;
 		}
+		juce::ScopedWriteLock locker(ptr->lock);
 		ptr->saved = false;
 		return ptr->curves.removeAndReturn(index);
 	}
@@ -99,6 +119,7 @@ namespace vocalshaper {
 		if (!ptr) {
 			return -1;
 		}
+		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->plugins.size();
 	}
 
@@ -107,6 +128,7 @@ namespace vocalshaper {
 		if (!ptr) {
 			return nullptr;
 		}
+		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->plugins[index];
 	}
 
@@ -115,6 +137,7 @@ namespace vocalshaper {
 		if (!ptr || !plugin) {
 			return nullptr;
 		}
+		juce::ScopedWriteLock locker(ptr->lock);
 		ptr->saved = false;
 		return ptr->plugins.insert(index, plugin);
 	}
@@ -124,6 +147,7 @@ namespace vocalshaper {
 		if (!ptr) {
 			return nullptr;
 		}
+		juce::ScopedWriteLock locker(ptr->lock);
 		ptr->saved = false;
 		return ptr->plugins.removeAndReturn(index);
 	}
@@ -133,6 +157,7 @@ namespace vocalshaper {
 		if (!ptr) {
 			return -1;
 		}
+		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->notes.size();
 	}
 
@@ -141,6 +166,7 @@ namespace vocalshaper {
 		if (!ptr) {
 			return nullptr;
 		}
+		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->notes[index];
 	}
 
@@ -149,6 +175,7 @@ namespace vocalshaper {
 		if (!ptr || !note) {
 			return nullptr;
 		}
+		juce::ScopedWriteLock locker(ptr->lock);
 		if (ptr->trackType == Track::TrackType::Empty) {
 			ptr->trackType = Track::TrackType::Voice;
 		}
@@ -164,6 +191,7 @@ namespace vocalshaper {
 		if (!ptr) {
 			return nullptr;
 		}
+		juce::ScopedWriteLock locker(ptr->lock);
 		if (ptr->trackType != Track::TrackType::Voice && ptr->trackType != Track::TrackType::Midi) {
 			return nullptr;
 		}
@@ -186,6 +214,7 @@ namespace vocalshaper {
 		if (!ptr) {
 			return juce::String();
 		}
+		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->singer;
 	}
 
@@ -194,8 +223,12 @@ namespace vocalshaper {
 		if (!ptr) {
 			return false;
 		}
+		juce::ScopedWriteLock locker(ptr->lock);
 		if (ptr->trackType != Track::TrackType::Voice) {
 			return false;
+		}
+		if (ptr->singer == singer) {
+			return true;
 		}
 		ptr->saved = false;
 		ptr->singer = singer;
@@ -207,6 +240,7 @@ namespace vocalshaper {
 		if (!ptr) {
 			return juce::String();
 		}
+		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->style;
 	}
 
@@ -215,8 +249,12 @@ namespace vocalshaper {
 		if (!ptr) {
 			return false;
 		}
+		juce::ScopedWriteLock locker(ptr->lock);
 		if (ptr->trackType != Track::TrackType::Voice) {
 			return false;
+		}
+		if (ptr->style == style) {
+			return true;
 		}
 		ptr->saved = false;
 		ptr->style = style;
@@ -228,6 +266,7 @@ namespace vocalshaper {
 		if (!ptr) {
 			return nullptr;
 		}
+		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->instrument.get();
 	}
 
@@ -236,6 +275,7 @@ namespace vocalshaper {
 		if (!ptr) {
 			return nullptr;
 		}
+		juce::ScopedWriteLock locker(ptr->lock);
 		if (ptr->trackType != Track::TrackType::Midi) {
 			return nullptr;
 		}
@@ -254,6 +294,7 @@ namespace vocalshaper {
 		if (!ptr || !instr) {
 			return false;
 		}
+		juce::ScopedWriteLock locker(ptr->lock);
 		if (ptr->trackType != Track::TrackType::Empty) {
 			ptr->trackType = Track::TrackType::Midi;
 		}
@@ -273,6 +314,7 @@ namespace vocalshaper {
 		if (!ptr) {
 			return -1;
 		}
+		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->waves.size();
 	}
 
@@ -281,6 +323,7 @@ namespace vocalshaper {
 		if (!ptr) {
 			return nullptr;
 		}
+		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->waves[index];
 	}
 
@@ -289,6 +332,7 @@ namespace vocalshaper {
 		if (!ptr || !wave) {
 			return nullptr;
 		}
+		juce::ScopedWriteLock locker(ptr->lock);
 		if (ptr->trackType == Track::TrackType::Empty) {
 			ptr->trackType = Track::TrackType::Wave;
 		}
@@ -304,6 +348,7 @@ namespace vocalshaper {
 		if (!ptr) {
 			return nullptr;
 		}
+		juce::ScopedWriteLock locker(ptr->lock);
 		if (ptr->trackType != Track::TrackType::Wave) {
 			return nullptr;
 		}
@@ -323,6 +368,7 @@ namespace vocalshaper {
 		if (!ptr) {
 			return -1;
 		}
+		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->params.size();
 	}
 
@@ -331,6 +377,7 @@ namespace vocalshaper {
 		if (!ptr) {
 			return nullptr;
 		}
+		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->params[index];
 	}
 
@@ -339,6 +386,7 @@ namespace vocalshaper {
 		if (!ptr || !param) {
 			return nullptr;
 		}
+		juce::ScopedWriteLock locker(ptr->lock);
 		if (ptr->trackType != Track::TrackType::Wave && ptr->trackType != Track::TrackType::Voice) {
 			return nullptr;
 		}
@@ -351,6 +399,7 @@ namespace vocalshaper {
 		if (!ptr) {
 			return nullptr;
 		}
+		juce::ScopedWriteLock locker(ptr->lock);
 		if (ptr->trackType != Track::TrackType::Voice && ptr->trackType != Track::TrackType::Wave) {
 			return nullptr;
 		}
@@ -360,12 +409,69 @@ namespace vocalshaper {
 
 	bool TrackDAO::isSaved(const Track* ptr)
 	{
+		if (!ptr) {
+			return true;
+		}
+		juce::ScopedReadLock locker(ptr->lock);
+		if (!ptr->saved) {
+			return false;
+		}
+		if (ptr->instrument && !InstrDAO::isSaved(ptr->instrument.get())) {
+			return false;
+		}
+		for (auto i : ptr->curves) {
+			if (!CurveDAO::isSaved(i)) {
+				return false;
+			}
+		}
+		for (auto i : ptr->notes) {
+			if (!NoteDAO::isSaved(i)) {
+				return false;
+			}
+		}
+		for (auto i : ptr->plugins) {
+			if (!PluginDAO::isSaved(i)) {
+				return false;
+			}
+		}
+		for (auto i : ptr->waves) {
+			if (!WaveDAO::isSaved(i)) {
+				return false;
+			}
+		}
+		for (auto i : ptr->params) {
+			if (!ParamDAO::isSaved(i)) {
+				return false;
+			}
+		}
 		return true;
 	}
 
 	void TrackDAO::save(Track* ptr)
 	{
-
+		if (!ptr) {
+			return;
+		}
+		juce::ScopedWriteLock locker(ptr->lock);
+		ptr->saved = true;
+		if (ptr->instrument) {
+			InstrDAO::save(ptr->instrument.get());
+		}
+		for (auto i : ptr->curves) {
+			CurveDAO::save(i);
+		}
+		for (auto i : ptr->notes) {
+			NoteDAO::save(i);
+		}
+		for (auto i : ptr->plugins) {
+			PluginDAO::save(i);
+		}
+		for (auto i : ptr->waves) {
+			WaveDAO::save(i);
+		}
+		for (auto i : ptr->params) {
+			ParamDAO::save(i);
+		}
 	}
 
 	Track* TrackDAO::create()

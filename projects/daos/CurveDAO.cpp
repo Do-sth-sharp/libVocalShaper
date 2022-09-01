@@ -6,6 +6,7 @@ namespace vocalshaper {
 		if (!ptr) {
 			return -1;
 		}
+		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->points.size();
 	}
 
@@ -14,6 +15,7 @@ namespace vocalshaper {
 		if (!ptr) {
 			return nullptr;
 		}
+		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->points[index];
 	}
 
@@ -22,6 +24,7 @@ namespace vocalshaper {
 		if (!ptr || !point) {
 			return nullptr;
 		}
+		juce::ScopedWriteLock locker(ptr->lock);
 		ptr->saved = false;
 		return ptr->points.insert(index, point);
 	}
@@ -31,18 +34,38 @@ namespace vocalshaper {
 		if (!ptr) {
 			return nullptr;
 		}
+		juce::ScopedWriteLock locker(ptr->lock);
 		ptr->saved = false;
 		return ptr->points.removeAndReturn(index);
 	}
 
 	bool CurveDAO::isSaved(const Curve* ptr)
 	{
+		if (!ptr) {
+			return true;
+		}
+		juce::ScopedReadLock locker(ptr->lock);
+		if (!ptr->saved) {
+			return false;
+		}
+		for (auto i : ptr->points) {
+			if (!DPointDAO::isSaved(i)) {
+				return false;
+			}
+		}
 		return true;
 	}
 
 	void CurveDAO::save(Curve* ptr)
 	{
-
+		if (!ptr) {
+			return;
+		}
+		juce::ScopedWriteLock locker(ptr->lock);
+		ptr->saved = true;
+		for (auto i : ptr->points) {
+			DPointDAO::save(i);
+		}
 	}
 
 	Curve* CurveDAO::create()

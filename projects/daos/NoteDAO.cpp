@@ -6,6 +6,7 @@ namespace vocalshaper {
 		if (!ptr) {
 			return Note::NoteType::MIDI;
 		}
+		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->noteType;
 	}
 
@@ -14,12 +15,17 @@ namespace vocalshaper {
 		if (!ptr) {
 			return make_time(0, 0);
 		}
+		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->st;
 	}
 
 	void NoteDAO::setSt(Note* ptr, ProjectTime time)
 	{
 		if (!ptr) {
+			return;
+		}
+		juce::ScopedWriteLock locker(ptr->lock);
+		if (ptr->st == time) {
 			return;
 		}
 		ptr->saved = false;
@@ -31,12 +37,17 @@ namespace vocalshaper {
 		if (!ptr) {
 			return 0;
 		}
+		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->length;
 	}
 
 	void NoteDAO::setLength(Note* ptr, uint32_t length)
 	{
 		if (!ptr) {
+			return;
+		}
+		juce::ScopedWriteLock locker(ptr->lock);
+		if (ptr->length == length) {
 			return;
 		}
 		ptr->saved = false;
@@ -48,12 +59,17 @@ namespace vocalshaper {
 		if (!ptr) {
 			return 0;
 		}
+		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->pitch;
 	}
 
 	void NoteDAO::setPitch(Note* ptr, uint8_t pitch)
 	{
 		if (!ptr) {
+			return;
+		}
+		juce::ScopedWriteLock locker(ptr->lock);
+		if (ptr->pitch == pitch) {
 			return;
 		}
 		ptr->saved = false;
@@ -65,12 +81,17 @@ namespace vocalshaper {
 		if (!ptr) {
 			return false;
 		}
+		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->tenuto;
 	}
 
 	void NoteDAO::setTenuto(Note* ptr, bool tenuto)
 	{
 		if (!ptr) {
+			return;
+		}
+		juce::ScopedWriteLock locker(ptr->lock);
+		if (ptr->tenuto == tenuto) {
 			return;
 		}
 		ptr->saved = false;
@@ -82,6 +103,7 @@ namespace vocalshaper {
 		if (!ptr) {
 			return juce::String();
 		}
+		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->name;
 	}
 
@@ -90,8 +112,12 @@ namespace vocalshaper {
 		if (!ptr) {
 			return false;
 		}
+		juce::ScopedWriteLock locker(ptr->lock);
 		if (ptr->noteType != Note::NoteType::Voice) {
 			return false;
+		}
+		if (ptr->name == name) {
+			return true;
 		}
 		ptr->saved = false;
 		ptr->name = name;
@@ -103,6 +129,7 @@ namespace vocalshaper {
 		if (!ptr) {
 			return -1;
 		}
+		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->phonemes.size();
 	}
 
@@ -111,6 +138,7 @@ namespace vocalshaper {
 		if (!ptr) {
 			return nullptr;
 		}
+		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->phonemes[index];
 	}
 
@@ -119,6 +147,7 @@ namespace vocalshaper {
 		if (!ptr || !phoneme) {
 			return nullptr;
 		}
+		juce::ScopedWriteLock locker(ptr->lock);
 		if (ptr->noteType != Note::NoteType::Voice) {
 			return nullptr;
 		}
@@ -131,6 +160,7 @@ namespace vocalshaper {
 		if (!ptr) {
 			return nullptr;
 		}
+		juce::ScopedWriteLock locker(ptr->lock);
 		if (ptr->noteType != Note::NoteType::Voice) {
 			return nullptr;
 		}
@@ -143,6 +173,7 @@ namespace vocalshaper {
 		if (!ptr) {
 			return -1;
 		}
+		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->params.size();
 	}
 
@@ -151,6 +182,7 @@ namespace vocalshaper {
 		if (!ptr) {
 			return nullptr;
 		}
+		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->params[index];
 	}
 
@@ -159,6 +191,7 @@ namespace vocalshaper {
 		if (!ptr || !param) {
 			return nullptr;
 		}
+		juce::ScopedWriteLock locker(ptr->lock);
 		ptr->saved = false;
 		return ptr->params.insert(index, param);
 	}
@@ -168,18 +201,46 @@ namespace vocalshaper {
 		if (!ptr) {
 			return nullptr;
 		}
+		juce::ScopedWriteLock locker(ptr->lock);
 		ptr->saved = false;
 		return ptr->params.removeAndReturn(index);
 	}
 
 	bool NoteDAO::isSaved(const Note* ptr)
 	{
+		if (!ptr) {
+			return true;
+		}
+		juce::ScopedReadLock locker(ptr->lock);
+		if (!ptr->saved) {
+			return false;
+		}
+		for (auto i : ptr->params) {
+			if (!ParamDAO::isSaved(i)) {
+				return false;
+			}
+		}
+		for (auto i : ptr->phonemes) {
+			if (!PhonemeDAO::isSaved(i)) {
+				return false;
+			}
+		}
 		return true;
 	}
 
 	void NoteDAO::save(Note* ptr)
 	{
-
+		if (!ptr) {
+			return;
+		}
+		juce::ScopedWriteLock locker(ptr->lock);
+		ptr->saved = true;
+		for (auto i : ptr->params) {
+			ParamDAO::save(i);
+		}
+		for (auto i : ptr->phonemes) {
+			PhonemeDAO::save(i);
+		}
 	}
 
 	Note* NoteDAO::create(Note::NoteType type)

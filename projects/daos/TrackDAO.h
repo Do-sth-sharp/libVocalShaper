@@ -3,6 +3,12 @@
 
 #include <JuceHeader.h>
 #include "../datas/Track.h"
+#include "CurveDAO.h"
+#include "NoteDAO.h"
+#include "PluginDAO.h"
+#include "InstrDAO.h"
+#include "WaveDAO.h"
+#include "ParamDAO.h"
 
 namespace vocalshaper {
 	class VSAPI TrackDAO

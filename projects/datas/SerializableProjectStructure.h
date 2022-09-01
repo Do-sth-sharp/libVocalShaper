@@ -37,5 +37,6 @@ namespace vocalshaper {
 
 	protected:
 		bool saved = false;
+		juce::ReadWriteLock lock;
 	};
 }
