@@ -106,7 +106,7 @@ namespace vocalshaper {
 		}
 	}
 
-	bool ParamDAO::setBoolData(const Param* ptr, bool value)
+	bool ParamDAO::setBoolData(Param* ptr, bool value)
 	{
 		if (!ptr) {
 			return false;
@@ -119,7 +119,7 @@ namespace vocalshaper {
 		return true;
 	}
 
-	bool ParamDAO::setChoiceData(const Param* ptr, int value)
+	bool ParamDAO::setChoiceData(Param* ptr, int value)
 	{
 		if (!ptr) {
 			return false;
@@ -132,7 +132,7 @@ namespace vocalshaper {
 		return true;
 	}
 
-	bool ParamDAO::setFloatData(const Param* ptr, float value)
+	bool ParamDAO::setFloatData(Param* ptr, float value)
 	{
 		if (!ptr) {
 			return false;
@@ -145,7 +145,7 @@ namespace vocalshaper {
 		return true;
 	}
 
-	bool ParamDAO::setIntData(const Param* ptr, int value)
+	bool ParamDAO::setIntData(Param* ptr, int value)
 	{
 		if (!ptr) {
 			return false;
@@ -177,7 +177,7 @@ namespace vocalshaper {
 
 	bool ParamDAO::isSaved(const Param* ptr)
 	{
-		reutrn true;
+		return true;
 	}
 
 	void ParamDAO::save(Param* ptr)

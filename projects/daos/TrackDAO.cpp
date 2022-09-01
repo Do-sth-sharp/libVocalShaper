@@ -82,7 +82,7 @@ namespace vocalshaper {
 			return nullptr;
 		}
 		ptr->saved = false;
-		ptr->curves.insert(index, curve);
+		return ptr->curves.insert(index, curve);
 	}
 
 	Curve* TrackDAO::releaseCurve(Track* ptr, int index)
@@ -116,7 +116,7 @@ namespace vocalshaper {
 			return nullptr;
 		}
 		ptr->saved = false;
-		ptr->plugins.insert(index, plugin);
+		return ptr->plugins.insert(index, plugin);
 	}
 
 	Plugin* TrackDAO::releasePlugin(Track* ptr, int index)

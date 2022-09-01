@@ -95,6 +95,7 @@ namespace vocalshaper {
 		}
 		ptr->saved = false;
 		ptr->name = name;
+		return true;
 	}
 
 	int NoteDAO::phonemeSize(const Note* ptr)
@@ -173,7 +174,7 @@ namespace vocalshaper {
 
 	bool NoteDAO::isSaved(const Note* ptr)
 	{
-		reutrn true;
+		return true;
 	}
 
 	void NoteDAO::save(Note* ptr)

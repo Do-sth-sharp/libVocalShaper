@@ -19,10 +19,10 @@ namespace vocalshaper {
 		static int getChoiceData(const Param* ptr);
 		static float getFloatData(const Param* ptr);
 		static int getIntData(const Param* ptr);
-		static bool setBoolData(const Param* ptr, bool value);
-		static bool setChoiceData(const Param* ptr, int value);
-		static bool setFloatData(const Param* ptr, float value);
-		static bool setIntData(const Param* ptr, int value);
+		static bool setBoolData(Param* ptr, bool value);
+		static bool setChoiceData(Param* ptr, int value);
+		static bool setFloatData(Param* ptr, float value);
+		static bool setIntData(Param* ptr, int value);
 
 		static juce::String getControler(const Param* ptr);
 		static void setControler(Param* ptr, juce::String controler);

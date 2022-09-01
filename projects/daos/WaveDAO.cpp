@@ -4,7 +4,7 @@ namespace vocalshaper {
 	juce::String WaveDAO::getSource(const Wave* ptr)
 	{
 		if (!ptr) {
-			return juce:String();
+			return juce::String();
 		}
 		return ptr->source;
 	}
