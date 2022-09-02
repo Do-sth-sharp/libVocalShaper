@@ -35,3 +35,11 @@
 #else
 #define VSAPI VSImport
 #endif // VS_BUILD_DLL
+
+#ifndef VS_EDITOR_NAME
+#define VS_EDITOR_NAME "VOCALSHAPER"
+#endif // VS_EDITOR_NAME
+
+#ifndef VS_PROJECT_VERSION
+#define VS_PROJECT_VERSION 0x00000100
+#endif // VS_PROJECT_VERSION

@@ -14,7 +14,7 @@ message Project {
   uint64 time_spent = 3;    //在当前工程花费的时间
   uint64 create_time = 4;   //创建时间
   uint64 save_time = 5;     //上次保存时间
-  uint64 version = 6;      // vsp3协议版本
+  uint32 version = 6;       // vsp3协议版本
 
   repeated Track tracks = 7; //轨道
   repeated Label labels = 8; //标签
