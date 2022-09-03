@@ -12,7 +12,7 @@ namespace vocalshaper {
 		Curve()
 			:SerializableProjectStructure(SerializableProjectStructure::Type::Curve)
 		{};
-		~Curve() override = default;
+		~Curve() override;
 
 	private:
 		juce::OwnedArray<DPoint> points;				//控制点

@@ -14,9 +14,8 @@ namespace vocalshaper {
 		Note()
 			:SerializableProjectStructure(SerializableProjectStructure::Type::Note)
 		{};
-		~Note() override = default;
+		~Note() override;
 
-	private:
 		enum class NoteType
 		{
 			MIDI,

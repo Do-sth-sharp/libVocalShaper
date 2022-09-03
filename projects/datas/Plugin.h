@@ -12,7 +12,7 @@ namespace vocalshaper {
 		Plugin()
 			:SerializableProjectStructure(SerializableProjectStructure::Type::Plugin)
 		{};
-		~Plugin() override = default;
+		~Plugin() override;
 
 		enum class PluginType {
 			Unknown,

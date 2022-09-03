@@ -28,7 +28,7 @@ namespace vocalshaper {
 
 	private:
 		MetaObject meta;
-		juce::Time openTime;
+		uint64_t openTime;
 
 	private:
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ProjectMeta)

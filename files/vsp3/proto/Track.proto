@@ -33,7 +33,7 @@ message Track {
   string style = 9;  //音色
 
   // Midi
-  repeated Instr instrument = 10; // midi乐器
+  Instr instrument = 10; // midi乐器
 
   // Wave
   repeated Wave waves = 11; //音频片段

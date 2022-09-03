@@ -288,8 +288,7 @@ namespace vocalshaper {
 	Project* ProjectDAO::create()
 	{
 		auto ptr = new Project;
-		ptr->masterTrack = 
-			std::unique_ptr<Track,std::function<void(Track*)>>(TrackDAO::create(), TrackDAO::destory);
+		ptr->masterTrack.reset(TrackDAO::create());
 		return ptr;
 	}
 

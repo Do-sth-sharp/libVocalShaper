@@ -12,7 +12,7 @@ namespace vocalshaper {
 		Instr()
 			:SerializableProjectStructure(SerializableProjectStructure::Type::Instr)
 		{};
-		~Instr() override = default;
+		~Instr() override;
 
 		enum class InstrType {
 			Unknown,

@@ -15,7 +15,7 @@ namespace vocalshaper {
 		Project()
 			:SerializableProjectStructure(SerializableProjectStructure::Type::Project)
 		{};
-		~Project() override = default;
+		~Project() override;
 
 	private:
 		juce::OwnedArray<Track> tracks;									//轨道
@@ -25,8 +25,7 @@ namespace vocalshaper {
 		uint32_t bitDeepth = 16;										//位深度
 		uint32_t curveQuantification = 480;								//参数曲线量化（时间偏移最小量化，点每拍）
 
-		std::unique_ptr<Track, std::function<void(Track*)>> masterTrack 
-			= nullptr;													//主轨道
+		std::unique_ptr<Track> masterTrack = nullptr;					//主轨道
 
 		juce::OwnedArray<Script> scripts;								//脚本
 		juce::OwnedArray<Json> additions;								//附加属性
