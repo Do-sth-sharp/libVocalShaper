@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "../../Macros.h"
 
 #include <JuceHeader.h>
@@ -13,15 +13,26 @@ namespace vocalshaper {
 			class VSAPI ProtoConverter
 			{
 			public:
+				//project必须为新建立的未经修改的
 				static bool parseFromProto(
 					const Project* proto,
 					::vocalshaper::Project* project,
 					::vocalshaper::ProjectMeta::MetaObject* meta);
 
+				//proto必须为新建立的未经修改的
 				static bool serilazeToProto(
 					const ::vocalshaper::Project* project,
 					const ::vocalshaper::ProjectMeta::MetaObject* meta,
 					Project* proto);
+
+			private:
+				struct ColorRGBA
+				{
+					uint8_t r;
+					uint8_t g;
+					uint8_t b;
+					uint8_t a;
+				};
 
 			private:
 				static bool parseProject(
@@ -67,6 +78,39 @@ namespace vocalshaper {
 				static bool parseParam(
 					const Param* proto,
 					::vocalshaper::Param* param);
+
+				static bool parseDPoint(
+					const DPoint* proto,
+					::vocalshaper::DPoint* point);
+
+				static bool parsePhoneme(
+					const Phoneme* proto,
+					::vocalshaper::Phoneme* phoneme);
+
+				static bool parsePoint(
+					const Point* proto,
+					::vocalshaper::Point* point);
+
+			private:
+				static bool serilazeProject(
+					const ::vocalshaper::Project* project,
+					Project* proto);
+
+				static bool serilazeTrack(
+					const ::vocalshaper::Track* track,
+					Track* proto);
+
+				static bool serilazeLabel(
+					const ::vocalshaper::Label* label,
+					Label* proto);
+
+				static bool serilazeScript(
+					const ::vocalshaper::Script* script,
+					Script* proto);
+
+				static bool serilazeJson(
+					const ::vocalshaper::Json* json,
+					Json* proto);
 			};
 		}
 	}
