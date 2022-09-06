@@ -111,6 +111,42 @@ namespace vocalshaper {
 				static bool serilazeJson(
 					const ::vocalshaper::Json* json,
 					Json* proto);
+
+				static bool serilazeCurve(
+					const ::vocalshaper::Curve* curve,
+					Curve* proto);
+
+				static bool serilazePlugin(
+					const ::vocalshaper::Plugin* plugin,
+					Plugin* proto);
+
+				static bool serilazeNote(
+					const ::vocalshaper::Note* note,
+					Note* proto);
+
+				static bool serilazeInstr(
+					const ::vocalshaper::Instr* instr,
+					Instr* proto);
+
+				static bool serilazeWave(
+					const ::vocalshaper::Wave* wave,
+					Wave* proto);
+
+				static bool serilazeParam(
+					const ::vocalshaper::Param* param,
+					Param* proto);
+
+				static bool serilazeDPoint(
+					const ::vocalshaper::DPoint* point,
+					DPoint* proto);
+
+				static bool serilazePhoneme(
+					const ::vocalshaper::Phoneme* phoneme,
+					Phoneme* proto);
+
+				static bool serilazePoint(
+					const ::vocalshaper::Point* point,
+					Point* proto);
 			};
 		}
 	}

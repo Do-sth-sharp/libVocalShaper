@@ -11,11 +11,11 @@ namespace vocalshaper {
 					return false;
 				}
 
-				ProjectDAO::setSampleRate(project, proto->sample_rate());
-				ProjectDAO::setBitDeepth(project, proto->bit_deepth());
-				ProjectDAO::setCurveQuantification(project, proto->curve_quantification());
+				::vocalshaper::ProjectDAO::setSampleRate(project, proto->sample_rate());
+				::vocalshaper::ProjectDAO::setBitDeepth(project, proto->bit_deepth());
+				::vocalshaper::ProjectDAO::setCurveQuantification(project, proto->curve_quantification());
 
-				auto masterTrack = ProjectDAO::getMasterTrack(project);
+				auto masterTrack = ::vocalshaper::ProjectDAO::getMasterTrack(project);
 				if (!proto->has_master_track()) {
 					return false;
 				}
@@ -24,41 +24,41 @@ namespace vocalshaper {
 				}
 
 				for (int i = 0; i < proto->tracks_size(); i++) {
-					auto track = TrackDAO::create();
+					auto track = ::vocalshaper::TrackDAO::create();
 					if (!ProtoConverter::parseTrack(&proto->tracks(i), track)) {
 						return false;
 					}
-					if (!ProjectDAO::insertTrack(project, i, track)) {
+					if (!::vocalshaper::ProjectDAO::insertTrack(project, i, track)) {
 						return false;
 					}
 				}
 
 				for (int i = 0; i < proto->labels_size(); i++) {
-					auto label = LabelDAO::create();
+					auto label = ::vocalshaper::LabelDAO::create();
 					if (!ProtoConverter::parseLabel(&proto->labels(i), label)) {
 						return false;
 					}
-					if (!ProjectDAO::insertLabel(project, i, label)) {
+					if (!::vocalshaper::ProjectDAO::insertLabel(project, i, label)) {
 						return false;
 					}
 				}
 
 				for (int i = 0; i < proto->scripts_size(); i++) {
-					auto script = ScriptDAO::create();
+					auto script = ::vocalshaper::ScriptDAO::create();
 					if (!ProtoConverter::parseScript(&proto->scripts(i), script)) {
 						return false;
 					}
-					if (!ProjectDAO::insertScript(project, i, script)) {
+					if (!::vocalshaper::ProjectDAO::insertScript(project, i, script)) {
 						return false;
 					}
 				}
 
 				for (int i = 0; i < proto->additions_size(); i++) {
-					auto json = JsonDAO::create();
+					auto json = ::vocalshaper::JsonDAO::create();
 					if (!ProtoConverter::parseJson(&proto->additions(i), json)) {
 						return false;
 					}
-					if (!ProjectDAO::insertAddition(project, i, json)) {
+					if (!::vocalshaper::ProjectDAO::insertAddition(project, i, json)) {
 						return false;
 					}
 				}
@@ -75,22 +75,22 @@ namespace vocalshaper {
 				}
 
 				uint32_t trackcolor = proto->color().value();
-				TrackDAO::setColour(track,
+				::vocalshaper::TrackDAO::setColour(track,
 					juce::Colour::fromRGBA(
 						reinterpret_cast<ProtoConverter::ColorRGBA*>(&trackcolor)->r,
 						reinterpret_cast<ProtoConverter::ColorRGBA*>(&trackcolor)->g,
 						reinterpret_cast<ProtoConverter::ColorRGBA*>(&trackcolor)->b,
 						reinterpret_cast<ProtoConverter::ColorRGBA*>(&trackcolor)->a
 					));
-				TrackDAO::setSolo(track, proto->solo());
-				TrackDAO::setMute(track, proto->solo());
+				::vocalshaper::TrackDAO::setSolo(track, proto->solo());
+				::vocalshaper::TrackDAO::setMute(track, proto->solo());
 
 				for (int i = 0; i < proto->curves_size(); i++) {
-					auto curve = CurveDAO::create();
+					auto curve = ::vocalshaper::CurveDAO::create();
 					if (!ProtoConverter::parseCurve(&proto->curves(i), curve)) {
 						return false;
 					}
-					if (!TrackDAO::insertCurve(track, i, curve)) {
+					if (!::vocalshaper::TrackDAO::insertCurve(track, i, curve)) {
 						return false;
 					}
 				}
@@ -118,11 +118,11 @@ namespace vocalshaper {
 					default:
 						break;
 					}
-					auto plugin = PluginDAO::create(pluginType);
+					auto plugin = ::vocalshaper::PluginDAO::create(pluginType);
 					if (!ProtoConverter::parsePlugin(&refProto, plugin)) {
 						return false;
 					}
-					if (!TrackDAO::insertPlugin(track, i, plugin)) {
+					if (!::vocalshaper::TrackDAO::insertPlugin(track, i, plugin)) {
 						return false;
 					}
 				}
@@ -148,11 +148,11 @@ namespace vocalshaper {
 					default:
 						break;
 					}
-					auto instr = InstrDAO::create(instrType);
+					auto instr = ::vocalshaper::InstrDAO::create(instrType);
 					if (!ProtoConverter::parseInstr(&refProto, instr)) {
 						return false;
 					}
-					if (!TrackDAO::setInstrument(track, instr)) {
+					if (!::vocalshaper::TrackDAO::setInstrument(track, instr)) {
 						return false;
 					}
 				}
@@ -177,21 +177,21 @@ namespace vocalshaper {
 					if (!ProtoConverter::parseNote(&refProto, note)) {
 						return false;
 					}
-					if (!TrackDAO::insertNote(track, i, note)) {
+					if (!::vocalshaper::TrackDAO::insertNote(track, i, note)) {
 						return false;
 					}
 				}
 
-				TrackDAO::setSinger(track, proto->singer());
-				TrackDAO::setStyle(track, proto->style());
+				::vocalshaper::TrackDAO::setSinger(track, proto->singer());
+				::vocalshaper::TrackDAO::setStyle(track, proto->style());
 
 				//如有wave，则是wave轨
 				for (int i = 0; i < proto->waves_size(); i++) {
-					auto wave = WaveDAO::create();
+					auto wave = ::vocalshaper::WaveDAO::create();
 					if (!ProtoConverter::parseWave(&proto->waves(i), wave)) {
 						return false;
 					}
-					if (!TrackDAO::insertWave(track, i, wave)) {
+					if (!::vocalshaper::TrackDAO::insertWave(track, i, wave)) {
 						return false;
 					}
 				}
@@ -216,11 +216,11 @@ namespace vocalshaper {
 					default:
 						break;
 					}
-					auto param = ParamDAO::create(paramType);
+					auto param = ::vocalshaper::ParamDAO::create(paramType);
 					if (!ProtoConverter::parseParam(&refProto, param)) {
 						return false;
 					}
-					if (!TrackDAO::insertParam(track, i, param)) {
+					if (!::vocalshaper::TrackDAO::insertParam(track, i, param)) {
 						return false;
 					}
 				}
@@ -239,24 +239,24 @@ namespace vocalshaper {
 				switch (proto->label_type())
 				{
 				case Label::LabelType::Label_LabelType_LUA:
-					LabelDAO::setLabelType(label, ::vocalshaper::Label::LabelType::Lua);
+					::vocalshaper::LabelDAO::setLabelType(label, ::vocalshaper::Label::LabelType::Lua);
 					break;
 				case Label::LabelType::Label_LabelType_INI:
-					LabelDAO::setLabelType(label, ::vocalshaper::Label::LabelType::Ini);
+					::vocalshaper::LabelDAO::setLabelType(label, ::vocalshaper::Label::LabelType::Ini);
 					break;
 				case Label::LabelType::Label_LabelType_XML:
-					LabelDAO::setLabelType(label, ::vocalshaper::Label::LabelType::Xml);
+					::vocalshaper::LabelDAO::setLabelType(label, ::vocalshaper::Label::LabelType::Xml);
 					break;
 				case Label::LabelType::Label_LabelType_JSON:
-					LabelDAO::setLabelType(label, ::vocalshaper::Label::LabelType::Json);
+					::vocalshaper::LabelDAO::setLabelType(label, ::vocalshaper::Label::LabelType::Json);
 					break;
 				default:
 					break;
 				}
 
-				LabelDAO::setPosition(label, ::vocalshaper::make_time(
+				::vocalshaper::LabelDAO::setPosition(label, ::vocalshaper::make_time(
 					proto->position().beat_pos(), proto->position().deviation()));
-				LabelDAO::setData(label, proto->data());
+				::vocalshaper::LabelDAO::setData(label, proto->data());
 
 				return true;
 			}
@@ -272,20 +272,20 @@ namespace vocalshaper {
 				switch (proto->script_type())
 				{
 				case Script::ScriptType::Script_ScriptType_LUA:
-					ScriptDAO::setScriptType(script, ::vocalshaper::Script::ScriptType::Lua);
+					::vocalshaper::ScriptDAO::setScriptType(script, ::vocalshaper::Script::ScriptType::Lua);
 					break;
 				case Script::ScriptType::Script_ScriptType_JS:
-					ScriptDAO::setScriptType(script, ::vocalshaper::Script::ScriptType::Js);
+					::vocalshaper::ScriptDAO::setScriptType(script, ::vocalshaper::Script::ScriptType::Js);
 					break;
 				case Script::ScriptType::Script_ScriptType_AIL:
-					ScriptDAO::setScriptType(script, ::vocalshaper::Script::ScriptType::AIL);
+					::vocalshaper::ScriptDAO::setScriptType(script, ::vocalshaper::Script::ScriptType::AIL);
 					break;
 				default:
 					break;
 				}
 
-				ScriptDAO::setData(script, proto->data());
-				ScriptDAO::setEnabled(script, proto->enabled());
+				::vocalshaper::ScriptDAO::setData(script, proto->data());
+				::vocalshaper::ScriptDAO::setEnabled(script, proto->enabled());
 
 				return true;
 			}
@@ -298,7 +298,7 @@ namespace vocalshaper {
 					return false;
 				}
 
-				if (!juce::JSON::parse(proto->data(), (*JsonDAO::getDataMutable(json)))) {
+				if (!juce::JSON::parse(proto->data(), (*::vocalshaper::JsonDAO::getDataMutable(json)))) {
 					return false;
 				}
 
@@ -314,11 +314,11 @@ namespace vocalshaper {
 				}
 
 				for (int i = 0; i < proto->points_size(); i++) {
-					auto point = DPointDAO::create();
+					auto point = ::vocalshaper::DPointDAO::create();
 					if (!ProtoConverter::parseDPoint(&proto->points(i), point)) {
 						return false;
 					}
-					if (!CurveDAO::insertPoint(curve, i, point)) {
+					if (!::vocalshaper::CurveDAO::insertPoint(curve, i, point)) {
 						return false;
 					}
 				}
@@ -334,8 +334,8 @@ namespace vocalshaper {
 					return false;
 				}
 
-				PluginDAO::setUniqueId(plugin, proto->unique_id());
-				PluginDAO::setEnabled(plugin, proto->enabled());
+				::vocalshaper::PluginDAO::setUniqueId(plugin, proto->unique_id());
+				::vocalshaper::PluginDAO::setEnabled(plugin, proto->enabled());
 
 				for (int i = 0; i < proto->params_size(); i++) {
 					auto paramType = ::vocalshaper::Param::ParamType::Empty;
@@ -357,11 +357,11 @@ namespace vocalshaper {
 					default:
 						break;
 					}
-					auto param = ParamDAO::create(paramType);
+					auto param = ::vocalshaper::ParamDAO::create(paramType);
 					if (!ProtoConverter::parseParam(&refProto, param)) {
 						return false;
 					}
-					if (!PluginDAO::insertParam(plugin, i, param)) {
+					if (!::vocalshaper::PluginDAO::insertParam(plugin, i, param)) {
 						return false;
 					}
 				}
@@ -377,7 +377,7 @@ namespace vocalshaper {
 					return false;
 				}
 
-				InstrDAO::setUniqueId(instr, proto->unique_id());
+				::vocalshaper::InstrDAO::setUniqueId(instr, proto->unique_id());
 
 				for (int i = 0; i < proto->params_size(); i++) {
 					auto paramType = ::vocalshaper::Param::ParamType::Empty;
@@ -399,11 +399,11 @@ namespace vocalshaper {
 					default:
 						break;
 					}
-					auto param = ParamDAO::create(paramType);
+					auto param = ::vocalshaper::ParamDAO::create(paramType);
 					if (!ProtoConverter::parseParam(&refProto, param)) {
 						return false;
 					}
-					if (!InstrDAO::insertParam(instr, i, param)) {
+					if (!::vocalshaper::InstrDAO::insertParam(instr, i, param)) {
 						return false;
 					}
 				}
@@ -419,20 +419,20 @@ namespace vocalshaper {
 					return false;
 				}
 
-				NoteDAO::setSt(note, ::vocalshaper::make_time(
+				::vocalshaper::NoteDAO::setSt(note, ::vocalshaper::make_time(
 					proto->st().beat_pos(), proto->st().deviation()));
-				NoteDAO::setLength(note, proto->length());
-				NoteDAO::setPitch(note, proto->pitch());
-				NoteDAO::setTenuto(note, proto->tenuto());
+				::vocalshaper::NoteDAO::setLength(note, proto->length());
+				::vocalshaper::NoteDAO::setPitch(note, proto->pitch());
+				::vocalshaper::NoteDAO::setTenuto(note, proto->tenuto());
 
-				NoteDAO::setName(note, proto->name());
+				::vocalshaper::NoteDAO::setName(note, proto->name());
 
 				for (int i = 0; i < proto->phonemes_size(); i++) {
-					auto phoneme = PhonemeDAO::create();
+					auto phoneme = ::vocalshaper::PhonemeDAO::create();
 					if (!ProtoConverter::parsePhoneme(&proto->phonemes(i), phoneme)) {
 						return false;
 					}
-					if (!NoteDAO::insertPhoneme(note, i, phoneme)) {
+					if (!::vocalshaper::NoteDAO::insertPhoneme(note, i, phoneme)) {
 						return false;
 					}
 				}
@@ -457,11 +457,11 @@ namespace vocalshaper {
 					default:
 						break;
 					}
-					auto param = ParamDAO::create(paramType);
+					auto param = ::vocalshaper::ParamDAO::create(paramType);
 					if (!ProtoConverter::parseParam(&refProto, param)) {
 						return false;
 					}
-					if (!NoteDAO::insertParam(note, i, param)) {
+					if (!::vocalshaper::NoteDAO::insertParam(note, i, param)) {
 						return false;
 					}
 				}
@@ -477,11 +477,11 @@ namespace vocalshaper {
 					return false;
 				}
 
-				WaveDAO::setSource(wave, proto->source());
-				WaveDAO::setDeviation(wave, proto->deviation());
-				WaveDAO::setSt(wave, ::vocalshaper::make_time(
+				::vocalshaper::WaveDAO::setSource(wave, proto->source());
+				::vocalshaper::WaveDAO::setDeviation(wave, proto->deviation());
+				::vocalshaper::WaveDAO::setSt(wave, ::vocalshaper::make_time(
 					proto->st().beat_pos(), proto->st().deviation()));
-				WaveDAO::setLength(wave, proto->length());
+				::vocalshaper::WaveDAO::setLength(wave, proto->length());
 
 				return true;
 			}
@@ -494,27 +494,27 @@ namespace vocalshaper {
 					return false;
 				}
 
-				ParamDAO::setId(param, proto->id());
+				::vocalshaper::ParamDAO::setId(param, proto->id());
 
 				switch (proto->param_type())
 				{
 				case Param::ParamType::Param_ParamType_BOOL:
-					ParamDAO::setBoolData(param, proto->value().bool_data());
+					::vocalshaper::ParamDAO::setBoolData(param, proto->value().bool_data());
 					break;
 				case Param::ParamType::Param_ParamType_CHOICE:
-					ParamDAO::setBoolData(param, proto->value().choice_data());
+					::vocalshaper::ParamDAO::setBoolData(param, proto->value().choice_data());
 					break;
 				case Param::ParamType::Param_ParamType_FLOAT:
-					ParamDAO::setBoolData(param, proto->value().float_data());
+					::vocalshaper::ParamDAO::setBoolData(param, proto->value().float_data());
 					break;
 				case Param::ParamType::Param_ParamType_INT:
-					ParamDAO::setBoolData(param, proto->value().int_data());
+					::vocalshaper::ParamDAO::setBoolData(param, proto->value().int_data());
 					break;
 				default:
 					break;
 				}
 
-				ParamDAO::setControler(param, proto->controler());
+				::vocalshaper::ParamDAO::setControler(param, proto->controler());
 
 				return true;
 			}
@@ -527,11 +527,11 @@ namespace vocalshaper {
 					return false;
 				}
 
-				DPointDAO::setTime(point, ::vocalshaper::make_time(
+				::vocalshaper::DPointDAO::setTime(point, ::vocalshaper::make_time(
 					proto->x().beat_pos(), proto->x().deviation()));
-				DPointDAO::setY(point, proto->y());
-				DPointDAO::setDl(point, proto->dl());
-				DPointDAO::setDr(point, proto->dr());
+				::vocalshaper::DPointDAO::setY(point, proto->y());
+				::vocalshaper::DPointDAO::setDl(point, proto->dl());
+				::vocalshaper::DPointDAO::setDr(point, proto->dr());
 
 				return true;
 			}
@@ -544,16 +544,16 @@ namespace vocalshaper {
 					return false;
 				}
 
-				PhonemeDAO::setDeviation(phoneme, proto->deviation());
-				PhonemeDAO::setName(phoneme, proto->name());
-				PhonemeDAO::setIsPre(phoneme, proto->is_pre());
+				::vocalshaper::PhonemeDAO::setDeviation(phoneme, proto->deviation());
+				::vocalshaper::PhonemeDAO::setName(phoneme, proto->name());
+				::vocalshaper::PhonemeDAO::setIsPre(phoneme, proto->is_pre());
 
 				for (int i = 0; i < proto->time_map_size(); i++) {
-					auto point = PointDAO::create();
+					auto point = ::vocalshaper::PointDAO::create();
 					if (!ProtoConverter::parsePoint(&proto->time_map(i), point)) {
 						return false;
 					}
-					if (!PhonemeDAO::insertTimePoint(phoneme, i, point)) {
+					if (!::vocalshaper::PhonemeDAO::insertTimePoint(phoneme, i, point)) {
 						return false;
 					}
 				}
@@ -569,8 +569,8 @@ namespace vocalshaper {
 					return false;
 				}
 
-				PointDAO::setX(point, proto->x());
-				PointDAO::setY(point, proto->y());
+				::vocalshaper::PointDAO::setX(point, proto->x());
+				::vocalshaper::PointDAO::setY(point, proto->y());
 
 				return true;
 			}
