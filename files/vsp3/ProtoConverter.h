@@ -12,6 +12,8 @@ namespace vocalshaper {
 		namespace vsp3 {
 			class VSAPI ProtoConverter
 			{
+				ProtoConverter() = delete;
+
 			public:
 				//project必须为新建立的未经修改的
 				static bool parseFromProto(
