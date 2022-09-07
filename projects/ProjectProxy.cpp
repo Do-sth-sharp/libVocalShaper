@@ -23,4 +23,9 @@ namespace vocalshaper {
 	{
 		return ProjectDAO::isSaved(this->ptrData.get());
 	}
+
+	const Project* ProjectProxy::getPtr() const
+	{
+		return this->ptrData.get();
+	}
 }

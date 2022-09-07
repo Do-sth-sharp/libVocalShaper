@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "../Macros.h"
 
 #include <JuceHeader.h>
@@ -18,9 +18,11 @@ namespace vocalshaper {
 
 		bool getSaved() const;
 
+		const Project* getPtr() const;
+
 	private:
-		// name:ÏîÄ¿ÎÄ¼şÃû
-		// path:ÏîÄ¿Â·¾¶
+		// name:é¡¹ç›®æ–‡ä»¶å
+		// path:é¡¹ç›®è·¯å¾„
 		const juce::String name;
 		const juce::String path;
 

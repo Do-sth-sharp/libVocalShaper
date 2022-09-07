@@ -19,17 +19,19 @@ add_subdirectory (files/vsp3)
 
 #libVocalShaper库文件搜索目录
 include_directories (${Protobuf_INCLUDE_DIRS})
-include_directories (projects)
-include_directories (projects/datas)
-include_directories (projects/daos)
-include_directories (files)
-include_directories (files/vsp3)
+#include_directories (projects)
+#include_directories (projects/datas)
+#include_directories (projects/daos)
+#include_directories (projects/events)
+#include_directories (files)
+#include_directories (files/vsp3)
 
 #添加源文件
 aux_source_directory (. TARGET_SRC)
 aux_source_directory (projects TARGET_SRC)
 aux_source_directory (projects/datas TARGET_SRC)
 aux_source_directory (projects/daos TARGET_SRC)
+aux_source_directory (projects/events TARGET_SRC)
 aux_source_directory (files TARGET_SRC)
 aux_source_directory (files/vsp3 TARGET_SRC)
 
