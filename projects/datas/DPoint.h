@@ -21,6 +21,7 @@ namespace vocalshaper {
 
 	private:
 		friend class DPointDAO;
+		friend class ProjectCopier;
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(DPoint)
 	};
 }

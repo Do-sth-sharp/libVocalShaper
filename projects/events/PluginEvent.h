@@ -19,6 +19,11 @@ namespace vocalshaper {
 			int plugin;
 		};
 
+		void setPtr(Plugin* ptr);
+		Plugin* getPtr() const;
+		void setTarget(Target target);
+		const Target getTarget() const;
+
 	private:
 		std::unique_ptr<Plugin> ptr1, ptr2;
 		Target target;

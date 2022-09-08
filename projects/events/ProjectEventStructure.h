@@ -16,7 +16,7 @@ namespace vocalshaper {
 			InstrParam,	//参数值
 			NoteParam,	//参数值
 			PluginParam,//参数值
-			TrackParam,//参数值
+			TrackParam,	//参数值
 			Point,		//二维点
 			Curve,		//曲线段
 			DPoint,		//二维导数点

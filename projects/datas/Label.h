@@ -34,6 +34,7 @@ namespace vocalshaper {
 
 	private:
 		friend class LabelDAO;
+		friend class ProjectCopier;
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Label)
 	};
 }

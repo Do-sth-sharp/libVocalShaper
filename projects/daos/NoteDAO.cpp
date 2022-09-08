@@ -247,6 +247,7 @@ namespace vocalshaper {
 	{
 		auto ptr = new Note;
 		ptr->noteType = type;
+		ptr->phonemes.add(PhonemeDAO::create());
 		return ptr;
 	}
 

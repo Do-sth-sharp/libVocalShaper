@@ -30,13 +30,14 @@ namespace vocalshaper {
 
 		//Voice
 		juce::String name = "a";									//歌词
-		juce::OwnedArray<Phoneme> phonemes = { new Phoneme };		//音素
+		juce::OwnedArray<Phoneme> phonemes;							//音素
 
 		//MIDI & Voice
 		juce::OwnedArray<Param> params;								//参数
 
 	private:
 		friend class NoteDAO;
+		friend class ProjectCopier;
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Note)
 	};
 }

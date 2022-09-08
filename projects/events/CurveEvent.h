@@ -19,6 +19,11 @@ namespace vocalshaper {
 			int curve;
 		};
 
+		void setPtr(Curve* ptr);
+		Curve* getPtr() const;
+		void setTarget(Target target);
+		const Target getTarget() const;
+
 	private:
 		std::unique_ptr<Curve> ptr1, ptr2;
 		Target target;

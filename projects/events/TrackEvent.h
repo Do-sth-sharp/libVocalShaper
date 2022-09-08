@@ -18,6 +18,11 @@ namespace vocalshaper {
 			int track;
 		};
 
+		void setPtr(Track* ptr);
+		Track* getPtr() const;
+		void setTarget(Target target);
+		const Target getTarget() const;
+
 	private:
 		std::unique_ptr<Track> ptr1, ptr2;
 		Target target;

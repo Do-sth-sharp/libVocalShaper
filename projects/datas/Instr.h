@@ -29,6 +29,7 @@ namespace vocalshaper {
 
 	private:
 		friend class InstrDAO;
+		friend class ProjectCopier;
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Instr)
 	};
 }

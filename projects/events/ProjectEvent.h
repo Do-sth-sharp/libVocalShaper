@@ -17,6 +17,11 @@ namespace vocalshaper {
 		struct Target {
 		};
 
+		void setPtr(Project* ptr);
+		Project* getPtr() const;
+		void setTarget(Target target);
+		const Target getTarget() const;
+
 	private:
 		std::unique_ptr<Project> ptr1, ptr2;
 		Target target;

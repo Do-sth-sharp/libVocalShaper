@@ -18,6 +18,11 @@ namespace vocalshaper {
 			int addition;
 		};
 
+		void setPtr(Json* ptr);
+		Json* getPtr() const;
+		void setTarget(Target target);
+		const Target getTarget() const;
+
 	private:
 		std::unique_ptr<Json> ptr1, ptr2;
 		Target target;

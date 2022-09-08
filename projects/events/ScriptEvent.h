@@ -18,6 +18,11 @@ namespace vocalshaper {
 			int script;
 		};
 
+		void setPtr(Script* ptr);
+		Script* getPtr() const;
+		void setTarget(Target target);
+		const Target getTarget() const;
+
 	private:
 		std::unique_ptr<Script> ptr1, ptr2;
 		Target target;
