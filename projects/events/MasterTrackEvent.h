@@ -6,16 +6,15 @@
 #include "../datas/Track.h"
 
 namespace vocalshaper {
-	class VSAPI TrackEvent : public ProjectEventStructure
+	class VSAPI MasterTrackEvent : public ProjectEventStructure
 	{
 	public:
-		TrackEvent(ProjectEventStructure::ChangeType cType)
-			:ProjectEventStructure(ProjectEventStructure::Type::Track, cType)
+		MasterTrackEvent(ProjectEventStructure::ChangeType cType)
+			:ProjectEventStructure(ProjectEventStructure::Type::MasterTrack, cType)
 		{};
-		~TrackEvent() override;
+		~MasterTrackEvent() override;
 
 		struct Target {
-			int track;
 		};
 
 		void setPtr(Track* ptr);
@@ -29,6 +28,6 @@ namespace vocalshaper {
 		Target target;
 
 	private:
-		JUCE_LEAK_DETECTOR(TrackEvent)
+		JUCE_LEAK_DETECTOR(MasterTrackEvent)
 	};
 }

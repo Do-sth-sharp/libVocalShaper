@@ -53,6 +53,7 @@ namespace vocalshaper {
 	private:
 		friend class TrackDAO;
 		friend class ProjectCopier;
+		friend class ProjectMerger;
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Track)
 	};
 }

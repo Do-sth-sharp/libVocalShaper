@@ -5,7 +5,7 @@
 #include "datas/Project.h"
 
 namespace vocalshaper {
-	class ProjectCopier
+	class VSAPI ProjectCopier
 	{
 		ProjectCopier() = delete;
 

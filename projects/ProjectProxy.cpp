@@ -7,6 +7,7 @@ namespace vocalshaper {
 	{
 		this->ptrData = std::unique_ptr<Project, std::function<void(Project*)>>(
 			ProjectDAO::create(), ProjectDAO::destory);
+		this->ptrMeta = std::make_unique<ProjectMeta>();
 	}
 
 	const juce::String& ProjectProxy::getName() const
@@ -27,5 +28,15 @@ namespace vocalshaper {
 	const Project* ProjectProxy::getPtr() const
 	{
 		return this->ptrData.get();
+	}
+
+	const ProjectMeta* ProjectProxy::getMeta() const
+	{
+		return this->ptrMeta.get();
+	}
+
+	const juce::ReadWriteLock& ProjectProxy::getLock() const
+	{
+		return this->lock;
 	}
 }

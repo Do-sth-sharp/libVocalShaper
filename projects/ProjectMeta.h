@@ -24,7 +24,9 @@ namespace vocalshaper {
 	public:
 		void resetMeta(const MetaObject& meta);
 		void wannaSave();
-		const MetaObject& toMeta();
+		const MetaObject& toMeta() const;
+
+		uint64_t getOpenTime() const;
 
 	private:
 		MetaObject meta;

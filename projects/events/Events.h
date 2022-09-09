@@ -1,0 +1,22 @@
+#pragma once
+
+#include "ProjectEventStructure.h"
+
+#include "CurveEvent.h"
+#include "DPointEvent.h"
+#include "InstrEvent.h"
+#include "InstrParamEvent.h"
+#include "JsonEvent.h"
+#include "LabelEvent.h"
+#include "MasterTrackEvent.h"
+#include "NoteEvent.h"
+#include "NoteParamEvent.h"
+#include "PhonemeEvent.h"
+#include "PluginEvent.h"
+#include "PluginParamEvent.h"
+#include "PointEvent.h"
+#include "ProjectEvent.h"
+#include "ScriptEvent.h"
+#include "TrackEvent.h"
+#include "TrackParamEvent.h"
+#include "WaveEvent.h"

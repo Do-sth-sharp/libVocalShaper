@@ -11,6 +11,7 @@ namespace vocalshaper {
 			Empty,		//空
 			Project,	//工程
 			Track,		//轨道
+			MasterTrack,//主轨道
 			Note,		//音符
 			Phoneme,	//音素
 			InstrParam,	//参数值
@@ -43,6 +44,7 @@ namespace vocalshaper {
 		virtual ~ProjectEventStructure() = default;
 
 	private:
+		friend class ProjectMerger;
 		Type type = Type::Empty;
 		ChangeType cType = ChangeType::Add;
 

@@ -25,8 +25,13 @@ namespace vocalshaper {
 		this->openTime = currentTime;
 	}
 
-	const ProjectMeta::MetaObject& ProjectMeta::toMeta()
+	const ProjectMeta::MetaObject& ProjectMeta::toMeta() const
 	{
 		return this->meta;
+	}
+
+	uint64_t ProjectMeta::getOpenTime() const
+	{
+		return this->openTime;
 	}
 }

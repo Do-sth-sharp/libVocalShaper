@@ -24,6 +24,7 @@ namespace vocalshaper {
 		const Target getTarget() const;
 
 	private:
+		friend class ProjectMerger;
 		std::unique_ptr<Instr> ptr1, ptr2;
 		Target target;
 
