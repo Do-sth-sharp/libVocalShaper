@@ -34,4 +34,15 @@ namespace vocalshaper {
 	{
 		return this->openTime;
 	}
+
+	ProjectMeta::MetaBackupData ProjectMeta::backup() const
+	{
+		return std::make_pair(this->meta, this->openTime);
+	}
+
+	void ProjectMeta::recover(ProjectMeta::MetaBackupData data)
+	{
+		this->meta = data.first;
+		this->openTime = data.second;
+	}
 }

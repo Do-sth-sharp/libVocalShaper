@@ -20,10 +20,13 @@ namespace vocalshaper {
 
 		bool getSaved() const;
 
-		const Project* getPtr() const;
-		const ProjectMeta* getMeta() const;
+		Project* getPtr();
+		ProjectMeta* getMeta();
 
 		const juce::ReadWriteLock& getLock() const;
+
+		//销毁当前实例中的项目指针，将ptr中的项目指针移动到当前实例后销毁ptr
+		void swallow(ProjectProxy* ptr);
 
 	private:
 		friend class ProjectMerger;

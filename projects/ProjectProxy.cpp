@@ -25,12 +25,12 @@ namespace vocalshaper {
 		return ProjectDAO::isSaved(this->ptrData.get());
 	}
 
-	const Project* ProjectProxy::getPtr() const
+	Project* ProjectProxy::getPtr()
 	{
 		return this->ptrData.get();
 	}
 
-	const ProjectMeta* ProjectProxy::getMeta() const
+	ProjectMeta* ProjectProxy::getMeta()
 	{
 		return this->ptrMeta.get();
 	}
@@ -38,5 +38,13 @@ namespace vocalshaper {
 	const juce::ReadWriteLock& ProjectProxy::getLock() const
 	{
 		return this->lock;
+	}
+
+	void ProjectProxy::swallow(ProjectProxy* ptr)
+	{
+		this->ptrData.reset(ptr->ptrData.release());
+		this->ptrMeta.reset(ptr->ptrMeta.release());
+		delete ptr;
+		ptr = nullptr;
 	}
 }

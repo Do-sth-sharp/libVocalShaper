@@ -28,6 +28,10 @@ namespace vocalshaper {
 
 		uint64_t getOpenTime() const;
 
+		using MetaBackupData = std::pair<MetaObject, uint64_t>;
+		MetaBackupData backup() const;
+		void recover(MetaBackupData data);
+
 	private:
 		MetaObject meta;
 		uint64_t openTime;
