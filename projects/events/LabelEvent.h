@@ -18,14 +18,10 @@ namespace vocalshaper {
 			int label;
 		};
 
-		void setPtr(Label* ptr);
-		Label* getPtr() const;
 		void setTarget(Target target);
 		const Target getTarget() const;
 
 	private:
-		friend class ProjectMerger;
-		std::unique_ptr<Label> ptr1, ptr2;
 		Target target;
 
 	private:

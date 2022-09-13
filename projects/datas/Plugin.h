@@ -32,7 +32,6 @@ namespace vocalshaper {
 	private:
 		friend class PluginDAO;
 		friend class ProjectCopier;
-		friend class ProjectMerger;
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Plugin)
 	};
 }

@@ -24,4 +24,7 @@ message Note {
 
   // Midi & Voice
   repeated Param params = 8; //参数
+
+  // Voice
+  string flag = 9;           //标志
 }

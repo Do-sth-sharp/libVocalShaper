@@ -168,6 +168,32 @@ namespace vocalshaper {
 		return ptr->phonemes.removeAndReturn(index);
 	}
 
+	juce::String NoteDAO::getFlag(const Note* ptr)
+	{
+		if (!ptr) {
+			return juce::String();
+		}
+		juce::ScopedReadLock locker(ptr->lock);
+		return ptr->flag;
+	}
+
+	bool NoteDAO::setFlag(Note* ptr, juce::String flag)
+	{
+		if (!ptr) {
+			return false;
+		}
+		juce::ScopedWriteLock locker(ptr->lock);
+		if (ptr->noteType != Note::NoteType::Voice) {
+			return false;
+		}
+		if (ptr->flag == flag) {
+			return true;
+		}
+		ptr->saved = false;
+		ptr->flag = flag;
+		return true;
+	}
+
 	int NoteDAO::paramSize(const Note* ptr)
 	{
 		if (!ptr) {

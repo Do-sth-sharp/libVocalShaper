@@ -309,6 +309,8 @@ namespace vocalshaper {
 					}
 				}
 
+				proto->set_flag(::vocalshaper::NoteDAO::getFlag(note).toStdString());
+
 				for (int i = 0; i < ::vocalshaper::NoteDAO::paramSize(note); i++) {
 					auto param = ::vocalshaper::NoteDAO::getParam(note, i);
 					if (!ProtoConverter::serilazeParam(param, proto->add_params())) {

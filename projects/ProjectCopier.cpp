@@ -216,6 +216,8 @@ namespace vocalshaper {
 			dst->phonemes.add(ProjectCopier::copyPhoneme(i));
 		}
 
+		dst->flag = ptr->flag;
+
 		for (auto i : ptr->params) {
 			dst->params.add(ProjectCopier::copyParam(i));
 		}

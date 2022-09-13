@@ -31,6 +31,9 @@ namespace vocalshaper {
 		static Phoneme* insertPhoneme(Note* ptr, int index, Phoneme* phoneme);
 		static Phoneme* releasePhoneme(Note* ptr, int index);
 
+		static juce::String getFlag(const Note* ptr);
+		static bool setFlag(Note* ptr, juce::String flag);
+
 		static int paramSize(const Note* ptr);
 		static Param* getParam(const Note* ptr, int index);
 		static Param* insertParam(Note* ptr, int index, Param* param);

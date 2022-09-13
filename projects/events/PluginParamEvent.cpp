@@ -4,25 +4,9 @@
 namespace vocalshaper {
 	PluginParamEvent::~PluginParamEvent()
 	{
-		if (this->ptr1) {
-			ParamDAO::destory(this->ptr1.release());
+		if (this->ptr) {
+			ParamDAO::destory(dynamic_cast<Param*>(this->ptr.release()));
 		}
-		if (this->ptr2) {
-			ParamDAO::destory(this->ptr2.release());
-		}
-	}
-
-	void PluginParamEvent::setPtr(Param* ptr)
-	{
-		if (this->ptr1) {
-			ParamDAO::destory(this->ptr1.release());
-		}
-		this->ptr1.reset(ptr);
-	}
-
-	Param* PluginParamEvent::getPtr() const
-	{
-		return this->ptr1.get();
 	}
 
 	void PluginParamEvent::setTarget(PluginParamEvent::Target target)

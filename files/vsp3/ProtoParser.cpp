@@ -437,6 +437,8 @@ namespace vocalshaper {
 					}
 				}
 
+				::vocalshaper::NoteDAO::setFlag(note, proto->flag());
+
 				for (int i = 0; i < proto->params_size(); i++) {
 					auto paramType = ::vocalshaper::Param::ParamType::Empty;
 					auto& refProto = proto->params(i);

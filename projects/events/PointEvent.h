@@ -21,14 +21,10 @@ namespace vocalshaper {
 			int point;
 		};
 
-		void setPtr(Point* ptr);
-		Point* getPtr() const;
 		void setTarget(Target target);
 		const Target getTarget() const;
 
 	private:
-		friend class ProjectMerger;
-		std::unique_ptr<Point> ptr1, ptr2;
 		Target target;
 
 	private:

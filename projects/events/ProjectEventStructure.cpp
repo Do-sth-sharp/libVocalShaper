@@ -13,4 +13,9 @@ namespace vocalshaper {
 	{
 		return this->cType;
 	}
+
+	void ProjectEventStructure::setPtr(SerializableProjectStructure* ptr)
+	{
+		this->ptr.reset(ptr);
+	}
 }

@@ -4,25 +4,9 @@
 namespace vocalshaper {
 	NoteParamEvent::~NoteParamEvent()
 	{
-		if (this->ptr1) {
-			ParamDAO::destory(this->ptr1.release());
+		if (this->ptr) {
+			ParamDAO::destory(dynamic_cast<Param*>(this->ptr.release()));
 		}
-		if (this->ptr2) {
-			ParamDAO::destory(this->ptr2.release());
-		}
-	}
-
-	void NoteParamEvent::setPtr(Param* ptr)
-	{
-		if (this->ptr1) {
-			ParamDAO::destory(this->ptr1.release());
-		}
-		this->ptr1.reset(ptr);
-	}
-
-	Param* NoteParamEvent::getPtr() const
-	{
-		return this->ptr1.get();
 	}
 
 	void NoteParamEvent::setTarget(NoteParamEvent::Target target)

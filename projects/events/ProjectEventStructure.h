@@ -2,6 +2,7 @@
 #include "../../Macros.h"
 
 #include <JuceHeader.h>
+#include "../datas/SerializableProjectStructure.h"
 
 namespace vocalshaper {
 	class VSAPI ProjectEventStructure
@@ -39,9 +40,14 @@ namespace vocalshaper {
 
 		ChangeType getChangeType() const;
 
+		void setPtr(SerializableProjectStructure* ptr);
+
 	public:
 		ProjectEventStructure(Type type, ChangeType cType);
 		virtual ~ProjectEventStructure() = default;
+
+	protected:
+		std::unique_ptr<SerializableProjectStructure> ptr;
 
 	private:
 		friend class ProjectMerger;
