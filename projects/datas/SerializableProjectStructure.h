@@ -33,6 +33,7 @@ namespace vocalshaper {
 		virtual ~SerializableProjectStructure() = default;
 
 	private:
+		friend class EventUndo;
 		Type type = Type::Empty;
 
 	protected:

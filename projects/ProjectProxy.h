@@ -5,6 +5,7 @@
 #include "datas/Project.h"
 #include "events/Events.h"
 #include "ProjectMeta.h"
+#include "EventProcesser.h"
 
 namespace vocalshaper {
 	class VSAPI ProjectProxy
@@ -22,6 +23,7 @@ namespace vocalshaper {
 
 		Project* getPtr();
 		ProjectMeta* getMeta();
+		EventProcesser* getProcesser();
 
 		const juce::ReadWriteLock& getLock() const;
 
@@ -29,7 +31,7 @@ namespace vocalshaper {
 		void swallow(ProjectProxy* ptr);
 
 	private:
-		friend class ProjectMerger;
+		friend class EventUndo;
 
 		// name:项目文件名
 		// path:项目路径
@@ -38,6 +40,7 @@ namespace vocalshaper {
 
 		std::unique_ptr<Project, std::function<void(Project*)>> ptrData;
 		std::unique_ptr<ProjectMeta> ptrMeta;
+		std::unique_ptr<EventProcesser> eventProcesser;
 		
 		juce::ReadWriteLock lock;
 

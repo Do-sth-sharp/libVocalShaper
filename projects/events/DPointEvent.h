@@ -24,6 +24,7 @@ namespace vocalshaper {
 		const Target getTarget() const;
 
 	private:
+		friend class EventUndo;
 		Target target;
 
 	private:

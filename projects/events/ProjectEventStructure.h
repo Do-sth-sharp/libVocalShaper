@@ -5,6 +5,8 @@
 #include "../datas/SerializableProjectStructure.h"
 
 namespace vocalshaper {
+	class ProjectProxy;
+
 	class VSAPI ProjectEventStructure
 	{
 	public:
@@ -42,6 +44,18 @@ namespace vocalshaper {
 
 		void setPtr(SerializableProjectStructure* ptr);
 
+		enum class UndoFlagType {
+			Empty,
+			Redo,
+			Undo
+		};
+
+		UndoFlagType getUndoFlag() const;
+
+		using CallBackFunction
+			= std::function<void(const ProjectEventStructure&, const ProjectProxy&)>;
+		void addCallBack(CallBackFunction callback);
+
 	public:
 		ProjectEventStructure(Type type, ChangeType cType);
 		virtual ~ProjectEventStructure() = default;
@@ -49,10 +63,18 @@ namespace vocalshaper {
 	protected:
 		std::unique_ptr<SerializableProjectStructure> ptr;
 
+		virtual void reverse();
+
 	private:
 		friend class ProjectMerger;
+		friend class EventProcesser;
+		friend class EventUndo;
+
 		Type type = Type::Empty;
 		ChangeType cType = ChangeType::Add;
+		UndoFlagType undoFlag = UndoFlagType::Empty;
+
+		juce::Array<CallBackFunction> callbackList;
 
 		JUCE_LEAK_DETECTOR(ProjectEventStructure)
 	};
