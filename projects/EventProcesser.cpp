@@ -84,7 +84,7 @@ namespace vocalshaper {
 					while (this->stackRedo.size() > 0) {
 						this->stackRedo.pop();
 					}
-					if (event->ptr || event->cType == ProjectEventStructure::ChangeType::Remove) {
+					if (event->ptr || event->cType == ProjectEventStructure::ChangeType::Add) {
 						this->stackUndo.push(std::move(event));
 					}
 					break;
