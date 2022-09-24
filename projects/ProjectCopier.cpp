@@ -8,7 +8,7 @@ namespace vocalshaper {
 			return nullptr;
 		}
 		juce::ScopedReadLock locker(ptr->lock);
-		auto dst = ProjectDAO::create();
+		auto dst = new Project;
 		if (!dst) {
 			return nullptr;
 		}
@@ -44,7 +44,7 @@ namespace vocalshaper {
 			return nullptr;
 		}
 		juce::ScopedReadLock locker(ptr->lock);
-		auto dst = TrackDAO::create();
+		auto dst = new Track;
 		if (!dst) {
 			return nullptr;
 		}
@@ -87,7 +87,7 @@ namespace vocalshaper {
 			return nullptr;
 		}
 		juce::ScopedReadLock locker(ptr->lock);
-		auto dst = LabelDAO::create();
+		auto dst = new Label;
 		if (!dst) {
 			return nullptr;
 		}
@@ -105,7 +105,7 @@ namespace vocalshaper {
 			return nullptr;
 		}
 		juce::ScopedReadLock locker(ptr->lock);
-		auto dst = ScriptDAO::create();
+		auto dst = new Script;
 		if (!dst) {
 			return nullptr;
 		}
@@ -123,7 +123,7 @@ namespace vocalshaper {
 			return nullptr;
 		}
 		juce::ScopedReadLock locker(ptr->lock);
-		auto dst = JsonDAO::create();
+		auto dst = new Json;
 		if (!dst) {
 			return nullptr;
 		}
@@ -139,7 +139,7 @@ namespace vocalshaper {
 			return nullptr;
 		}
 		juce::ScopedReadLock locker(ptr->lock);
-		auto dst = InstrDAO::create(ptr->instrType);
+		auto dst = new Instr(ptr->instrType);
 		if (!dst) {
 			return nullptr;
 		}
@@ -160,7 +160,7 @@ namespace vocalshaper {
 			return nullptr;
 		}
 		juce::ScopedReadLock locker(ptr->lock);
-		auto dst = CurveDAO::create();
+		auto dst = new Curve;
 		if (!dst) {
 			return nullptr;
 		}
@@ -178,7 +178,7 @@ namespace vocalshaper {
 			return nullptr;
 		}
 		juce::ScopedReadLock locker(ptr->lock);
-		auto dst = PluginDAO::create(ptr->pluginType);
+		auto dst = new Plugin(ptr->pluginType);
 		if (!dst) {
 			return nullptr;
 		}
@@ -200,7 +200,7 @@ namespace vocalshaper {
 			return nullptr;
 		}
 		juce::ScopedReadLock locker(ptr->lock);
-		auto dst = NoteDAO::create(ptr->noteType);
+		auto dst = new Note(ptr->noteType);
 		if (!dst) {
 			return nullptr;
 		}
@@ -231,7 +231,7 @@ namespace vocalshaper {
 			return nullptr;
 		}
 		juce::ScopedReadLock locker(ptr->lock);
-		auto dst = WaveDAO::create();
+		auto dst = new Wave;
 		if (!dst) {
 			return nullptr;
 		}
@@ -250,7 +250,7 @@ namespace vocalshaper {
 			return nullptr;
 		}
 		juce::ScopedReadLock locker(ptr->lock);
-		auto dst = ParamDAO::create(ptr->paramType);
+		auto dst = new Param(ptr->paramType);
 		if (!dst) {
 			return nullptr;
 		}
@@ -269,7 +269,7 @@ namespace vocalshaper {
 			return nullptr;
 		}
 		juce::ScopedReadLock locker(ptr->lock);
-		auto dst = DPointDAO::create();
+		auto dst = new DPoint;
 		if (!dst) {
 			return nullptr;
 		}
@@ -288,7 +288,7 @@ namespace vocalshaper {
 			return nullptr;
 		}
 		juce::ScopedReadLock locker(ptr->lock);
-		auto dst = PhonemeDAO::create();
+		auto dst = new Phoneme;
 		if (!dst) {
 			return nullptr;
 		}
@@ -310,7 +310,7 @@ namespace vocalshaper {
 			return nullptr;
 		}
 		juce::ScopedReadLock locker(ptr->lock);
-		auto dst = PointDAO::create();
+		auto dst = new Point;
 		if (!dst) {
 			return nullptr;
 		}

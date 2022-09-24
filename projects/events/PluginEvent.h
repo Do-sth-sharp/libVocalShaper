@@ -12,7 +12,7 @@ namespace vocalshaper {
 		PluginEvent(ProjectEventStructure::ChangeType cType)
 			:ProjectEventStructure(ProjectEventStructure::Type::Plugin, cType)
 		{};
-		~PluginEvent() override;
+		~PluginEvent() override = default;
 
 		struct Target {
 			int track;

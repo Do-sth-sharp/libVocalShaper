@@ -12,7 +12,7 @@ namespace vocalshaper {
 		CurveEvent(ProjectEventStructure::ChangeType cType)
 			:ProjectEventStructure(ProjectEventStructure::Type::Curve, cType)
 		{};
-		~CurveEvent() override;
+		~CurveEvent() override = default;
 
 		struct Target {
 			int track;

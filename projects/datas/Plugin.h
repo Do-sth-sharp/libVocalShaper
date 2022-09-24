@@ -9,11 +9,6 @@ namespace vocalshaper {
 	class VSAPI Plugin : public SerializableProjectStructure
 	{
 	public:
-		Plugin()
-			:SerializableProjectStructure(SerializableProjectStructure::Type::Plugin)
-		{};
-		~Plugin() override;
-
 		enum class PluginType {
 			Unknown,
 			VST,
@@ -22,6 +17,13 @@ namespace vocalshaper {
 			LADSPA,
 			BuildIn
 		}pluginType = PluginType::Unknown;					//效果器类型
+
+	public:
+		Plugin(PluginType type)
+			:SerializableProjectStructure(SerializableProjectStructure::Type::Plugin),
+			pluginType(type)
+		{};
+		~Plugin() override = default;
 
 	private:
 		int uniqueId = 0;									//效果器唯一标识

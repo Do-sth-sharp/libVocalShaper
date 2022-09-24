@@ -11,16 +11,19 @@ namespace vocalshaper {
 	class VSAPI Note : public SerializableProjectStructure
 	{
 	public:
-		Note()
-			:SerializableProjectStructure(SerializableProjectStructure::Type::Note)
-		{};
-		~Note() override;
 
 		enum class NoteType
 		{
 			MIDI,
 			Voice
 		}noteType = NoteType::MIDI;									//音符类型
+
+	public:
+		Note(NoteType type)
+			:SerializableProjectStructure(SerializableProjectStructure::Type::Note),
+			noteType(type), phonemes({ new Phoneme })
+		{};
+		~Note() override = default;
 
 	private:
 		ProjectTime st = make_time(0, 0);							//起始位置

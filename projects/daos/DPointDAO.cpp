@@ -106,14 +106,4 @@ namespace vocalshaper {
 		juce::ScopedWriteLock locker(ptr->lock);
 		ptr->saved = true;
 	}
-
-	DPoint* DPointDAO::create()
-	{
-		return new DPoint;
-	}
-
-	void DPointDAO::destory(DPoint* ptr)
-	{
-		delete ptr;
-	}
 }

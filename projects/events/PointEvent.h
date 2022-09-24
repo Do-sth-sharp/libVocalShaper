@@ -12,7 +12,7 @@ namespace vocalshaper {
 		PointEvent(ProjectEventStructure::ChangeType cType)
 			:ProjectEventStructure(ProjectEventStructure::Type::Point, cType)
 		{};
-		~PointEvent() override;
+		~PointEvent() override = default;
 
 		struct Target {
 			int track;

@@ -12,7 +12,7 @@ namespace vocalshaper {
 		PhonemeEvent(ProjectEventStructure::ChangeType cType)
 			:ProjectEventStructure(ProjectEventStructure::Type::Phoneme, cType)
 		{};
-		~PhonemeEvent() override;
+		~PhonemeEvent() override = default;
 
 		struct Target {
 			int track;

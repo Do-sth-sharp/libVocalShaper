@@ -133,14 +133,4 @@ namespace vocalshaper {
 			PointDAO::save(i);
 		}
 	}
-
-	Phoneme* PhonemeDAO::create()
-	{
-		return new Phoneme;
-	}
-
-	void PhonemeDAO::destory(Phoneme* ptr)
-	{
-		delete ptr;
-	}
 }

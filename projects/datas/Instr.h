@@ -9,11 +9,6 @@ namespace vocalshaper {
 	class VSAPI Instr : public SerializableProjectStructure
 	{
 	public:
-		Instr()
-			:SerializableProjectStructure(SerializableProjectStructure::Type::Instr)
-		{};
-		~Instr() override;
-
 		enum class InstrType {
 			Unknown,
 			VST,
@@ -21,6 +16,13 @@ namespace vocalshaper {
 			AU,
 			LADSPA
 		}instrType = InstrType::Unknown;					//乐器类型
+
+	public:
+		Instr(InstrType type)
+			:SerializableProjectStructure(SerializableProjectStructure::Type::Instr),
+			instrType(type)
+		{};
+		~Instr() override = default;
 
 	private:
 		int uniqueId = 0;									//乐器唯一标识

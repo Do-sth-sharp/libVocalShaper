@@ -12,7 +12,7 @@ namespace vocalshaper {
 		ScriptEvent(ProjectEventStructure::ChangeType cType)
 			:ProjectEventStructure(ProjectEventStructure::Type::Script, cType)
 		{};
-		~ScriptEvent() override;
+		~ScriptEvent() override = default;
 
 		struct Target {
 			int script;

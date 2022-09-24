@@ -84,14 +84,4 @@ namespace vocalshaper {
 		juce::ScopedWriteLock locker(ptr->lock);
 		ptr->saved = true;
 	}
-
-	Script* ScriptDAO::create()
-	{
-		return new Script;
-	}
-
-	void ScriptDAO::destory(Script* ptr)
-	{
-		delete ptr;
-	}
 }

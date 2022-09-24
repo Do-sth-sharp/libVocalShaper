@@ -18,9 +18,5 @@ namespace vocalshaper {
 	public:
 		static bool isSaved(const Point* ptr);
 		static void save(Point* ptr);
-
-	public:
-		static Point* create();
-		static void destory(Point* ptr);
 	};
 }

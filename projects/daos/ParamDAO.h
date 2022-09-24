@@ -30,9 +30,5 @@ namespace vocalshaper {
 	public:
 		static bool isSaved(const Param* ptr);
 		static void save(Param* ptr);
-
-	public:
-		static Param* create(Param::ParamType type);
-		static void destory(Param* ptr);
 	};
 }

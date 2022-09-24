@@ -12,7 +12,7 @@ namespace vocalshaper {
 		LabelEvent(ProjectEventStructure::ChangeType cType)
 			:ProjectEventStructure(ProjectEventStructure::Type::Label, cType)
 		{};
-		~LabelEvent() override;
+		~LabelEvent() override = default;
 
 		struct Target {
 			int label;

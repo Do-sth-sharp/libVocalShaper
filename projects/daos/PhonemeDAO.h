@@ -26,9 +26,5 @@ namespace vocalshaper {
 	public:
 		static bool isSaved(const Phoneme* ptr);
 		static void save(Phoneme* ptr);
-
-	public:
-		static Phoneme* create();
-		static void destory(Phoneme* ptr);
 	};
 }

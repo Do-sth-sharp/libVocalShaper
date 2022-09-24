@@ -2,13 +2,6 @@
 #include "../daos/CurveDAO.h"
 
 namespace vocalshaper {
-	CurveEvent::~CurveEvent()
-	{
-		if (this->ptr) {
-			CurveDAO::destory(dynamic_cast<Curve*>(this->ptr.release()));
-		}
-	}
-
 	void CurveEvent::setTarget(CurveEvent::Target target)
 	{
 		this->target = target;

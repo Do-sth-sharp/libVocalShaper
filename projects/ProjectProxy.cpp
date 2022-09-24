@@ -5,8 +5,7 @@ namespace vocalshaper {
 	ProjectProxy::ProjectProxy(const juce::String& name, const juce::String& path)
 		:name(name), path(path)
 	{
-		this->ptrData = std::unique_ptr<Project, std::function<void(Project*)>>(
-			ProjectDAO::create(), ProjectDAO::destory);
+		this->ptrData = std::make_unique<Project>();
 		this->ptrMeta = std::make_unique<ProjectMeta>();
 		this->eventProcesser = std::make_unique<EventProcesser>(this);
 	}

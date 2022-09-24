@@ -223,16 +223,4 @@ namespace vocalshaper {
 		juce::ScopedWriteLock locker(ptr->lock);
 		ptr->saved = true;
 	}
-
-	Param* ParamDAO::create(Param::ParamType type)
-	{
-		auto ptr = new Param;
-		ptr->paramType = type;
-		return ptr;
-	}
-
-	void ParamDAO::destory(Param* ptr)
-	{
-		delete ptr;
-	}
 }

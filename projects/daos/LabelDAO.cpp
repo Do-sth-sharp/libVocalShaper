@@ -84,14 +84,4 @@ namespace vocalshaper {
 		juce::ScopedWriteLock locker(ptr->lock);
 		ptr->saved = true;
 	}
-
-	Label* LabelDAO::create()
-	{
-		return new Label;
-	}
-
-	void LabelDAO::destory(Label* ptr)
-	{
-		delete ptr;
-	}
 }

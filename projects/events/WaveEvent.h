@@ -12,7 +12,7 @@ namespace vocalshaper {
 		WaveEvent(ProjectEventStructure::ChangeType cType)
 			:ProjectEventStructure(ProjectEventStructure::Type::Wave, cType)
 		{};
-		~WaveEvent() override;
+		~WaveEvent() override = default;
 
 		struct Target {
 			int track;

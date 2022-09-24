@@ -268,17 +268,4 @@ namespace vocalshaper {
 			PhonemeDAO::save(i);
 		}
 	}
-
-	Note* NoteDAO::create(Note::NoteType type)
-	{
-		auto ptr = new Note;
-		ptr->noteType = type;
-		ptr->phonemes.add(PhonemeDAO::create());
-		return ptr;
-	}
-
-	void NoteDAO::destory(Note* ptr)
-	{
-		delete ptr;
-	}
 }

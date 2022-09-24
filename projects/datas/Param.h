@@ -8,10 +8,6 @@ namespace vocalshaper {
 	class VSAPI Param : public SerializableProjectStructure
 	{
 	public:
-		Param()
-			:SerializableProjectStructure(SerializableProjectStructure::Type::Param)
-		{};
-		~Param() override = default;
 
 		enum class ParamType {
 			Empty,
@@ -20,6 +16,13 @@ namespace vocalshaper {
 			Float,
 			Int
 		}paramType = ParamType::Empty;		//参数类型
+
+	public:
+		Param(ParamType type)
+			:SerializableProjectStructure(SerializableProjectStructure::Type::Param),
+			paramType(type)
+		{};
+		~Param() override = default;
 
 	private:
 		juce::String id;					//唯一id

@@ -98,16 +98,4 @@ namespace vocalshaper {
 			ParamDAO::save(i);
 		}
 	}
-
-	Instr* InstrDAO::create(Instr::InstrType type)
-	{
-		auto ptr = new Instr;
-		ptr->instrType = type;
-		return ptr;
-	}
-
-	void InstrDAO::destory(Instr* ptr)
-	{
-		delete ptr;
-	}
 }

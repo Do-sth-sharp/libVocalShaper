@@ -62,9 +62,5 @@ namespace vocalshaper {
 	public:
 		static bool isSaved(const Track* ptr);
 		static void save(Track* ptr);
-
-	public:
-		static Track* create();
-		static void destory(Track* ptr);
 	};
 }

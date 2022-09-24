@@ -12,7 +12,7 @@ namespace vocalshaper {
 		TrackParamEvent(ProjectEventStructure::ChangeType cType)
 			:ProjectEventStructure(ProjectEventStructure::Type::TrackParam, cType)
 		{};
-		~TrackParamEvent() override;
+		~TrackParamEvent() override = default;
 
 		struct Target {
 			int track;

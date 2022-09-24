@@ -12,7 +12,7 @@ namespace vocalshaper {
 		ProjectEvent(ProjectEventStructure::ChangeType cType)
 			:ProjectEventStructure(ProjectEventStructure::Type::Project, cType)
 		{};
-		~ProjectEvent() override;
+		~ProjectEvent() override = default;
 
 		struct Target {
 		};

@@ -21,9 +21,5 @@ namespace vocalshaper {
 	public:
 		static bool isSaved(const Label* ptr);
 		static void save(Label* ptr);
-
-	public:
-		static Label* create();
-		static void destory(Label* ptr);
 	};
 }

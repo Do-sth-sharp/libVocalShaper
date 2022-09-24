@@ -12,7 +12,7 @@ namespace vocalshaper {
 		InstrEvent(ProjectEventStructure::ChangeType cType)
 			:ProjectEventStructure(ProjectEventStructure::Type::Instr, cType)
 		{};
-		~InstrEvent() override;
+		~InstrEvent() override = default;
 
 		struct Target {
 			int track;

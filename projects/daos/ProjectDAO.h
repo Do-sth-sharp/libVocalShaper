@@ -46,9 +46,5 @@ namespace vocalshaper {
 	public:
 		static bool isSaved(const Project* ptr);
 		static void save(Project* ptr);
-
-	public:
-		static Project* create();
-		static void destory(Project* ptr);
 	};
 }

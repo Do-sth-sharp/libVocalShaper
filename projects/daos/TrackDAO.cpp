@@ -473,14 +473,4 @@ namespace vocalshaper {
 			ParamDAO::save(i);
 		}
 	}
-
-	Track* TrackDAO::create()
-	{
-		return new Track;
-	}
-
-	void TrackDAO::destory(Track* ptr)
-	{
-		delete ptr;
-	}
 }

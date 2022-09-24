@@ -37,14 +37,4 @@ namespace vocalshaper {
 		juce::ScopedWriteLock locker(ptr->lock);
 		ptr->saved = true;
 	}
-
-	Json* JsonDAO::create()
-	{
-		return new Json;
-	}
-
-	void JsonDAO::destory(Json* ptr)
-	{
-		delete ptr;
-	}
 }

@@ -42,9 +42,5 @@ namespace vocalshaper {
 	public:
 		static bool isSaved(const Note* ptr);
 		static void save(Note* ptr);
-
-	public:
-		static Note* create(Note::NoteType type);
-		static void destory(Note* ptr);
 	};
 }

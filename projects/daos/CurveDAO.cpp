@@ -67,14 +67,4 @@ namespace vocalshaper {
 			DPointDAO::save(i);
 		}
 	}
-
-	Curve* CurveDAO::create()
-	{
-		return new Curve;
-	}
-
-	void CurveDAO::destory(Curve* ptr)
-	{
-		delete ptr;
-	}
 }

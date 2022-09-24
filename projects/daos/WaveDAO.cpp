@@ -106,14 +106,4 @@ namespace vocalshaper {
 		juce::ScopedWriteLock locker(ptr->lock);
 		ptr->saved = true;
 	}
-
-	Wave* WaveDAO::create()
-	{
-		return new Wave;
-	}
-
-	void WaveDAO::destory(Wave* ptr)
-	{
-		delete ptr;
-	}
 }

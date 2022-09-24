@@ -16,9 +16,5 @@ namespace vocalshaper {
 	public:
 		static bool isSaved(const Json* ptr);
 		static void save(Json* ptr);
-
-	public:
-		static Json* create();
-		static void destory(Json* ptr);
 	};
 }

@@ -12,7 +12,7 @@ namespace vocalshaper {
 		JsonEvent(ProjectEventStructure::ChangeType cType)
 			:ProjectEventStructure(ProjectEventStructure::Type::Json, cType)
 		{};
-		~JsonEvent() override;
+		~JsonEvent() override = default;
 
 		struct Target {
 			int addition;

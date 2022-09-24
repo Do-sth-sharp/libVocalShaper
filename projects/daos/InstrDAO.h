@@ -24,9 +24,5 @@ namespace vocalshaper {
 	public:
 		static bool isSaved(const Instr* ptr);
 		static void save(Instr* ptr);
-
-	public:
-		static Instr* create(Instr::InstrType type);
-		static void destory(Instr* ptr);
 	};
 }

@@ -21,9 +21,5 @@ namespace vocalshaper {
 	public:
 		static bool isSaved(const Script* ptr);
 		static void save(Script* ptr);
-
-	public:
-		static Script* create();
-		static void destory(Script* ptr);
 	};
 }

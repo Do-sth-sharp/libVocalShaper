@@ -12,7 +12,7 @@ namespace vocalshaper {
 		MasterTrackEvent(ProjectEventStructure::ChangeType cType)
 			:ProjectEventStructure(ProjectEventStructure::Type::MasterTrack, cType)
 		{};
-		~MasterTrackEvent() override;
+		~MasterTrackEvent() override = default;
 
 		struct Target {
 		};

@@ -38,7 +38,7 @@ namespace vocalshaper {
 		const juce::String name;
 		const juce::String path;
 
-		std::unique_ptr<Project, std::function<void(Project*)>> ptrData;
+		std::unique_ptr<Project> ptrData;
 		std::unique_ptr<ProjectMeta> ptrMeta;
 		std::unique_ptr<EventProcesser> eventProcesser;
 		

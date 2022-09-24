@@ -19,9 +19,5 @@ namespace vocalshaper {
 	public:
 		static bool isSaved(const Curve* ptr);
 		static void save(Curve* ptr);
-
-	public:
-		static Curve* create();
-		static void destory(Curve* ptr);
 	};
 }

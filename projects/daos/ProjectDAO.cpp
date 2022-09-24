@@ -284,16 +284,4 @@ namespace vocalshaper {
 			JsonDAO::save(i);
 		}
 	}
-
-	Project* ProjectDAO::create()
-	{
-		auto ptr = new Project;
-		ptr->masterTrack.reset(TrackDAO::create());
-		return ptr;
-	}
-
-	void ProjectDAO::destory(Project* ptr)
-	{
-		delete ptr;
-	}
 }

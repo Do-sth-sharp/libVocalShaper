@@ -26,9 +26,5 @@ namespace vocalshaper {
 	public:
 		static bool isSaved(const Plugin* ptr);
 		static void save(Plugin* ptr);
-
-	public:
-		static Plugin* create(Plugin::PluginType type);
-		static void destory(Plugin* ptr);
 	};
 }

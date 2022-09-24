@@ -24,7 +24,7 @@ namespace vocalshaper {
 				}
 
 				for (int i = 0; i < proto->tracks_size(); i++) {
-					auto track = ::vocalshaper::TrackDAO::create();
+					auto track = new ::vocalshaper::Track;
 					if (!ProtoConverter::parseTrack(&proto->tracks(i), track)) {
 						return false;
 					}
@@ -34,7 +34,7 @@ namespace vocalshaper {
 				}
 
 				for (int i = 0; i < proto->labels_size(); i++) {
-					auto label = ::vocalshaper::LabelDAO::create();
+					auto label = new ::vocalshaper::Label;
 					if (!ProtoConverter::parseLabel(&proto->labels(i), label)) {
 						return false;
 					}
@@ -44,7 +44,7 @@ namespace vocalshaper {
 				}
 
 				for (int i = 0; i < proto->scripts_size(); i++) {
-					auto script = ::vocalshaper::ScriptDAO::create();
+					auto script = new ::vocalshaper::Script;
 					if (!ProtoConverter::parseScript(&proto->scripts(i), script)) {
 						return false;
 					}
@@ -54,7 +54,7 @@ namespace vocalshaper {
 				}
 
 				for (int i = 0; i < proto->additions_size(); i++) {
-					auto json = ::vocalshaper::JsonDAO::create();
+					auto json = new ::vocalshaper::Json;
 					if (!ProtoConverter::parseJson(&proto->additions(i), json)) {
 						return false;
 					}
@@ -86,7 +86,7 @@ namespace vocalshaper {
 				::vocalshaper::TrackDAO::setMute(track, proto->solo());
 
 				for (int i = 0; i < proto->curves_size(); i++) {
-					auto curve = ::vocalshaper::CurveDAO::create();
+					auto curve = new ::vocalshaper::Curve;
 					if (!ProtoConverter::parseCurve(&proto->curves(i), curve)) {
 						return false;
 					}
@@ -118,7 +118,7 @@ namespace vocalshaper {
 					default:
 						break;
 					}
-					auto plugin = ::vocalshaper::PluginDAO::create(pluginType);
+					auto plugin = new ::vocalshaper::Plugin(pluginType);
 					if (!ProtoConverter::parsePlugin(&refProto, plugin)) {
 						return false;
 					}
@@ -148,7 +148,7 @@ namespace vocalshaper {
 					default:
 						break;
 					}
-					auto instr = ::vocalshaper::InstrDAO::create(instrType);
+					auto instr = new ::vocalshaper::Instr(instrType);
 					if (!ProtoConverter::parseInstr(&refProto, instr)) {
 						return false;
 					}
@@ -173,7 +173,7 @@ namespace vocalshaper {
 					default:
 						break;
 					}
-					auto note = NoteDAO::create(noteType);
+					auto note = new ::vocalshaper::Note(noteType);
 					if (!ProtoConverter::parseNote(&refProto, note)) {
 						return false;
 					}
@@ -187,7 +187,7 @@ namespace vocalshaper {
 
 				//如有wave，则是wave轨
 				for (int i = 0; i < proto->waves_size(); i++) {
-					auto wave = ::vocalshaper::WaveDAO::create();
+					auto wave = new ::vocalshaper::Wave;
 					if (!ProtoConverter::parseWave(&proto->waves(i), wave)) {
 						return false;
 					}
@@ -216,7 +216,7 @@ namespace vocalshaper {
 					default:
 						break;
 					}
-					auto param = ::vocalshaper::ParamDAO::create(paramType);
+					auto param = new ::vocalshaper::Param(paramType);
 					if (!ProtoConverter::parseParam(&refProto, param)) {
 						return false;
 					}
@@ -314,7 +314,7 @@ namespace vocalshaper {
 				}
 
 				for (int i = 0; i < proto->points_size(); i++) {
-					auto point = ::vocalshaper::DPointDAO::create();
+					auto point = new ::vocalshaper::DPoint;
 					if (!ProtoConverter::parseDPoint(&proto->points(i), point)) {
 						return false;
 					}
@@ -357,7 +357,7 @@ namespace vocalshaper {
 					default:
 						break;
 					}
-					auto param = ::vocalshaper::ParamDAO::create(paramType);
+					auto param = new ::vocalshaper::Param(paramType);
 					if (!ProtoConverter::parseParam(&refProto, param)) {
 						return false;
 					}
@@ -399,7 +399,7 @@ namespace vocalshaper {
 					default:
 						break;
 					}
-					auto param = ::vocalshaper::ParamDAO::create(paramType);
+					auto param = new ::vocalshaper::Param(paramType);
 					if (!ProtoConverter::parseParam(&refProto, param)) {
 						return false;
 					}
@@ -428,7 +428,7 @@ namespace vocalshaper {
 				::vocalshaper::NoteDAO::setName(note, proto->name());
 
 				for (int i = 0; i < proto->phonemes_size(); i++) {
-					auto phoneme = ::vocalshaper::PhonemeDAO::create();
+					auto phoneme = new ::vocalshaper::Phoneme;
 					if (!ProtoConverter::parsePhoneme(&proto->phonemes(i), phoneme)) {
 						return false;
 					}
@@ -459,7 +459,7 @@ namespace vocalshaper {
 					default:
 						break;
 					}
-					auto param = ::vocalshaper::ParamDAO::create(paramType);
+					auto param = new ::vocalshaper::Param(paramType);
 					if (!ProtoConverter::parseParam(&refProto, param)) {
 						return false;
 					}
@@ -551,7 +551,7 @@ namespace vocalshaper {
 				::vocalshaper::PhonemeDAO::setIsPre(phoneme, proto->is_pre());
 
 				for (int i = 0; i < proto->time_map_size(); i++) {
-					auto point = ::vocalshaper::PointDAO::create();
+					auto point = new ::vocalshaper::Point;
 					if (!ProtoConverter::parsePoint(&proto->time_map(i), point)) {
 						return false;
 					}

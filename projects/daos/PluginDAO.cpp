@@ -120,16 +120,4 @@ namespace vocalshaper {
 			ParamDAO::save(i);
 		}
 	}
-
-	Plugin* PluginDAO::create(Plugin::PluginType type)
-	{
-		auto ptr = new Plugin;
-		ptr->pluginType = type;
-		return ptr;
-	}
-
-	void PluginDAO::destory(Plugin* ptr)
-	{
-		delete ptr;
-	}
 }
