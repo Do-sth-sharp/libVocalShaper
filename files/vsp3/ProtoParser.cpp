@@ -3,7 +3,7 @@
 namespace vocalshaper {
 	namespace files {
 		namespace vsp3 {
-			bool ProtoConverter::parseProject(
+			bool ProtoConverter::parse(
 				const Project* proto,
 				::vocalshaper::Project* project)
 			{
@@ -19,13 +19,13 @@ namespace vocalshaper {
 				if (!proto->has_master_track()) {
 					return false;
 				}
-				if (!ProtoConverter::parseTrack(&proto->master_track(), masterTrack)) {
+				if (!ProtoConverter::parse(&proto->master_track(), masterTrack)) {
 					return false;
 				}
 
 				for (int i = 0; i < proto->tracks_size(); i++) {
 					auto track = new ::vocalshaper::Track;
-					if (!ProtoConverter::parseTrack(&proto->tracks(i), track)) {
+					if (!ProtoConverter::parse(&proto->tracks(i), track)) {
 						return false;
 					}
 					if (!::vocalshaper::ProjectDAO::insertTrack(project, i, track)) {
@@ -35,7 +35,7 @@ namespace vocalshaper {
 
 				for (int i = 0; i < proto->labels_size(); i++) {
 					auto label = new ::vocalshaper::Label;
-					if (!ProtoConverter::parseLabel(&proto->labels(i), label)) {
+					if (!ProtoConverter::parse(&proto->labels(i), label)) {
 						return false;
 					}
 					if (!::vocalshaper::ProjectDAO::insertLabel(project, i, label)) {
@@ -45,7 +45,7 @@ namespace vocalshaper {
 
 				for (int i = 0; i < proto->scripts_size(); i++) {
 					auto script = new ::vocalshaper::Script;
-					if (!ProtoConverter::parseScript(&proto->scripts(i), script)) {
+					if (!ProtoConverter::parse(&proto->scripts(i), script)) {
 						return false;
 					}
 					if (!::vocalshaper::ProjectDAO::insertScript(project, i, script)) {
@@ -55,7 +55,7 @@ namespace vocalshaper {
 
 				for (int i = 0; i < proto->additions_size(); i++) {
 					auto json = new ::vocalshaper::Json;
-					if (!ProtoConverter::parseJson(&proto->additions(i), json)) {
+					if (!ProtoConverter::parse(&proto->additions(i), json)) {
 						return false;
 					}
 					if (!::vocalshaper::ProjectDAO::insertAddition(project, i, json)) {
@@ -66,7 +66,7 @@ namespace vocalshaper {
 				return true;
 			}
 
-			bool ProtoConverter::parseTrack(
+			bool ProtoConverter::parse(
 				const Track* proto,
 				::vocalshaper::Track* track)
 			{
@@ -87,7 +87,7 @@ namespace vocalshaper {
 
 				for (int i = 0; i < proto->curves_size(); i++) {
 					auto curve = new ::vocalshaper::Curve;
-					if (!ProtoConverter::parseCurve(&proto->curves(i), curve)) {
+					if (!ProtoConverter::parse(&proto->curves(i), curve)) {
 						return false;
 					}
 					if (!::vocalshaper::TrackDAO::insertCurve(track, i, curve)) {
@@ -119,7 +119,7 @@ namespace vocalshaper {
 						break;
 					}
 					auto plugin = new ::vocalshaper::Plugin(pluginType);
-					if (!ProtoConverter::parsePlugin(&refProto, plugin)) {
+					if (!ProtoConverter::parse(&refProto, plugin)) {
 						return false;
 					}
 					if (!::vocalshaper::TrackDAO::insertPlugin(track, i, plugin)) {
@@ -149,7 +149,7 @@ namespace vocalshaper {
 						break;
 					}
 					auto instr = new ::vocalshaper::Instr(instrType);
-					if (!ProtoConverter::parseInstr(&refProto, instr)) {
+					if (!ProtoConverter::parse(&refProto, instr)) {
 						return false;
 					}
 					if (!::vocalshaper::TrackDAO::setInstrument(track, instr)) {
@@ -174,7 +174,7 @@ namespace vocalshaper {
 						break;
 					}
 					auto note = new ::vocalshaper::Note(noteType);
-					if (!ProtoConverter::parseNote(&refProto, note)) {
+					if (!ProtoConverter::parse(&refProto, note)) {
 						return false;
 					}
 					if (!::vocalshaper::TrackDAO::insertNote(track, i, note)) {
@@ -188,7 +188,7 @@ namespace vocalshaper {
 				//如有wave，则是wave轨
 				for (int i = 0; i < proto->waves_size(); i++) {
 					auto wave = new ::vocalshaper::Wave;
-					if (!ProtoConverter::parseWave(&proto->waves(i), wave)) {
+					if (!ProtoConverter::parse(&proto->waves(i), wave)) {
 						return false;
 					}
 					if (!::vocalshaper::TrackDAO::insertWave(track, i, wave)) {
@@ -217,7 +217,7 @@ namespace vocalshaper {
 						break;
 					}
 					auto param = new ::vocalshaper::Param(paramType);
-					if (!ProtoConverter::parseParam(&refProto, param)) {
+					if (!ProtoConverter::parse(&refProto, param)) {
 						return false;
 					}
 					if (!::vocalshaper::TrackDAO::insertParam(track, i, param)) {
@@ -228,7 +228,7 @@ namespace vocalshaper {
 				return true;
 			}
 
-			bool ProtoConverter::parseLabel(
+			bool ProtoConverter::parse(
 				const Label* proto,
 				::vocalshaper::Label* label)
 			{
@@ -261,7 +261,7 @@ namespace vocalshaper {
 				return true;
 			}
 
-			bool ProtoConverter::parseScript(
+			bool ProtoConverter::parse(
 				const Script* proto,
 				::vocalshaper::Script* script)
 			{
@@ -290,7 +290,7 @@ namespace vocalshaper {
 				return true;
 			}
 
-			bool ProtoConverter::parseJson(
+			bool ProtoConverter::parse(
 				const Json* proto,
 				::vocalshaper::Json* json)
 			{
@@ -305,7 +305,7 @@ namespace vocalshaper {
 				return true;
 			}
 
-			bool ProtoConverter::parseCurve(
+			bool ProtoConverter::parse(
 				const Curve* proto,
 				::vocalshaper::Curve* curve)
 			{
@@ -315,7 +315,7 @@ namespace vocalshaper {
 
 				for (int i = 0; i < proto->points_size(); i++) {
 					auto point = new ::vocalshaper::DPoint;
-					if (!ProtoConverter::parseDPoint(&proto->points(i), point)) {
+					if (!ProtoConverter::parse(&proto->points(i), point)) {
 						return false;
 					}
 					if (!::vocalshaper::CurveDAO::insertPoint(curve, i, point)) {
@@ -326,7 +326,7 @@ namespace vocalshaper {
 				return true;
 			}
 
-			bool ProtoConverter::parsePlugin(
+			bool ProtoConverter::parse(
 				const Plugin* proto,
 				::vocalshaper::Plugin* plugin)
 			{
@@ -358,7 +358,7 @@ namespace vocalshaper {
 						break;
 					}
 					auto param = new ::vocalshaper::Param(paramType);
-					if (!ProtoConverter::parseParam(&refProto, param)) {
+					if (!ProtoConverter::parse(&refProto, param)) {
 						return false;
 					}
 					if (!::vocalshaper::PluginDAO::insertParam(plugin, i, param)) {
@@ -369,7 +369,7 @@ namespace vocalshaper {
 				return true;
 			}
 
-			bool ProtoConverter::parseInstr(
+			bool ProtoConverter::parse(
 				const Instr* proto,
 				::vocalshaper::Instr* instr)
 			{
@@ -400,7 +400,7 @@ namespace vocalshaper {
 						break;
 					}
 					auto param = new ::vocalshaper::Param(paramType);
-					if (!ProtoConverter::parseParam(&refProto, param)) {
+					if (!ProtoConverter::parse(&refProto, param)) {
 						return false;
 					}
 					if (!::vocalshaper::InstrDAO::insertParam(instr, i, param)) {
@@ -411,7 +411,7 @@ namespace vocalshaper {
 				return true;
 			}
 
-			bool ProtoConverter::parseNote(
+			bool ProtoConverter::parse(
 				const Note* proto,
 				::vocalshaper::Note* note)
 			{
@@ -429,7 +429,7 @@ namespace vocalshaper {
 
 				for (int i = 0; i < proto->phonemes_size(); i++) {
 					auto phoneme = new ::vocalshaper::Phoneme;
-					if (!ProtoConverter::parsePhoneme(&proto->phonemes(i), phoneme)) {
+					if (!ProtoConverter::parse(&proto->phonemes(i), phoneme)) {
 						return false;
 					}
 					if (!::vocalshaper::NoteDAO::insertPhoneme(note, i, phoneme)) {
@@ -460,7 +460,7 @@ namespace vocalshaper {
 						break;
 					}
 					auto param = new ::vocalshaper::Param(paramType);
-					if (!ProtoConverter::parseParam(&refProto, param)) {
+					if (!ProtoConverter::parse(&refProto, param)) {
 						return false;
 					}
 					if (!::vocalshaper::NoteDAO::insertParam(note, i, param)) {
@@ -471,7 +471,7 @@ namespace vocalshaper {
 				return true;
 			}
 
-			bool ProtoConverter::parseWave(
+			bool ProtoConverter::parse(
 				const Wave* proto,
 				::vocalshaper::Wave* wave)
 			{
@@ -488,7 +488,7 @@ namespace vocalshaper {
 				return true;
 			}
 
-			bool ProtoConverter::parseParam(
+			bool ProtoConverter::parse(
 				const Param* proto,
 				::vocalshaper::Param* param)
 			{
@@ -521,7 +521,7 @@ namespace vocalshaper {
 				return true;
 			}
 
-			bool ProtoConverter::parseDPoint(
+			bool ProtoConverter::parse(
 				const DPoint* proto,
 				::vocalshaper::DPoint* point)
 			{
@@ -538,7 +538,7 @@ namespace vocalshaper {
 				return true;
 			}
 
-			bool ProtoConverter::parsePhoneme(
+			bool ProtoConverter::parse(
 				const Phoneme* proto,
 				::vocalshaper::Phoneme* phoneme)
 			{
@@ -552,7 +552,7 @@ namespace vocalshaper {
 
 				for (int i = 0; i < proto->time_map_size(); i++) {
 					auto point = new ::vocalshaper::Point;
-					if (!ProtoConverter::parsePoint(&proto->time_map(i), point)) {
+					if (!ProtoConverter::parse(&proto->time_map(i), point)) {
 						return false;
 					}
 					if (!::vocalshaper::PhonemeDAO::insertTimePoint(phoneme, i, point)) {
@@ -563,7 +563,7 @@ namespace vocalshaper {
 				return true;
 			}
 
-			bool ProtoConverter::parsePoint(
+			bool ProtoConverter::parse(
 				const Point* proto,
 				::vocalshaper::Point* point)
 			{

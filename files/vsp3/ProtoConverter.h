@@ -27,6 +27,11 @@ namespace vocalshaper {
 					const ::vocalshaper::ProjectMeta::MetaObject* meta,
 					Project* proto);
 
+				static bool serilazeToJson(
+					const ::vocalshaper::SerializableProjectStructure* object,
+					juce::String& result, bool whiteSpace = false
+				);
+
 			private:
 				struct ColorRGBA
 				{
@@ -37,116 +42,122 @@ namespace vocalshaper {
 				};
 
 			private:
-				static bool parseProject(
+				template<class T, class P>
+				static bool serilazeToJsonInternal(
+					const ::vocalshaper::SerializableProjectStructure* object, juce::String& result,
+					bool whiteSpace = false);
+
+			public:
+				static bool parse(
 					const Project* proto,
 					::vocalshaper::Project* project);
 
-				static bool parseTrack(
+				static bool parse(
 					const Track* proto,
 					::vocalshaper::Track* track);
 
-				static bool parseLabel(
+				static bool parse(
 					const Label* proto,
 					::vocalshaper::Label* label);
 
-				static bool parseScript(
+				static bool parse(
 					const Script* proto,
 					::vocalshaper::Script* script);
 
-				static bool parseJson(
+				static bool parse(
 					const Json* proto,
 					::vocalshaper::Json* json);
 
-				static bool parseCurve(
+				static bool parse(
 					const Curve* proto,
 					::vocalshaper::Curve* curve);
 
-				static bool parsePlugin(
+				static bool parse(
 					const Plugin* proto,
 					::vocalshaper::Plugin* plugin);
 
-				static bool parseInstr(
+				static bool parse(
 					const Instr* proto,
 					::vocalshaper::Instr* instr);
 
-				static bool parseNote(
+				static bool parse(
 					const Note* proto,
 					::vocalshaper::Note* note);
 
-				static bool parseWave(
+				static bool parse(
 					const Wave* proto,
 					::vocalshaper::Wave* wave);
 
-				static bool parseParam(
+				static bool parse(
 					const Param* proto,
 					::vocalshaper::Param* param);
 
-				static bool parseDPoint(
+				static bool parse(
 					const DPoint* proto,
 					::vocalshaper::DPoint* point);
 
-				static bool parsePhoneme(
+				static bool parse(
 					const Phoneme* proto,
 					::vocalshaper::Phoneme* phoneme);
 
-				static bool parsePoint(
+				static bool parse(
 					const Point* proto,
 					::vocalshaper::Point* point);
 
-			private:
-				static bool serilazeProject(
+			public:
+				static bool serilaze(
 					const ::vocalshaper::Project* project,
 					Project* proto);
 
-				static bool serilazeTrack(
+				static bool serilaze(
 					const ::vocalshaper::Track* track,
 					Track* proto);
 
-				static bool serilazeLabel(
+				static bool serilaze(
 					const ::vocalshaper::Label* label,
 					Label* proto);
 
-				static bool serilazeScript(
+				static bool serilaze(
 					const ::vocalshaper::Script* script,
 					Script* proto);
 
-				static bool serilazeJson(
+				static bool serilaze(
 					const ::vocalshaper::Json* json,
 					Json* proto);
 
-				static bool serilazeCurve(
+				static bool serilaze(
 					const ::vocalshaper::Curve* curve,
 					Curve* proto);
 
-				static bool serilazePlugin(
+				static bool serilaze(
 					const ::vocalshaper::Plugin* plugin,
 					Plugin* proto);
 
-				static bool serilazeNote(
+				static bool serilaze(
 					const ::vocalshaper::Note* note,
 					Note* proto);
 
-				static bool serilazeInstr(
+				static bool serilaze(
 					const ::vocalshaper::Instr* instr,
 					Instr* proto);
 
-				static bool serilazeWave(
+				static bool serilaze(
 					const ::vocalshaper::Wave* wave,
 					Wave* proto);
 
-				static bool serilazeParam(
+				static bool serilaze(
 					const ::vocalshaper::Param* param,
 					Param* proto);
 
-				static bool serilazeDPoint(
+				static bool serilaze(
 					const ::vocalshaper::DPoint* point,
 					DPoint* proto);
 
-				static bool serilazePhoneme(
+				static bool serilaze(
 					const ::vocalshaper::Phoneme* phoneme,
 					Phoneme* proto);
 
-				static bool serilazePoint(
+				static bool serilaze(
 					const ::vocalshaper::Point* point,
 					Point* proto);
 			};

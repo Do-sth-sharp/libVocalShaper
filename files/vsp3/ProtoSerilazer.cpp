@@ -3,7 +3,7 @@
 namespace vocalshaper {
 	namespace files {
 		namespace vsp3 {
-			bool ProtoConverter::serilazeProject(
+			bool ProtoConverter::serilaze(
 				const ::vocalshaper::Project* project,
 				Project* proto)
 			{
@@ -17,35 +17,35 @@ namespace vocalshaper {
 
 				auto masterTrack = ::vocalshaper::ProjectDAO::getMasterTrack(project);
 				if (masterTrack) {
-					if (!ProtoConverter::serilazeTrack(masterTrack, proto->mutable_master_track())) {
+					if (!ProtoConverter::serilaze(masterTrack, proto->mutable_master_track())) {
 						return false;
 					}
 				}
 
 				for (int i = 0; i < ::vocalshaper::ProjectDAO::trackSize(project); i++) {
 					auto track = ::vocalshaper::ProjectDAO::getTrack(project, i);
-					if (!ProtoConverter::serilazeTrack(track, proto->add_tracks())) {
+					if (!ProtoConverter::serilaze(track, proto->add_tracks())) {
 						return false;
 					}
 				}
 
 				for (int i = 0; i < ::vocalshaper::ProjectDAO::labelSize(project); i++) {
 					auto label = ::vocalshaper::ProjectDAO::getLabel(project, i);
-					if (!ProtoConverter::serilazeLabel(label, proto->add_labels())) {
+					if (!ProtoConverter::serilaze(label, proto->add_labels())) {
 						return false;
 					}
 				}
 
 				for (int i = 0; i < ::vocalshaper::ProjectDAO::scriptSize(project); i++) {
 					auto script = ::vocalshaper::ProjectDAO::getScript(project, i);
-					if (!ProtoConverter::serilazeScript(script, proto->add_scripts())) {
+					if (!ProtoConverter::serilaze(script, proto->add_scripts())) {
 						return false;
 					}
 				}
 
 				for (int i = 0; i < ::vocalshaper::ProjectDAO::additionSize(project); i++) {
 					auto addition = ::vocalshaper::ProjectDAO::getAddition(project, i);
-					if (!ProtoConverter::serilazeJson(addition, proto->add_additions())) {
+					if (!ProtoConverter::serilaze(addition, proto->add_additions())) {
 						return false;
 					}
 				}
@@ -53,7 +53,7 @@ namespace vocalshaper {
 				return true;
 			}
 
-			bool ProtoConverter::serilazeTrack(
+			bool ProtoConverter::serilaze(
 				const ::vocalshaper::Track* track,
 				Track* proto)
 			{
@@ -90,21 +90,21 @@ namespace vocalshaper {
 
 				for (int i = 0; i < ::vocalshaper::TrackDAO::curveSize(track); i++) {
 					auto curve = ::vocalshaper::TrackDAO::getCurve(track, i);
-					if (!ProtoConverter::serilazeCurve(curve, proto->add_curves())) {
+					if (!ProtoConverter::serilaze(curve, proto->add_curves())) {
 						return false;
 					}
 				}
 
 				for (int i = 0; i < ::vocalshaper::TrackDAO::pluginSize(track); i++) {
 					auto plugin = ::vocalshaper::TrackDAO::getPlugin(track, i);
-					if (!ProtoConverter::serilazePlugin(plugin, proto->add_plugins())) {
+					if (!ProtoConverter::serilaze(plugin, proto->add_plugins())) {
 						return false;
 					}
 				}
 
 				for (int i = 0; i < ::vocalshaper::TrackDAO::noteSize(track); i++) {
 					auto note = ::vocalshaper::TrackDAO::getNote(track, i);
-					if (!ProtoConverter::serilazeNote(note, proto->add_notes())) {
+					if (!ProtoConverter::serilaze(note, proto->add_notes())) {
 						return false;
 					}
 				}
@@ -114,21 +114,21 @@ namespace vocalshaper {
 
 				auto instr = ::vocalshaper::TrackDAO::getInstrument(track);
 				if (instr) {
-					if (!ProtoConverter::serilazeInstr(instr, proto->mutable_instrument())) {
+					if (!ProtoConverter::serilaze(instr, proto->mutable_instrument())) {
 						return false;
 					}
 				}
 
 				for (int i = 0; i < ::vocalshaper::TrackDAO::waveSize(track); i++) {
 					auto wave = ::vocalshaper::TrackDAO::getWave(track, i);
-					if (!ProtoConverter::serilazeWave(wave, proto->add_waves())) {
+					if (!ProtoConverter::serilaze(wave, proto->add_waves())) {
 						return false;
 					}
 				}
 
 				for (int i = 0; i < ::vocalshaper::TrackDAO::paramSize(track); i++) {
 					auto param = ::vocalshaper::TrackDAO::getParam(track, i);
-					if (!ProtoConverter::serilazeParam(param, proto->add_params())) {
+					if (!ProtoConverter::serilaze(param, proto->add_params())) {
 						return false;
 					}
 				}
@@ -136,7 +136,7 @@ namespace vocalshaper {
 				return true;
 			}
 
-			bool ProtoConverter::serilazeLabel(
+			bool ProtoConverter::serilaze(
 				const ::vocalshaper::Label* label,
 				Label* proto)
 			{
@@ -169,7 +169,7 @@ namespace vocalshaper {
 				return true;
 			}
 
-			bool ProtoConverter::serilazeScript(
+			bool ProtoConverter::serilaze(
 				const ::vocalshaper::Script* script,
 				Script* proto)
 			{
@@ -196,7 +196,7 @@ namespace vocalshaper {
 				return true;
 			}
 
-			bool ProtoConverter::serilazeJson(
+			bool ProtoConverter::serilaze(
 				const ::vocalshaper::Json* json,
 				Json* proto)
 			{
@@ -213,7 +213,7 @@ namespace vocalshaper {
 				return true;
 			}
 
-			bool ProtoConverter::serilazeCurve(
+			bool ProtoConverter::serilaze(
 				const ::vocalshaper::Curve* curve,
 				Curve* proto)
 			{
@@ -223,7 +223,7 @@ namespace vocalshaper {
 
 				for (int i = 0; i < ::vocalshaper::CurveDAO::pointSize(curve); i++) {
 					auto point = ::vocalshaper::CurveDAO::getPoint(curve, i);
-					if (!ProtoConverter::serilazeDPoint(point, proto->add_points())) {
+					if (!ProtoConverter::serilaze(point, proto->add_points())) {
 						return false;
 					}
 				}
@@ -231,7 +231,7 @@ namespace vocalshaper {
 				return true;
 			}
 
-			bool ProtoConverter::serilazePlugin(
+			bool ProtoConverter::serilaze(
 				const ::vocalshaper::Plugin* plugin,
 				Plugin* proto)
 			{
@@ -266,7 +266,7 @@ namespace vocalshaper {
 
 				for (int i = 0; i < ::vocalshaper::PluginDAO::paramSize(plugin); i++) {
 					auto param = ::vocalshaper::PluginDAO::getParam(plugin, i);
-					if (!ProtoConverter::serilazeParam(param, proto->add_params())) {
+					if (!ProtoConverter::serilaze(param, proto->add_params())) {
 						return false;
 					}
 				}
@@ -274,7 +274,7 @@ namespace vocalshaper {
 				return true;
 			}
 
-			bool ProtoConverter::serilazeNote(
+			bool ProtoConverter::serilaze(
 				const ::vocalshaper::Note* note,
 				Note* proto)
 			{
@@ -304,7 +304,7 @@ namespace vocalshaper {
 
 				for (int i = 0; i < ::vocalshaper::NoteDAO::phonemeSize(note); i++) {
 					auto phoneme = ::vocalshaper::NoteDAO::getPhoneme(note, i);
-					if (!ProtoConverter::serilazePhoneme(phoneme, proto->add_phonemes())) {
+					if (!ProtoConverter::serilaze(phoneme, proto->add_phonemes())) {
 						return false;
 					}
 				}
@@ -313,7 +313,7 @@ namespace vocalshaper {
 
 				for (int i = 0; i < ::vocalshaper::NoteDAO::paramSize(note); i++) {
 					auto param = ::vocalshaper::NoteDAO::getParam(note, i);
-					if (!ProtoConverter::serilazeParam(param, proto->add_params())) {
+					if (!ProtoConverter::serilaze(param, proto->add_params())) {
 						return false;
 					}
 				}
@@ -321,7 +321,7 @@ namespace vocalshaper {
 				return true;
 			}
 
-			bool ProtoConverter::serilazeInstr(
+			bool ProtoConverter::serilaze(
 				const ::vocalshaper::Instr* instr,
 				Instr* proto)
 			{
@@ -352,7 +352,7 @@ namespace vocalshaper {
 				
 				for (int i = 0; i < ::vocalshaper::InstrDAO::paramSize(instr); i++) {
 					auto param = ::vocalshaper::InstrDAO::getParam(instr, i);
-					if (!ProtoConverter::serilazeParam(param, proto->add_params())) {
+					if (!ProtoConverter::serilaze(param, proto->add_params())) {
 						return false;
 					}
 				}
@@ -360,7 +360,7 @@ namespace vocalshaper {
 				return true;
 			}
 
-			bool ProtoConverter::serilazeWave(
+			bool ProtoConverter::serilaze(
 				const ::vocalshaper::Wave* wave,
 				Wave* proto)
 			{
@@ -380,7 +380,7 @@ namespace vocalshaper {
 				return true;
 			}
 
-			bool ProtoConverter::serilazeParam(
+			bool ProtoConverter::serilaze(
 				const ::vocalshaper::Param* param,
 				Param* proto)
 			{
@@ -417,7 +417,7 @@ namespace vocalshaper {
 				return true;
 			}
 
-			bool ProtoConverter::serilazeDPoint(
+			bool ProtoConverter::serilaze(
 				const ::vocalshaper::DPoint* point,
 				DPoint* proto)
 			{
@@ -436,7 +436,7 @@ namespace vocalshaper {
 				return true;
 			}
 
-			bool ProtoConverter::serilazePhoneme(
+			bool ProtoConverter::serilaze(
 				const ::vocalshaper::Phoneme* phoneme,
 				Phoneme* proto)
 			{
@@ -450,7 +450,7 @@ namespace vocalshaper {
 
 				for (int i = 0; i < ::vocalshaper::PhonemeDAO::timePointSize(phoneme); i++) {
 					auto point = ::vocalshaper::PhonemeDAO::getTimePoint(phoneme, i);
-					if (!ProtoConverter::serilazePoint(point, proto->add_time_map())) {
+					if (!ProtoConverter::serilaze(point, proto->add_time_map())) {
 						return false;
 					}
 				}
@@ -458,7 +458,7 @@ namespace vocalshaper {
 				return true;
 			}
 
-			bool ProtoConverter::serilazePoint(
+			bool ProtoConverter::serilaze(
 				const ::vocalshaper::Point* point,
 				Point* proto)
 			{
