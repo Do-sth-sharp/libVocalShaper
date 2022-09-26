@@ -1,8 +1,41 @@
 #include "ProjectCopier.h"
 #include "daos/ProjectDAO.h"
 
+#define RETURN_COPY_CASE_TYPE(t) \
+case SerializableProjectStructure::Type::t: \
+{ \
+	return ProjectCopier::copy(dynamic_cast<const t*>(ptr)); \
+}
+
 namespace vocalshaper {
-	Project* ProjectCopier::copyProject(const Project* ptr)
+	SerializableProjectStructure* ProjectCopier::copy(const SerializableProjectStructure* ptr)
+	{
+		if (!ptr) {
+			return nullptr;
+		}
+
+		switch (ptr->getType())
+		{
+			RETURN_COPY_CASE_TYPE(Curve);
+			RETURN_COPY_CASE_TYPE(DPoint);
+			RETURN_COPY_CASE_TYPE(Instr);
+			RETURN_COPY_CASE_TYPE(Json);
+			RETURN_COPY_CASE_TYPE(Label);
+			RETURN_COPY_CASE_TYPE(Note);
+			RETURN_COPY_CASE_TYPE(Param);
+			RETURN_COPY_CASE_TYPE(Phoneme);
+			RETURN_COPY_CASE_TYPE(Plugin);
+			RETURN_COPY_CASE_TYPE(Point);
+			RETURN_COPY_CASE_TYPE(Project);
+			RETURN_COPY_CASE_TYPE(Script);
+			RETURN_COPY_CASE_TYPE(Track);
+			RETURN_COPY_CASE_TYPE(Wave);
+		}
+
+		return nullptr;
+	}
+
+	Project* ProjectCopier::copy(const Project* ptr)
 	{
 		if (!ptr) {
 			return nullptr;
@@ -17,28 +50,28 @@ namespace vocalshaper {
 		dst->bitDeepth = ptr->bitDeepth;
 		dst->curveQuantification = ptr->curveQuantification;
 
-		dst->masterTrack.reset(ProjectCopier::copyTrack(ptr->masterTrack.get()));
+		dst->masterTrack.reset(ProjectCopier::copy(ptr->masterTrack.get()));
 
 		for (auto i : ptr->tracks) {
-			dst->tracks.add(ProjectCopier::copyTrack(i));
+			dst->tracks.add(ProjectCopier::copy(i));
 		}
 
 		for (auto i : ptr->labels) {
-			dst->labels.add(ProjectCopier::copyLabel(i));
+			dst->labels.add(ProjectCopier::copy(i));
 		}
 
 		for (auto i : ptr->scripts) {
-			dst->scripts.add(ProjectCopier::copyScript(i));
+			dst->scripts.add(ProjectCopier::copy(i));
 		}
 
 		for (auto i : ptr->additions) {
-			dst->additions.add(ProjectCopier::copyJson(i));
+			dst->additions.add(ProjectCopier::copy(i));
 		}
 
 		return dst;
 	}
 
-	Track* ProjectCopier::copyTrack(const Track* ptr)
+	Track* ProjectCopier::copy(const Track* ptr)
 	{
 		if (!ptr) {
 			return nullptr;
@@ -56,32 +89,32 @@ namespace vocalshaper {
 		dst->singer = ptr->singer;
 		dst->style = ptr->style;
 
-		dst->instrument.reset(ProjectCopier::copyInstr(ptr->instrument.get()));
+		dst->instrument.reset(ProjectCopier::copy(ptr->instrument.get()));
 
 		for (auto i : ptr->curves) {
-			dst->curves.add(ProjectCopier::copyCurve(i));
+			dst->curves.add(ProjectCopier::copy(i));
 		}
 
 		for (auto i : ptr->plugins) {
-			dst->plugins.add(ProjectCopier::copyPlugin(i));
+			dst->plugins.add(ProjectCopier::copy(i));
 		}
 
 		for (auto i : ptr->notes) {
-			dst->notes.add(ProjectCopier::copyNote(i));
+			dst->notes.add(ProjectCopier::copy(i));
 		}
 
 		for (auto i : ptr->waves) {
-			dst->waves.add(ProjectCopier::copyWave(i));
+			dst->waves.add(ProjectCopier::copy(i));
 		}
 
 		for (auto i : ptr->params) {
-			dst->params.add(ProjectCopier::copyParam(i));
+			dst->params.add(ProjectCopier::copy(i));
 		}
 
 		return dst;
 	}
 
-	Label* ProjectCopier::copyLabel(const Label* ptr)
+	Label* ProjectCopier::copy(const Label* ptr)
 	{
 		if (!ptr) {
 			return nullptr;
@@ -99,7 +132,7 @@ namespace vocalshaper {
 		return dst;
 	}
 
-	Script* ProjectCopier::copyScript(const Script* ptr)
+	Script* ProjectCopier::copy(const Script* ptr)
 	{
 		if (!ptr) {
 			return nullptr;
@@ -117,7 +150,7 @@ namespace vocalshaper {
 		return dst;
 	}
 
-	Json* ProjectCopier::copyJson(const Json* ptr)
+	Json* ProjectCopier::copy(const Json* ptr)
 	{
 		if (!ptr) {
 			return nullptr;
@@ -133,7 +166,7 @@ namespace vocalshaper {
 		return dst;
 	}
 
-	Instr* ProjectCopier::copyInstr(const Instr* ptr)
+	Instr* ProjectCopier::copy(const Instr* ptr)
 	{
 		if (!ptr) {
 			return nullptr;
@@ -148,13 +181,13 @@ namespace vocalshaper {
 		dst->uniqueId = ptr->uniqueId;
 
 		for (auto i : ptr->params) {
-			dst->params.add(ProjectCopier::copyParam(i));
+			dst->params.add(ProjectCopier::copy(i));
 		}
 
 		return dst;
 	}
 
-	Curve* ProjectCopier::copyCurve(const Curve* ptr)
+	Curve* ProjectCopier::copy(const Curve* ptr)
 	{
 		if (!ptr) {
 			return nullptr;
@@ -166,13 +199,13 @@ namespace vocalshaper {
 		}
 
 		for (auto i : ptr->points) {
-			dst->points.add(ProjectCopier::copyDPoint(i));
+			dst->points.add(ProjectCopier::copy(i));
 		}
 
 		return dst;
 	}
 
-	Plugin* ProjectCopier::copyPlugin(const Plugin* ptr)
+	Plugin* ProjectCopier::copy(const Plugin* ptr)
 	{
 		if (!ptr) {
 			return nullptr;
@@ -188,13 +221,13 @@ namespace vocalshaper {
 		dst->enabled = ptr->enabled;
 
 		for (auto i : ptr->params) {
-			dst->params.add(ProjectCopier::copyParam(i));
+			dst->params.add(ProjectCopier::copy(i));
 		}
 
 		return dst;
 	}
 
-	Note* ProjectCopier::copyNote(const Note* ptr)
+	Note* ProjectCopier::copy(const Note* ptr)
 	{
 		if (!ptr) {
 			return nullptr;
@@ -213,19 +246,19 @@ namespace vocalshaper {
 		dst->name = ptr->name;
 
 		for (auto i : ptr->phonemes) {
-			dst->phonemes.add(ProjectCopier::copyPhoneme(i));
+			dst->phonemes.add(ProjectCopier::copy(i));
 		}
 
 		dst->flag = ptr->flag;
 
 		for (auto i : ptr->params) {
-			dst->params.add(ProjectCopier::copyParam(i));
+			dst->params.add(ProjectCopier::copy(i));
 		}
 
 		return dst;
 	}
 
-	Wave* ProjectCopier::copyWave(const Wave* ptr)
+	Wave* ProjectCopier::copy(const Wave* ptr)
 	{
 		if (!ptr) {
 			return nullptr;
@@ -244,7 +277,7 @@ namespace vocalshaper {
 		return dst;
 	}
 
-	Param* ProjectCopier::copyParam(const Param* ptr)
+	Param* ProjectCopier::copy(const Param* ptr)
 	{
 		if (!ptr) {
 			return nullptr;
@@ -263,7 +296,7 @@ namespace vocalshaper {
 		return dst;
 	}
 
-	DPoint* ProjectCopier::copyDPoint(const DPoint* ptr)
+	DPoint* ProjectCopier::copy(const DPoint* ptr)
 	{
 		if (!ptr) {
 			return nullptr;
@@ -282,7 +315,7 @@ namespace vocalshaper {
 		return dst;
 	}
 
-	Phoneme* ProjectCopier::copyPhoneme(const Phoneme* ptr)
+	Phoneme* ProjectCopier::copy(const Phoneme* ptr)
 	{
 		if (!ptr) {
 			return nullptr;
@@ -298,13 +331,13 @@ namespace vocalshaper {
 		dst->isPre = ptr->isPre;
 
 		for (auto i : ptr->timeMap) {
-			dst->timeMap.add(ProjectCopier::copyPoint(i));
+			dst->timeMap.add(ProjectCopier::copy(i));
 		}
 
 		return dst;
 	}
 
-	Point* ProjectCopier::copyPoint(const Point* ptr)
+	Point* ProjectCopier::copy(const Point* ptr)
 	{
 		if (!ptr) {
 			return nullptr;

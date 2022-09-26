@@ -32,6 +32,11 @@ namespace vocalshaper {
 					juce::String& result, bool whiteSpace = false
 				);
 
+				static bool parseFromJson(
+					const juce::String& json,
+					::vocalshaper::SerializableProjectStructure* object
+				);
+
 			private:
 				struct ColorRGBA
 				{
@@ -46,6 +51,10 @@ namespace vocalshaper {
 				static bool serilazeToJsonInternal(
 					const ::vocalshaper::SerializableProjectStructure* object, juce::String& result,
 					bool whiteSpace = false);
+
+				template<class T, class P>
+				static bool parseFromJsonInternal(
+					const juce::String& json, ::vocalshaper::SerializableProjectStructure* object);
 
 			public:
 				static bool parse(

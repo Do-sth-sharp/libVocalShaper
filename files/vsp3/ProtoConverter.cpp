@@ -2,6 +2,24 @@
 #include <google/protobuf/stubs/status.h>
 #include <google/protobuf/util/json_util.h>
 
+#define SERILAZE_TO_JSON_CASE_TYPE_RETURN_TRUE(t) \
+case ::vocalshaper::SerializableProjectStructure::Type::t: \
+{ \
+	if (ProtoConverter::serilazeToJsonInternal<::vocalshaper::t, t>(object, result, whiteSpace)) { \
+		return true; \
+	} \
+	break; \
+}
+
+#define PARSE_FROM_JSON_CASE_TYPE_RETURN_TRUE(t) \
+case ::vocalshaper::SerializableProjectStructure::Type::t: \
+{ \
+	if (ProtoConverter::parseFromJsonInternal<::vocalshaper::t, t>(json, object)) { \
+		return true; \
+	} \
+	break; \
+}
+
 namespace vocalshaper {
 	namespace files {
 		namespace vsp3 {
@@ -69,107 +87,53 @@ namespace vocalshaper {
 
 				switch (object->getType())
 				{
-				case ::vocalshaper::SerializableProjectStructure::Type::Curve:
-				{
-					if (!ProtoConverter::serilazeToJsonInternal<::vocalshaper::Curve, Curve>(object, result, whiteSpace)) {
-						return false;
-					}
-					break;
-				}
-				case ::vocalshaper::SerializableProjectStructure::Type::DPoint:
-				{
-					if (!ProtoConverter::serilazeToJsonInternal<::vocalshaper::DPoint, DPoint>(object, result, whiteSpace)) {
-						return false;
-					}
-					break;
-				}
-				case ::vocalshaper::SerializableProjectStructure::Type::Instr:
-				{
-					if (!ProtoConverter::serilazeToJsonInternal<::vocalshaper::Instr, Instr>(object, result, whiteSpace)) {
-						return false;
-					}
-					break;
-				}
-				case ::vocalshaper::SerializableProjectStructure::Type::Json:
-				{
-					if (!ProtoConverter::serilazeToJsonInternal<::vocalshaper::Json, Json>(object, result, whiteSpace)) {
-						return false;
-					}
-					break;
-				}
-				case ::vocalshaper::SerializableProjectStructure::Type::Label:
-				{
-					if (!ProtoConverter::serilazeToJsonInternal<::vocalshaper::Label, Label>(object, result, whiteSpace)) {
-						return false;
-					}
-					break;
-				}
-				case ::vocalshaper::SerializableProjectStructure::Type::Note:
-				{
-					if (!ProtoConverter::serilazeToJsonInternal<::vocalshaper::Note, Note>(object, result, whiteSpace)) {
-						return false;
-					}
-					break;
-				}
-				case ::vocalshaper::SerializableProjectStructure::Type::Param:
-				{
-					if (!ProtoConverter::serilazeToJsonInternal<::vocalshaper::Param, Param>(object, result, whiteSpace)) {
-						return false;
-					}
-					break;
-				}
-				case ::vocalshaper::SerializableProjectStructure::Type::Phoneme:
-				{
-					if (!ProtoConverter::serilazeToJsonInternal<::vocalshaper::Phoneme, Phoneme>(object, result, whiteSpace)) {
-						return false;
-					}
-					break;
-				}
-				case ::vocalshaper::SerializableProjectStructure::Type::Plugin:
-				{
-					if (!ProtoConverter::serilazeToJsonInternal<::vocalshaper::Plugin, Plugin>(object, result, whiteSpace)) {
-						return false;
-					}
-					break;
-				}
-				case ::vocalshaper::SerializableProjectStructure::Type::Point:
-				{
-					if (!ProtoConverter::serilazeToJsonInternal<::vocalshaper::Point, Point>(object, result, whiteSpace)) {
-						return false;
-					}
-					break;
-				}
-				case ::vocalshaper::SerializableProjectStructure::Type::Project:
-				{
-					if (!ProtoConverter::serilazeToJsonInternal<::vocalshaper::Project, Project>(object, result, whiteSpace)) {
-						return false;
-					}
-					break;
-				}
-				case ::vocalshaper::SerializableProjectStructure::Type::Script:
-				{
-					if (!ProtoConverter::serilazeToJsonInternal<::vocalshaper::Script, Script>(object, result, whiteSpace)) {
-						return false;
-					}
-					break;
-				}
-				case ::vocalshaper::SerializableProjectStructure::Type::Track:
-				{
-					if (!ProtoConverter::serilazeToJsonInternal<::vocalshaper::Track, Track>(object, result, whiteSpace)) {
-						return false;
-					}
-					break;
-				}
-				case ::vocalshaper::SerializableProjectStructure::Type::Wave:
-				{
-					if (!ProtoConverter::serilazeToJsonInternal<::vocalshaper::Wave, Wave>(object, result, whiteSpace)) {
-						return false;
-					}
-					break;
-				}
+					SERILAZE_TO_JSON_CASE_TYPE_RETURN_TRUE(Curve);
+					SERILAZE_TO_JSON_CASE_TYPE_RETURN_TRUE(DPoint);
+					SERILAZE_TO_JSON_CASE_TYPE_RETURN_TRUE(Instr);
+					SERILAZE_TO_JSON_CASE_TYPE_RETURN_TRUE(Json);
+					SERILAZE_TO_JSON_CASE_TYPE_RETURN_TRUE(Label);
+					SERILAZE_TO_JSON_CASE_TYPE_RETURN_TRUE(Note);
+					SERILAZE_TO_JSON_CASE_TYPE_RETURN_TRUE(Param);
+					SERILAZE_TO_JSON_CASE_TYPE_RETURN_TRUE(Phoneme);
+					SERILAZE_TO_JSON_CASE_TYPE_RETURN_TRUE(Plugin);
+					SERILAZE_TO_JSON_CASE_TYPE_RETURN_TRUE(Point);
+					SERILAZE_TO_JSON_CASE_TYPE_RETURN_TRUE(Project);
+					SERILAZE_TO_JSON_CASE_TYPE_RETURN_TRUE(Script);
+					SERILAZE_TO_JSON_CASE_TYPE_RETURN_TRUE(Track);
+					SERILAZE_TO_JSON_CASE_TYPE_RETURN_TRUE(Wave);
 				}
 
-				return true;
+				return false;
+			}
+
+			bool ProtoConverter::parseFromJson(
+				const juce::String& json,
+				::vocalshaper::SerializableProjectStructure* object
+			)
+			{
+				if (!object) {
+					return false;
+				}
+
+				switch (object->getType())
+				{
+					PARSE_FROM_JSON_CASE_TYPE_RETURN_TRUE(Curve);
+					PARSE_FROM_JSON_CASE_TYPE_RETURN_TRUE(DPoint);
+					PARSE_FROM_JSON_CASE_TYPE_RETURN_TRUE(Instr);
+					PARSE_FROM_JSON_CASE_TYPE_RETURN_TRUE(Json);
+					PARSE_FROM_JSON_CASE_TYPE_RETURN_TRUE(Label);
+					PARSE_FROM_JSON_CASE_TYPE_RETURN_TRUE(Note);
+					PARSE_FROM_JSON_CASE_TYPE_RETURN_TRUE(Param);
+					PARSE_FROM_JSON_CASE_TYPE_RETURN_TRUE(Phoneme);
+					PARSE_FROM_JSON_CASE_TYPE_RETURN_TRUE(Plugin);
+					PARSE_FROM_JSON_CASE_TYPE_RETURN_TRUE(Point);
+					PARSE_FROM_JSON_CASE_TYPE_RETURN_TRUE(Project);
+					PARSE_FROM_JSON_CASE_TYPE_RETURN_TRUE(Script);
+					PARSE_FROM_JSON_CASE_TYPE_RETURN_TRUE(Track);
+					PARSE_FROM_JSON_CASE_TYPE_RETURN_TRUE(Wave);
+				}
+
+				return false;
 			}
 
 			template<class T, class P>
@@ -194,6 +158,31 @@ namespace vocalshaper {
 				}
 
 				result = resultTemp;
+				return true;
+			}
+
+			template<class T, class P>
+			static bool ProtoConverter::parseFromJsonInternal(
+				const juce::String& json, ::vocalshaper::SerializableProjectStructure* object)
+			{
+				if (!object) {
+					return false;
+				}
+
+				std::unique_ptr<P> proto = std::make_unique<P>();
+				::google::protobuf::util::JsonParseOptions option;
+				option.ignore_unknown_fields = false;
+				option.case_insensitive_enum_parsing = false;
+
+				if (!::google::protobuf::util::JsonStringToMessage(
+					json.toStdString(), proto.get(), option).ok()) {
+					return false;
+				}
+
+				if (!ProtoConverter::parse(proto.get(), dynamic_cast<T*>(object))) {
+					return false;
+				}
+
 				return true;
 			}
 		}
