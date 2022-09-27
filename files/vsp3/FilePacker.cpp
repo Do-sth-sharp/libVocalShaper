@@ -1,4 +1,5 @@
 ﻿#include "FilePacker.h"
+#include "Project.pb.h"
 
 #define VSP3_FILE_HEAD "vsp3"
 #define VSP3_FMT_HEAD "fmt\0"

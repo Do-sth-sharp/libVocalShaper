@@ -2,7 +2,7 @@
 #include "../../Macros.h"
 
 #include <JuceHeader.h>
-#include "Project.pb.h"
+#include "ProtoType.h"
 #include "../../projects/daos/ProjectDAO.h"
 #include "../../projects/datas/Project.h"
 #include "../../projects/ProjectMeta.h"

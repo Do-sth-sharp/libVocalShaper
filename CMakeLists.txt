@@ -1,10 +1,18 @@
-﻿#外部库文件搜索目录
-include_directories (${CMAKE_SOURCE_DIR})
+﻿#设置外部库目录
+set (PROTOBUF_DIR ${CMAKE_CURRENT_SOURCE_DIR}/protobuf)
+
+#使用protobuf库
+set (protobuf_BUILD_SHARED_LIBS ON)
+set (protobuf_BUILD_TESTS OFF)
+add_subdirectory (${PROTOBUF_DIR})
+
+#外部库文件搜索目录
+include_directories (${CMAKE_CURRENT_SOURCE_DIR})
 include_directories (${JUCEHEADER_DIR})
 include_directories (${JUCELIBRARY_DIR})
 
-#依赖库
-find_package (Protobuf 3 REQUIRED)
+#libVocalShaper库文件搜索目录
+include_directories (${PROTOBUF_DIR}/src)
 
 #设置语言标准
 set(CMAKE_CXX_STANDARD 20)#使用C++20
@@ -16,15 +24,6 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 
 #添加子项目-Proto生成
 add_subdirectory (files/vsp3)
-
-#libVocalShaper库文件搜索目录
-include_directories (${Protobuf_INCLUDE_DIRS})
-#include_directories (projects)
-#include_directories (projects/datas)
-#include_directories (projects/daos)
-#include_directories (projects/events)
-#include_directories (files)
-#include_directories (files/vsp3)
 
 #添加源文件
 aux_source_directory (. TARGET_SRC)
@@ -49,11 +48,14 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
 add_compile_definitions (JUCE_DLL=1)
 add_compile_definitions (JUCE_DISABLE_DLL_ALLOCATORS=1)
 add_compile_definitions ("VSAPI=__declspec(dllexport)")
+add_compile_definitions (_SILENCE_CXX20_CISO646_REMOVED_WARNING=1)
+add_compile_definitions (_CRT_SECURE_NO_WARNINGS=1)
 else ()
 add_compile_definitions ("VSAPI=__attribute__((visibility(\"default\")))")
 endif ()
 add_compile_definitions (VS_BUILD_DLL=1)
 add_compile_definitions (JUCE_MODAL_LOOPS_PERMITTED=1)
+add_compile_definitions (PROTOBUF_USE_DLLS=1)
 
 #设置编译器参数
 if (CMAKE_BUILD_TYPE AND (CMAKE_BUILD_TYPE STREQUAL "Debug"))
@@ -127,8 +129,7 @@ add_library (
 #链接库
 target_link_libraries (
 	${TARGET_NAME}
-	JUCE
-	protobuf::libprotobuf
+	JUCE protobuf::libprotobuf
 )
 
 #设置目标位置
@@ -146,4 +147,10 @@ add_dependencies (
 	${TARGET_NAME}
 	JUCE
 	files_vsp3_proto_generate
+)
+
+#复制libprotobuf库
+add_custom_command (TARGET ${TARGET_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    $<TARGET_FILE:protobuf::libprotobuf> ${OUT_DIR}
 )

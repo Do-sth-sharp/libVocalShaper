@@ -2,7 +2,7 @@
 #include "../../Macros.h"
 
 #include <JuceHeader.h>
-#include "Project.pb.h"
+#include "ProtoType.h"
 
 namespace vocalshaper {
 	namespace files {

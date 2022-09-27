@@ -1,6 +1,3 @@
-#查找Protobuf库
-find_package (Protobuf 3 REQUIRED)
-
 #设置输出路径
 set (MESSAGE_CPP_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 if (EXISTS "${MESSAGE_CPP_DIR}" AND IS_DIRECTORY "${MESSAGE_CPP_DIR}")
@@ -29,7 +26,7 @@ foreach (msg ${MSG_PROTOS})
         add_custom_command (
           OUTPUT "${MESSAGE_CPP_DIR}/${FIL_WE}.pb.cc"
                  "${MESSAGE_CPP_DIR}/${FIL_WE}.pb.h"
-          COMMAND ${PROTOBUF_PROTOC_EXECUTABLE}
+          COMMAND protoc
           ARGS --cpp_out=dllexport_decl=VSAPI:${PROTO_META_BASE_DIR}
             -I ${MESSAGE_DIR}
             ${msg}

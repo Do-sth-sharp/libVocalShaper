@@ -1,4 +1,5 @@
 ﻿#include "ProtoConverter.h"
+#include "Project.pb.h"
 
 namespace vocalshaper {
 	namespace files {
