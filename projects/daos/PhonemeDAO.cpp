@@ -1,4 +1,4 @@
-#include "PhonemeDAO.h"
+﻿#include "PhonemeDAO.h"
 
 namespace vocalshaper {
 	uint32_t PhonemeDAO::getDeviation(const Phoneme* ptr)
@@ -91,6 +91,9 @@ namespace vocalshaper {
 			return nullptr;
 		}
 		juce::ScopedWriteLock locker(ptr->lock);
+		if (ptr->timeMap.size() >= INT_MAX - 1) {
+			return nullptr;
+		}
 		ptr->saved = false;
 		return ptr->timeMap.insert(index, point);
 	}

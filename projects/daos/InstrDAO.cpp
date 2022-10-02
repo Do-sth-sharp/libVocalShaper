@@ -1,4 +1,4 @@
-#include "InstrDAO.h"
+﻿#include "InstrDAO.h"
 
 namespace vocalshaper {
 	Instr::InstrType InstrDAO::getInstrType(const Instr* ptr)
@@ -56,6 +56,9 @@ namespace vocalshaper {
 			return nullptr;
 		}
 		juce::ScopedWriteLock locker(ptr->lock);
+		if (ptr->params.size() >= INT_MAX - 1) {
+			return nullptr;
+		}
 		ptr->saved = false;
 		return ptr->params.insert(index, param);
 	}

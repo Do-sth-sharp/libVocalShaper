@@ -1,4 +1,4 @@
-#include "NoteDAO.h"
+﻿#include "NoteDAO.h"
 
 namespace vocalshaper {
 	Note::NoteType NoteDAO::getNoteType(const Note* ptr)
@@ -148,6 +148,9 @@ namespace vocalshaper {
 			return nullptr;
 		}
 		juce::ScopedWriteLock locker(ptr->lock);
+		if (ptr->phonemes.size() >= INT_MAX - 1) {
+			return nullptr;
+		}
 		if (ptr->noteType != Note::NoteType::Voice) {
 			return nullptr;
 		}
@@ -218,6 +221,9 @@ namespace vocalshaper {
 			return nullptr;
 		}
 		juce::ScopedWriteLock locker(ptr->lock);
+		if (ptr->params.size() >= INT_MAX - 1) {
+			return nullptr;
+		}
 		ptr->saved = false;
 		return ptr->params.insert(index, param);
 	}

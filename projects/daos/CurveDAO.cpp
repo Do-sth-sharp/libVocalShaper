@@ -1,4 +1,4 @@
-#include "CurveDAO.h"
+﻿#include "CurveDAO.h"
 
 namespace vocalshaper {
 	int CurveDAO::pointSize(const Curve* ptr)
@@ -25,6 +25,9 @@ namespace vocalshaper {
 			return nullptr;
 		}
 		juce::ScopedWriteLock locker(ptr->lock);
+		if (ptr->points.size() >= INT_MAX - 1) {
+			return nullptr;
+		}
 		ptr->saved = false;
 		return ptr->points.insert(index, point);
 	}

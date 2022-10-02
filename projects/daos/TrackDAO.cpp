@@ -1,4 +1,4 @@
-#include "TrackDAO.h"
+﻿#include "TrackDAO.h"
 
 namespace vocalshaper {
 	Track::TrackType TrackDAO::getTrackType(const Track* ptr)
@@ -100,6 +100,9 @@ namespace vocalshaper {
 			return nullptr;
 		}
 		juce::ScopedWriteLock locker(ptr->lock);
+		if (ptr->curves.size() >= INT_MAX - 1) {
+			return nullptr;
+		}
 		ptr->saved = false;
 		return ptr->curves.insert(index, curve);
 	}
@@ -138,6 +141,9 @@ namespace vocalshaper {
 			return nullptr;
 		}
 		juce::ScopedWriteLock locker(ptr->lock);
+		if (ptr->plugins.size() >= INT_MAX - 1) {
+			return nullptr;
+		}
 		ptr->saved = false;
 		return ptr->plugins.insert(index, plugin);
 	}
@@ -176,6 +182,9 @@ namespace vocalshaper {
 			return nullptr;
 		}
 		juce::ScopedWriteLock locker(ptr->lock);
+		if (ptr->notes.size() >= INT_MAX - 1) {
+			return nullptr;
+		}
 		if (ptr->trackType == Track::TrackType::Empty) {
 			ptr->trackType = Track::TrackType::Voice;
 		}
@@ -333,6 +342,9 @@ namespace vocalshaper {
 			return nullptr;
 		}
 		juce::ScopedWriteLock locker(ptr->lock);
+		if (ptr->waves.size() >= INT_MAX - 1) {
+			return nullptr;
+		}
 		if (ptr->trackType == Track::TrackType::Empty) {
 			ptr->trackType = Track::TrackType::Wave;
 		}
@@ -387,6 +399,9 @@ namespace vocalshaper {
 			return nullptr;
 		}
 		juce::ScopedWriteLock locker(ptr->lock);
+		if (ptr->params.size() >= INT_MAX - 1) {
+			return nullptr;
+		}
 		if (ptr->trackType != Track::TrackType::Wave && ptr->trackType != Track::TrackType::Voice) {
 			return nullptr;
 		}

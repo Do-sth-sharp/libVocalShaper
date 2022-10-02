@@ -1,4 +1,4 @@
-#include "ProjectDAO.h"
+﻿#include "ProjectDAO.h"
 
 namespace vocalshaper {
 	uint32_t ProjectDAO::getSampleRate(const Project* ptr)
@@ -100,6 +100,9 @@ namespace vocalshaper {
 			return nullptr;
 		}
 		juce::ScopedWriteLock locker(ptr->lock);
+		if (ptr->tracks.size() >= INT_MAX - 1) {
+			return nullptr;
+		}
 		ptr->saved = false;
 		return ptr->tracks.insert(index, track);
 	}
@@ -138,6 +141,9 @@ namespace vocalshaper {
 			return nullptr;
 		}
 		juce::ScopedWriteLock locker(ptr->lock);
+		if (ptr->labels.size() >= INT_MAX - 1) {
+			return nullptr;
+		}
 		ptr->saved = false;
 		return ptr->labels.insert(index, label);
 	}
@@ -176,6 +182,9 @@ namespace vocalshaper {
 			return nullptr;
 		}
 		juce::ScopedWriteLock locker(ptr->lock);
+		if (ptr->scripts.size() >= INT_MAX - 1) {
+			return nullptr;
+		}
 		ptr->saved = false;
 		return ptr->scripts.insert(index, script);
 	}
@@ -214,6 +223,9 @@ namespace vocalshaper {
 			return nullptr;
 		}
 		juce::ScopedWriteLock locker(ptr->lock);
+		if (ptr->additions.size() >= INT_MAX - 1) {
+			return nullptr;
+		}
 		ptr->saved = false;
 		return ptr->additions.insert(index, addition);
 	}

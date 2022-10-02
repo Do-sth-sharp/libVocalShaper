@@ -1,4 +1,4 @@
-#include "PluginDAO.h"
+﻿#include "PluginDAO.h"
 
 namespace vocalshaper {
 	Plugin::PluginType PluginDAO::getPluginType(const Plugin* ptr)
@@ -78,6 +78,9 @@ namespace vocalshaper {
 			return nullptr;
 		}
 		juce::ScopedWriteLock locker(ptr->lock);
+		if (ptr->params.size() >= INT_MAX - 1) {
+			return nullptr;
+		}
 		ptr->saved = false;
 		return ptr->params.insert(index, param);
 	}
