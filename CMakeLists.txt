@@ -33,6 +33,7 @@ aux_source_directory (projects/daos TARGET_SRC)
 aux_source_directory (projects/events TARGET_SRC)
 aux_source_directory (files TARGET_SRC)
 aux_source_directory (files/vsp3 TARGET_SRC)
+aux_source_directory (plugins TARGET_SRC)
 
 #设置编译目标
 set (TARGET_NAME libVocalShaper)

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Macros.h"
 
@@ -8,3 +8,5 @@
 #include "projects/ProjectCopier.h"
 
 #include "files/vsp3/vsp3.h"
+
+#include "plugins/EditorBase.h"
