@@ -4,6 +4,7 @@ set (PROTOBUF_DIR ${CMAKE_CURRENT_SOURCE_DIR}/protobuf)
 #使用protobuf库
 set (protobuf_BUILD_SHARED_LIBS ON)
 set (protobuf_BUILD_TESTS OFF)
+set (protobuf_WITH_ZLIB OFF)
 add_subdirectory (${PROTOBUF_DIR})
 
 #外部库文件搜索目录
