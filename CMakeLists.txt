@@ -5,6 +5,7 @@ set (PROTOBUF_DIR ${CMAKE_CURRENT_SOURCE_DIR}/protobuf)
 set (protobuf_BUILD_SHARED_LIBS ON)
 set (protobuf_BUILD_TESTS OFF)
 set (protobuf_WITH_ZLIB OFF)
+set (CMAKE_POLICY_DEFAULT_CMP0077 NEW)
 add_subdirectory (${PROTOBUF_DIR})
 
 #外部库文件搜索目录
