@@ -1,4 +1,4 @@
-#include "Utils.h"
+﻿#include "Utils.h"
 #include "Project.pb.h"
 #include "../../projects/ProjectProxy.h"
 #include "FilePacker.h"
@@ -50,6 +50,8 @@ namespace vocalshaper {
                 if (!stream.openedOk()) {
                     return false;
                 }
+                
+                stream.setPosition(0);
                 if (!stream.truncate().wasOk()) {
                     return false;
                 }
