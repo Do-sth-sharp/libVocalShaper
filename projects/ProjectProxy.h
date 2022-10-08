@@ -4,6 +4,7 @@
 #include <JuceHeader.h>
 #include "datas/Project.h"
 #include "events/Events.h"
+#include "tempo/LabelTemp.h"
 #include "ProjectMeta.h"
 #include "EventProcesser.h"
 
@@ -38,9 +39,10 @@ namespace vocalshaper {
 		const juce::String name;
 		const juce::String path;
 
-		std::unique_ptr<Project> ptrData;
-		std::unique_ptr<ProjectMeta> ptrMeta;
-		std::unique_ptr<EventProcesser> eventProcesser;
+		std::unique_ptr<Project> ptrData;//单纯工程数据模型
+		std::unique_ptr<ProjectMeta> ptrMeta;//工程元数据
+		std::unique_ptr<EventProcesser> eventProcesser;//工程事件处理器
+		std::unique_ptr<LabelTemp> labelTemp;//标签缓存
 		
 		juce::ReadWriteLock lock;
 

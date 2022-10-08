@@ -1,4 +1,4 @@
-#include "ProjectProxy.h"
+﻿#include "ProjectProxy.h"
 #include "daos/ProjectDAO.h"
 
 namespace vocalshaper {
@@ -8,6 +8,7 @@ namespace vocalshaper {
 		this->ptrData = std::make_unique<Project>();
 		this->ptrMeta = std::make_unique<ProjectMeta>();
 		this->eventProcesser = std::make_unique<EventProcesser>(this);
+		this->labelTemp = std::make_unique<LabelTemp>(this);
 	}
 
 	const juce::String& ProjectProxy::getName() const
@@ -47,8 +48,20 @@ namespace vocalshaper {
 
 	void ProjectProxy::swallow(ProjectProxy* ptr)
 	{
+		if (this == ptr) {
+			jassertfalse;
+			return;
+		}
+
+		juce::ScopedWriteLock locker1(this->getLock());
+		juce::ScopedWriteLock locker2(ptr->getLock());
+
+		//TODO 在此处增加对应的移动
 		this->ptrData.reset(ptr->ptrData.release());
 		this->ptrMeta.reset(ptr->ptrMeta.release());
+		this->eventProcesser.reset(ptr->eventProcesser.release());
+		this->labelTemp.reset(ptr->labelTemp.release());
+
 		delete ptr;
 		ptr = nullptr;
 	}
