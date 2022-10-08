@@ -11,4 +11,6 @@
 
 #include "plugins/EditorBase.h"
 
+#include "utils/IniParser.h"
+
 #include "lua/lua.hpp"

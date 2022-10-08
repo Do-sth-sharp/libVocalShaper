@@ -1,6 +1,7 @@
 ﻿#设置外部库目录
 set (PROTOBUF_DIR ${CMAKE_CURRENT_SOURCE_DIR}/protobuf)
 set (LUA_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lua)
+set (MINI_DIR ${CMAKE_CURRENT_SOURCE_DIR}/mINI)
 
 #使用protobuf库
 set (protobuf_BUILD_SHARED_LIBS ON)
@@ -13,6 +14,7 @@ add_subdirectory (${PROTOBUF_DIR})
 include_directories (${CMAKE_CURRENT_SOURCE_DIR})
 include_directories (${JUCEHEADER_DIR})
 include_directories (${JUCELIBRARY_DIR})
+include_directories (${MINI_DIR}/src/mini)
 
 #libVocalShaper库文件搜索目录
 include_directories (${PROTOBUF_DIR}/src)
@@ -40,6 +42,7 @@ aux_source_directory (projects/events TARGET_SRC)
 aux_source_directory (files TARGET_SRC)
 aux_source_directory (files/vsp3 TARGET_SRC)
 aux_source_directory (plugins TARGET_SRC)
+aux_source_directory (utils TARGET_SRC)
 
 #设置编译目标
 set (TARGET_NAME libVocalShaper)
