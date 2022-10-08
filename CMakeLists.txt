@@ -1,5 +1,6 @@
 ﻿#设置外部库目录
 set (PROTOBUF_DIR ${CMAKE_CURRENT_SOURCE_DIR}/protobuf)
+set (LUA_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lua)
 
 #使用protobuf库
 set (protobuf_BUILD_SHARED_LIBS ON)
@@ -26,6 +27,9 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 
 #添加子项目-Proto生成
 add_subdirectory (files/vsp3)
+
+#添加lua源文件
+list (APPEND LUA_SRC ${LUA_DIR}/onelua.c)
 
 #添加源文件
 aux_source_directory (. TARGET_SRC)
@@ -59,6 +63,7 @@ endif ()
 add_compile_definitions (VS_BUILD_DLL=1)
 add_compile_definitions (JUCE_MODAL_LOOPS_PERMITTED=1)
 add_compile_definitions (PROTOBUF_USE_DLLS=1)
+add_compile_definitions (LUA_BUILD_AS_DLL=1)
 
 #设置编译器参数
 if (CMAKE_BUILD_TYPE AND (CMAKE_BUILD_TYPE STREQUAL "Debug"))
@@ -127,6 +132,7 @@ endif()
 add_library (
 	${TARGET_NAME} SHARED
 	${TARGET_SRC}
+	${LUA_SRC}
 )
 
 #链接库

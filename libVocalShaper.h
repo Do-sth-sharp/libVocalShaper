@@ -10,3 +10,5 @@
 #include "files/vsp3/vsp3.h"
 
 #include "plugins/EditorBase.h"
+
+#include "lua/lua.hpp"
