@@ -3,6 +3,10 @@
 
 #include <JuceHeader.h>
 
+extern "C" {
+	struct VSAPI lua_State;
+}
+
 namespace vocalshaper {
 	class VSAPI ProjectProxy;
 	class VSAPI Label;
@@ -14,7 +18,7 @@ namespace vocalshaper {
 
 		struct LabelData final {
 			double x = 0.0;			//位置
-			double tempo = 120.0;		//曲速
+			double tempo = 120.0;	//曲速
 			uint8_t beat = 4;		//拍号
 			bool autoTempo = false;	//曲速自动插值
 		};
@@ -23,6 +27,7 @@ namespace vocalshaper {
 		void refresh();
 
 	private:
+		std::unique_ptr<lua_State, std::function<void(lua_State*)>> luaState;
 		juce::Array<LabelData> list;
 		juce::ReadWriteLock lock;
 

@@ -27,9 +27,26 @@ namespace vocalshaper {
 
 		/*
 		* 标签内容规则
+		* 1. Lua
+		* beat = 4			--设置节拍
+		* tempo = 120.00	--设置曲速
+		* auto = false		--曲速自动过渡
+		* 
+		* 2. Ini
+		* [Label]
 		* beat = 4			#设置节拍
-		* tempo = 120		#设置曲速
-		* autoTempo = false	#曲速自动过渡
+		* tempo = 120.00	#设置曲速
+		* auto = false		#曲速自动过渡
+		* 
+		* 3. Xml
+		* <label beat="4" tempo="120.00" auto="false"/>
+		* 
+		* 4. Json
+		* {
+		*	"beat": 4,
+		*	"tempo": 120.00.
+		*	"auto": false
+		* }
 		*/
 
 	private:

@@ -11,8 +11,7 @@ namespace vocalshaper {
 	EventProcesser::~EventProcesser()
 	{
 		if (this->isThreadRunning()) {
-			this->signalThreadShouldExit();
-			this->waitForThreadToExit(3000);
+			this->stopThread(5000);
 		}
 	}
 
