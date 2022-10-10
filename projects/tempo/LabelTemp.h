@@ -27,6 +27,8 @@ namespace vocalshaper {
 		void refresh();
 
 	private:
+		friend class TempoTemp;
+
 		std::unique_ptr<lua_State, std::function<void(lua_State*)>> luaState;
 		juce::Array<LabelData> list;
 		juce::ReadWriteLock lock;

@@ -27,6 +27,9 @@ namespace vocalshaper {
 			return;
 		}
 
+		//清空标签缓存
+		this->list.clear();
+
 		//获取标签数量
 		int labelSize = ProjectDAO::labelSize(ptrProject);
 
@@ -58,23 +61,9 @@ namespace vocalshaper {
 			{
 				LabelData label;
 				if (this->parseLabel(ptrLabel, label, curveQuantification, tempoTemp, beatTemp)) {
-					this->list.add(label);
-				}
-			}
-
-			//丢弃顺序错误的标签
-			{
-				double lastX = -1.0;
-				for (int i = 0; i < this->list.size(); i++) {
-					auto& label = this->list.getReference(i);
-					if (label.x > lastX) {
-						lastX = label.x;
+					if (label.x > this->list.getLast().x) {
+						this->list.add(label);
 					}
-					else {
-						this->list.remove(i);
-						continue;
-					}
-					i++;
 				}
 			}
 		}

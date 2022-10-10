@@ -37,6 +37,11 @@ namespace vocalshaper {
 
 	void EventProcesser::run()
 	{
+		if (!this->parent) {
+			jassertfalse;
+			return;
+		}
+
 		std::unique_ptr<ProjectEventStructure> event = nullptr;
 
 		while (true) {
@@ -55,7 +60,7 @@ namespace vocalshaper {
 				this->eventList.pop();
 			}
 
-			//处理事件
+			//插件处理事件
 			{
 				juce::ScopedReadLock locker(this->handleLock);
 				for (auto& f : this->handleList) {
@@ -66,6 +71,15 @@ namespace vocalshaper {
 
 					//调用
 					f(*event, *this->parent);
+				}
+			}
+
+			//根据事件刷新缓存
+			{
+				//刷新标签与曲速缓存
+				if (event->type == ProjectEventStructure::Type::Project ||
+					event->type == ProjectEventStructure::Type::Label) {
+					this->parent->refreshLabels();
 				}
 			}
 

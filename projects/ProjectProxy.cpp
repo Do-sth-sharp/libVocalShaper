@@ -9,6 +9,7 @@ namespace vocalshaper {
 		this->ptrMeta = std::make_unique<ProjectMeta>();
 		this->eventProcesser = std::make_unique<EventProcesser>(this);
 		this->labelTemp = std::make_unique<LabelTemp>(this);
+		this->tempoTemp = std::make_unique<TempoTemp>(this->labelTemp.get());
 	}
 
 	const juce::String& ProjectProxy::getName() const
@@ -41,28 +42,25 @@ namespace vocalshaper {
 		return this->eventProcesser.get();
 	}
 
+	const TempoTemp* ProjectProxy::getTempo()
+	{
+		return this->tempoTemp.get();
+	}
+
 	const juce::ReadWriteLock& ProjectProxy::getLock() const
 	{
 		return this->lock;
 	}
 
-	void ProjectProxy::swallow(ProjectProxy* ptr)
+	void ProjectProxy::changeUrl(const juce::String& name, const juce::String& path)
 	{
-		if (this == ptr) {
-			jassertfalse;
-			return;
-		}
+		this->name = name;
+		this->path = path;
+	}
 
-		juce::ScopedWriteLock locker1(this->getLock());
-		juce::ScopedWriteLock locker2(ptr->getLock());
-
-		//TODO 在此处增加对应的移动
-		this->ptrData.reset(ptr->ptrData.release());
-		this->ptrMeta.reset(ptr->ptrMeta.release());
-		this->eventProcesser.reset(ptr->eventProcesser.release());
-		this->labelTemp.reset(ptr->labelTemp.release());
-
-		delete ptr;
-		ptr = nullptr;
+	void ProjectProxy::refreshLabels()
+	{
+		this->labelTemp->refresh();
+		this->tempoTemp->refresh();
 	}
 }
