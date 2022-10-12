@@ -137,6 +137,7 @@ endif()
 add_library (
 	${TARGET_NAME} SHARED
 	${TARGET_SRC}
+	${PROTO_LIST}
 	${LUA_SRC}
 )
 

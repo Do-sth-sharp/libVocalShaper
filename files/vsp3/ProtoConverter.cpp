@@ -1,7 +1,8 @@
 ﻿#include "ProtoConverter.h"
-#include "Project.pb.h"
+#include "proto_out/Project.pb.h"
 #include <absl/status/status.h>
 #include <google/protobuf/util/json_util.h>
+//克隆项目后阅读源码前请进行一次生成，将解决报错问题
 
 #define SERILAZE_TO_JSON_CASE_TYPE_RETURN_TRUE(t) \
 case ::vocalshaper::SerializableProjectStructure::Type::t: \

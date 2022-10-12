@@ -1,5 +1,5 @@
 ﻿#设置输出路径
-set (MESSAGE_CPP_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+set (MESSAGE_CPP_DIR ${CMAKE_CURRENT_SOURCE_DIR}/proto_out CACHE STRING INTERNAL)
 if (EXISTS "${MESSAGE_CPP_DIR}" AND IS_DIRECTORY "${MESSAGE_CPP_DIR}")
         set (PROTO_META_BASE_DIR ${MESSAGE_CPP_DIR})
 else ()
@@ -51,3 +51,18 @@ add_dependencies (
 	files_vsp3_proto_generate
 	protobuf::protoc
 )
+
+#提前占位
+foreach (msg_file ${MESSAGE_SRC})
+    if (NOT EXISTS "${msg_file}")
+        file (TOUCH ${msg_file})
+    endif ()
+endforeach ()
+foreach (msg_file ${MESSAGE_HDRS})
+    if (NOT EXISTS "${msg_file}")
+        file (TOUCH ${msg_file})
+    endif ()
+endforeach ()
+
+#导出proto编译结果列表
+set (PROTO_LIST ${MESSAGE_SRC} CACHE STRING INTERNAL)

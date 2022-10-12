@@ -1,5 +1,6 @@
 ﻿#include "ProtoConverter.h"
-#include "Project.pb.h"
+#include "proto_out/Project.pb.h"
+//克隆项目后阅读源码前请进行一次生成，将解决报错问题
 
 namespace vocalshaper {
 	namespace files {

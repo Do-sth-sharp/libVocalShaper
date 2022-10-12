@@ -1,5 +1,6 @@
 ﻿#include "FilePacker.h"
-#include "Project.pb.h"
+#include "proto_out/Project.pb.h"
+//克隆项目后阅读源码前请进行一次生成，将解决报错问题
 
 #define VSP3_FILE_HEAD "vsp3"
 #define VSP3_FMT_HEAD "fmt\0"
