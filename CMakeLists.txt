@@ -160,6 +160,7 @@ set_target_properties (
 add_dependencies (
 	${TARGET_NAME}
 	JUCE
+	protobuf::libprotobuf
 	files_vsp3_proto_generate
 )
 

@@ -1,4 +1,4 @@
-#ÉèÖÃÊä³öÂ·¾¶
+ï»¿#è®¾ç½®è¾“å‡ºè·¯å¾„
 set (MESSAGE_CPP_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 if (EXISTS "${MESSAGE_CPP_DIR}" AND IS_DIRECTORY "${MESSAGE_CPP_DIR}")
         set (PROTO_META_BASE_DIR ${MESSAGE_CPP_DIR})
@@ -7,11 +7,11 @@ else ()
         set (PROTO_META_BASE_DIR ${MESSAGE_CPP_DIR})
 endif ()
 
-#ÉèÖÃprotocµÄËÑË÷Â·¾¶
+#è®¾ç½®protocçš„æœç´¢è·¯å¾„
 set (MESSAGE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/proto)
 list (APPEND PROTO_FLAGS -I${MESSAGE_DIR})
 
-#»ñÈ¡ÐèÒª±àÒëµÄprotoÎÄ¼þ
+#èŽ·å–éœ€è¦ç¼–è¯‘çš„protoæ–‡ä»¶
 file (GLOB_RECURSE MSG_PROTOS ${MESSAGE_DIR}/*.proto)
 set (MESSAGE_SRC "")
 set (MESSAGE_HDRS "")
@@ -22,11 +22,11 @@ foreach (msg ${MSG_PROTOS})
         list (APPEND MESSAGE_SRC "${MESSAGE_CPP_DIR}/${FIL_WE}.pb.cc")
         list (APPEND MESSAGE_HDRS "${MESSAGE_CPP_DIR}/${FIL_WE}.pb.h")
 
-		# Ê¹ÓÃ×Ô¶¨ÒåÃüÁî
+		# ä½¿ç”¨è‡ªå®šä¹‰å‘½ä»¤
         add_custom_command (
           OUTPUT "${MESSAGE_CPP_DIR}/${FIL_WE}.pb.cc"
                  "${MESSAGE_CPP_DIR}/${FIL_WE}.pb.h"
-          COMMAND protoc
+          COMMAND $<TARGET_FILE:protobuf::protoc>
           ARGS --cpp_out=dllexport_decl=VSAPI:${PROTO_META_BASE_DIR}
             -I ${MESSAGE_DIR}
             ${msg}
@@ -36,12 +36,18 @@ foreach (msg ${MSG_PROTOS})
         )
 endforeach ()
 
-#ÉèÖÃÎÄ¼þÊôÐÔÎª GENERATED
+#è®¾ç½®æ–‡ä»¶å±žæ€§ä¸º GENERATED
 set_source_files_properties (${MESSAGE_SRC} ${MESSAGE_HDRS} PROPERTIES GENERATED TRUE)
 
-#Ìí¼Ó×Ô¶¨Òåtarget
+#æ·»åŠ è‡ªå®šä¹‰target
 add_custom_target (files_vsp3_proto_generate ALL
                 DEPENDS ${MESSAGE_SRC} ${MESSAGE_HDRS}
                 COMMENT "generate message target"
                 VERBATIM
                 )
+
+#æ·»åŠ protocä¾èµ–
+add_dependencies (
+	files_vsp3_proto_generate
+	protobuf::protoc
+)
