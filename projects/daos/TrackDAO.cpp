@@ -10,6 +10,29 @@ namespace vocalshaper {
 		return ptr->trackType;
 	}
 
+	juce::String TrackDAO::getName(const Track* ptr)
+	{
+		if (!ptr) {
+			return juce::String();
+		}
+		juce::ScopedReadLock locker(ptr->lock);
+		return ptr->name;
+	}
+
+	bool TrackDAO::setName(Track* ptr, juce::String name)
+	{
+		if (!ptr) {
+			return false;
+		}
+		juce::ScopedWriteLock locker(ptr->lock);
+		if (ptr->name == name) {
+			return true;
+		}
+		ptr->saved = false;
+		ptr->name = name;
+		return true;
+	}
+
 	juce::Colour TrackDAO::getColour(const Track* ptr)
 	{
 		if (!ptr) {

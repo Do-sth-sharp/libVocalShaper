@@ -15,6 +15,7 @@ namespace vocalshaper {
 		~Curve() override = default;
 
 	private:
+		juce::String id;								//唯一id
 		juce::OwnedArray<DPoint> points;				//控制点
 		
 	private:

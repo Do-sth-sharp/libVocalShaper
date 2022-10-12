@@ -5,6 +5,7 @@
 #include "projects/ProjectProxy.h"
 #include "projects/datas/Project.h"
 #include "projects/daos/ProjectDAO.h"
+#include "projects/actions/Actions.h"
 #include "projects/ProjectCopier.h"
 
 #include "files/vsp3/vsp3.h"

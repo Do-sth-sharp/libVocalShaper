@@ -27,6 +27,7 @@ namespace vocalshaper {
 		}trackType = TrackType::Empty;									//轨道类型
 
 	private:
+		juce::String name;												//轨道名称
 		juce::Colour color = juce::Colour::fromRGB(98, 111, 252);		//轨道颜色
 		bool solo = false;												//独奏开关（优先于mute）
 		bool mute = false;												//静音开关

@@ -75,6 +75,7 @@ namespace vocalshaper {
 					return false;
 				}
 
+				::vocalshaper::TrackDAO::setName(track, proto->name());
 				uint32_t trackcolor = proto->color().value();
 				::vocalshaper::TrackDAO::setColour(track,
 					juce::Colour::fromRGBA(
@@ -313,6 +314,8 @@ namespace vocalshaper {
 				if (!proto || !curve) {
 					return false;
 				}
+
+				::vocalshaper::CurveDAO::setId(curve, proto->id());
 
 				for (int i = 0; i < proto->points_size(); i++) {
 					auto point = new ::vocalshaper::DPoint;

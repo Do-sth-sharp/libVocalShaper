@@ -36,6 +36,7 @@ list (APPEND LUA_SRC ${LUA_DIR}/onelua.c)
 #添加源文件
 aux_source_directory (. TARGET_SRC)
 aux_source_directory (projects TARGET_SRC)
+aux_source_directory (projects/actions TARGET_SRC)
 aux_source_directory (projects/datas TARGET_SRC)
 aux_source_directory (projects/daos TARGET_SRC)
 aux_source_directory (projects/events TARGET_SRC)

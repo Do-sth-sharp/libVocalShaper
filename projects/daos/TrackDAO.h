@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "../../Macros.h"
 
 #include <JuceHeader.h>
@@ -18,6 +18,8 @@ namespace vocalshaper {
 	public:
 		static Track::TrackType getTrackType(const Track* ptr);
 
+		static juce::String getName(const Track* ptr);
+		static bool setName(Track* ptr, juce::String name);
 		static juce::Colour getColour(const Track* ptr);
 		static void setColour(Track* ptr, juce::Colour color);
 		static bool getSolo(const Track* ptr);

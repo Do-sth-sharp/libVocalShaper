@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "../../Macros.h"
 
 #include <JuceHeader.h>
@@ -11,6 +11,9 @@ namespace vocalshaper {
 		CurveDAO() = default;
 
 	public:
+		static juce::String getId(const Curve* ptr);
+		static void setId(Curve* ptr, juce::String id);
+
 		static int pointSize(const Curve* ptr);
 		static DPoint* getPoint(const Curve* ptr, int index);
 		static DPoint* insertPoint(Curve* ptr, int index, DPoint* point);

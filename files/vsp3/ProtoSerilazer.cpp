@@ -78,6 +78,8 @@ namespace vocalshaper {
 					break;
 				}
 
+				proto->set_name(::vocalshaper::TrackDAO::getName(track).toStdString());
+
 				auto tColor = ::vocalshaper::TrackDAO::getColour(track);
 				uint32_t color = 0;
 				reinterpret_cast<ProtoConverter::ColorRGBA*>(&color)->r = tColor.getRed();
@@ -221,6 +223,8 @@ namespace vocalshaper {
 				if (!curve || !proto) {
 					return false;
 				}
+
+				proto->set_id(::vocalshaper::CurveDAO::getId(curve).toStdString());
 
 				for (int i = 0; i < ::vocalshaper::CurveDAO::pointSize(curve); i++) {
 					auto point = ::vocalshaper::CurveDAO::getPoint(curve, i);

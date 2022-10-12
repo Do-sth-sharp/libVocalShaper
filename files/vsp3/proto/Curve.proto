@@ -5,5 +5,6 @@ package vocalshaper.files.vsp3;
 import "DPoint.proto";
 
 message Curve {
+  string id = 2;              //唯一id
   repeated DPoint points = 1; //控制点
 }
