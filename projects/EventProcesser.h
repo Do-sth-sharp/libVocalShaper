@@ -2,8 +2,7 @@
 #include "../Macros.h"
 
 #include <JuceHeader.h>
-#include <stack>
-#include "events/ProjectEventStructure.h"
+#include "actions/ActionBase.h"
 
 namespace vocalshaper {
 	class ProjectProxy;
@@ -11,18 +10,23 @@ namespace vocalshaper {
 	class VSAPI EventProcesser : protected juce::Thread
 	{
 	public:
-		EventProcesser() = delete;
-		explicit EventProcesser(ProjectProxy* parent);
+		EventProcesser();
 		~EventProcesser() override;
 
 	public:
 		using EventHandleFunc 
-			= std::function<void(ProjectEventStructure&, ProjectProxy&)>;
+			= std::function<void(actions::ActionBase&)>;
 
-		void processEvent(std::unique_ptr<ProjectEventStructure> event);
+		void processEvent(std::unique_ptr<actions::ActionBase> event);
 
+		//这是提供给插件模块使用的回调管理方法
 		//在使用此方法前请考虑清楚你在做什么
-		void setEventHandles(const juce::Array<EventHandleFunc> list);
+		void addEventHandles(const juce::Array<EventHandleFunc> list);
+		//这是提供给插件模块使用的回调管理方法
+		//在使用此方法前请考虑清楚你在做什么
+		void clearEventHandles();
+
+		void addEventRules(const juce::Array<actions::ActionBase::RuleFunc> list);
 		
 		bool couldUndo() const;
 		bool couldRedo() const;
@@ -33,13 +37,16 @@ namespace vocalshaper {
 		void run() override;
 
 	private:
-		juce::CriticalSection queueLock;
-		juce::ReadWriteLock recordsLock, handleLock;
-		std::queue<std::unique_ptr<ProjectEventStructure>> eventList;
-		std::stack<std::unique_ptr<ProjectEventStructure>> stackUndo, stackRedo;
-		juce::Array<EventHandleFunc> handleList;
+		juce::CriticalSection queueLock;							//事件队列锁
+		juce::ReadWriteLock handleLock;								//加工器列表锁
+		juce::ReadWriteLock ruleLock;								//规则列表锁
 
-		ProjectProxy* parent = nullptr;
+		std::queue<std::unique_ptr<actions::ActionBase>> eventList;	//事件队列
+		juce::UndoManager undoManager;								//执行器、重做列表
+		juce::Array<EventHandleFunc> handleList;					//加工器列表
+		juce::Array<actions::ActionBase::RuleFunc> ruleList;		//规则列表
+
+		void addRulesOnAction(actions::ActionBase* action) const;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(EventProcesser)
 	};

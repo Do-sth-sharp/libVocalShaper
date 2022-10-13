@@ -5,11 +5,25 @@ namespace vocalshaper {
 	ProjectProxy::ProjectProxy(const juce::String& name, const juce::String& path)
 		:name(name), path(path)
 	{
+		//初始化结构
 		this->ptrData = std::make_unique<Project>();
 		this->ptrMeta = std::make_unique<ProjectMeta>();
-		this->eventProcesser = std::make_unique<EventProcesser>(this);
+		this->eventProcesser = std::make_unique<EventProcesser>();
 		this->labelTemp = std::make_unique<LabelTemp>(this);
 		this->tempoTemp = std::make_unique<TempoTemp>(this->labelTemp.get());
+
+		//添加规则
+		this->eventProcesser->addEventRules({
+			[](const actions::ActionBase& action, actions::ActionBase::UndoType type) {
+				//标签刷新
+				if (action.getBaseType() == actions::ActionBase::Type::Project ||
+					action.getBaseType() == actions::ActionBase::Type::Label
+					) {
+					auto proxy = action.getProxy();
+					proxy->refreshLabels();
+				}
+			}
+			});
 	}
 
 	const juce::String& ProjectProxy::getName() const

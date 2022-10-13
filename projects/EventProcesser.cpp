@@ -1,11 +1,11 @@
 ﻿#include "EventProcesser.h"
 
-#include "EventUndo.h"
+#include "actions/Actions.h"
+#include "ProjectProxy.h"
 
 namespace vocalshaper {
-	EventProcesser::EventProcesser(ProjectProxy* parent)
-		:Thread("VocalShaper Project Event Processer"),
-		parent(parent)
+	EventProcesser::EventProcesser()
+		:Thread("VocalShaper Project Event Processer")
 	{}
 
 	EventProcesser::~EventProcesser()
@@ -15,7 +15,7 @@ namespace vocalshaper {
 		}
 	}
 
-	void EventProcesser::processEvent(std::unique_ptr<ProjectEventStructure> event)
+	void EventProcesser::processEvent(std::unique_ptr<actions::ActionBase> event)
 	{
 		//事件入队列
 		{
@@ -28,21 +28,27 @@ namespace vocalshaper {
 		}
 	}
 
-	void EventProcesser::setEventHandles(const juce::Array<EventHandleFunc> list)
+	void EventProcesser::addEventHandles(const juce::Array<EventHandleFunc> list)
+	{
+		juce::ScopedWriteLock locker(this->handleLock);
+		this->handleList.addArray(list);
+	}
+
+	void EventProcesser::clearEventHandles()
 	{
 		juce::ScopedWriteLock locker(this->handleLock);
 		this->handleList.clear();
-		this->handleList.addArray(list);
+	}
+
+	void EventProcesser::addEventRules(const juce::Array<actions::ActionBase::RuleFunc> list)
+	{
+		juce::ScopedWriteLock locker(this->ruleLock);
+		this->ruleList.addArray(list);
 	}
 
 	void EventProcesser::run()
 	{
-		if (!this->parent) {
-			jassertfalse;
-			return;
-		}
-
-		std::unique_ptr<ProjectEventStructure> event = nullptr;
+		std::unique_ptr<actions::ActionBase> event = nullptr;
 
 		while (true) {
 			//判断停止
@@ -60,7 +66,12 @@ namespace vocalshaper {
 				this->eventList.pop();
 			}
 
-			//插件处理事件
+			//给event添加规则
+			{
+				this->addRulesOnAction(event.get());
+			}
+
+			//插件加工event
 			{
 				juce::ScopedReadLock locker(this->handleLock);
 				for (auto& f : this->handleList) {
@@ -70,89 +81,50 @@ namespace vocalshaper {
 					}
 
 					//调用
-					f(*event, *this->parent);
+					f(*event);
 				}
 			}
 
-			//根据事件刷新缓存
+			//执行event
 			{
-				//刷新标签与曲速缓存
-				if (event->type == ProjectEventStructure::Type::Project ||
-					event->type == ProjectEventStructure::Type::Label) {
-					this->parent->refreshLabels();
+				if (event->getActionType() != 0x0000) {
+					//实际修改，可撤销
+					this->undoManager.perform(event.release());
 				}
-			}
-
-			//执行回调
-			for (auto& f : event->callbackList) {
-				f(*event, *this->parent);
-			}
-
-			//事件入库
-			{
-				juce::ScopedWriteLock locker(this->recordsLock);
-				switch (event->undoFlag)
-				{
-				case ProjectEventStructure::UndoFlagType::Empty:
-					while (this->stackRedo.size() > 0) {
-						this->stackRedo.pop();
-					}
-					if (event->ptr || event->cType == ProjectEventStructure::ChangeType::Add) {
-						this->stackUndo.push(std::move(event));
-					}
-					break;
-				case ProjectEventStructure::UndoFlagType::Undo:
-					this->stackRedo.push(std::move(event));
-					break;
-				case ProjectEventStructure::UndoFlagType::Redo:
-					this->stackUndo.push(std::move(event));
-					break;
+				else {
+					//非实际修改，不可撤销
+					event->run();
 				}
+				
 			}
 		}
 	}
 
 	bool EventProcesser::couldUndo() const
 	{
-		juce::ScopedReadLock locker(this->recordsLock);
-		return this->stackUndo.size() > 0;
+		return this->undoManager.canUndo();
 	}
 
 	bool EventProcesser::couldRedo() const
 	{
-		juce::ScopedReadLock locker(this->recordsLock);
-		return this->stackRedo.size() > 0;
+		return this->undoManager.canRedo();
 	}
 
 	void EventProcesser::undo()
 	{
-		juce::ScopedWriteLock locker(this->recordsLock);
-		if (this->stackUndo.size() == 0) {
-			return;
-		}
-
-		std::unique_ptr<ProjectEventStructure> event = std::move(this->stackUndo.top());
-		this->stackUndo.pop();
-
-		event->reverse();
-		EventUndo::undo(event.get(), this->parent);
-
-		this->processEvent(std::move(event));
+		this->undoManager.undo();
 	}
 
 	void EventProcesser::redo()
 	{
-		juce::ScopedWriteLock locker(this->recordsLock);
-		if (this->stackRedo.size() == 0) {
-			return;
+		this->undoManager.redo();
+	}
+
+	void EventProcesser::addRulesOnAction(actions::ActionBase* action) const
+	{
+		juce::ScopedReadLock locker(this->ruleLock);
+		for (auto &f : this->ruleList) {
+			action->addRule(f);
 		}
-
-		std::unique_ptr<ProjectEventStructure> event = std::move(this->stackRedo.top());
-		this->stackRedo.pop();
-
-		event->reverse();
-		EventUndo::undo(event.get(), this->parent);
-
-		this->processEvent(std::move(event));
 	}
 }

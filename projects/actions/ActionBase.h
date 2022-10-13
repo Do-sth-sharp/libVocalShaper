@@ -5,6 +5,9 @@
 #include "../datas/Utils.h"
 #include "../datas/Project.h"
 
+//移位量
+#define VS_ACTION_TYPE_CODE_BIT_MOVE ((sizeof(int) / 2) * 8)
+
 //二级Action类构造参数中与数据更改相关的部分
 //用于决定构造的二级Action类构造函数是否具有index参数
 //_DataMemType:二级Action类修改的数据类型
@@ -88,10 +91,10 @@ public: \
 	using TargetType = _TargetType; \
 protected: \
 	explicit _ActionBaseName(int action, _TargetType target, ActionBase::Data* data, vocalshaper::ProjectProxy* proxy) \
-		:ActionBase(action | (ActionBase::Type::_ActionBaseType << 4), \
+		:ActionBase(action | (ActionBase::Type::_ActionBaseType << VS_ACTION_TYPE_CODE_BIT_MOVE), \
 			new _TargetType(target), data, proxy) {}; \
-	virtual bool perform() override {}; \
-	virtual bool undo() override {}; \
+	virtual bool perform() override { return ActionBase::perform(); }; \
+	virtual bool undo() override { return ActionBase::undo(); }; \
 public: \
 	explicit _ActionBaseName(_TargetType target, vocalshaper::ProjectProxy* proxy) \
 		:_ActionBaseName(Actions::Empty, target, nullptr, proxy) {}; \
@@ -120,25 +123,28 @@ if (!ptrObject) { \
 //先暴露目标对象，然后对目标对象的属性进行编辑
 //_TargetSelectFunc:获取目标对象指针函数，参数1为项目根指针，参数2为操作目标位置类
 //_EditDataFunc:编辑目标对象属性函数，参数1为目标对象指针，参数2为新数据的左值引用
-#define VS_EDIT_ROUTINE_DATA_FROM_ACTION(_TargetSelectFunc, _EditDataFunc) \
+//_CurrentFunc:要调用的重写的基类函数
+#define VS_EDIT_ROUTINE_DATA_FROM_ACTION(_TargetSelectFunc, _EditDataFunc, _CurrentFunc) \
 VS_PRAPARE_ROUTINE_DATA_PTR_FROM_ACTION(_TargetSelectFunc) \
-return _EditDataFunc(ptrObject, data->data);
+return _EditDataFunc(ptrObject, data->data) && this->ActionType::_CurrentFunc();
 
 //标准子对象增删
 //先暴露目标对象，然后对目标对象的子对象进行增删
 //_TargetSelectFunc:获取目标对象指针函数，参数1为项目根指针，参数2为操作目标位置类
 //_AddOrRemoveDataFunc:增删目标对象子对象函数，参数1为目标对象指针，参数2为目标子对象数据的左值引用（唯一指针的左值引用），参数3为目标子对象在目标对象中的index
-#define VS_ADD_OR_REMOVE_ROUTINE_DATA_FROM_ACTION(_TargetSelectFunc, _AddOrRemoveDataFunc) \
+//_CurrentFunc:要调用的重写的基类函数
+#define VS_ADD_OR_REMOVE_ROUTINE_DATA_FROM_ACTION(_TargetSelectFunc, _AddOrRemoveDataFunc, _CurrentFunc) \
 VS_PRAPARE_ROUTINE_DATA_PTR_FROM_ACTION(_TargetSelectFunc) \
-return _AddOrRemoveDataFunc(ptrObject, data->data, data->index);
+return _AddOrRemoveDataFunc(ptrObject, data->data, data->index) && this->ActionType::_CurrentFunc();
 
 //标准单一子对象增删
 //先暴露目标对象，然后对目标对象的子对象进行增删
 //_TargetSelectFunc:获取目标对象指针函数，参数1为项目根指针，参数2为操作目标位置类
 //_AddOrRemoveDataFunc:增删目标对象子对象函数，参数1为目标对象指针，参数2为目标子对象数据的左值引用（唯一指针的左值引用）
-#define VS_ADD_OR_REMOVE_ROUTINE_SINGLE_DATA_FROM_ACTION(_TargetSelectFunc, _AddOrRemoveDataFunc) \
+//_CurrentFunc:要调用的重写的基类函数
+#define VS_ADD_OR_REMOVE_ROUTINE_SINGLE_DATA_FROM_ACTION(_TargetSelectFunc, _AddOrRemoveDataFunc, _CurrentFunc) \
 VS_PRAPARE_ROUTINE_DATA_PTR_FROM_ACTION(_TargetSelectFunc) \
-return _AddOrRemoveDataFunc(ptrObject, data->data);
+return _AddOrRemoveDataFunc(ptrObject, data->data) && this->ActionType::_CurrentFunc();
 
 //创建标准属性编辑方法定义
 //_ActionName:二级Action类名
@@ -147,11 +153,11 @@ return _AddOrRemoveDataFunc(ptrObject, data->data);
 #define VS_CREATE_EDIT_ROUTINE_DATA_ACTION_DEFINEITION(_ActionName, _TargetSelectFunc, _EditDataFunc) \
 bool _ActionName::perform() \
 { \
-	VS_EDIT_ROUTINE_DATA_FROM_ACTION(_TargetSelectFunc, _EditDataFunc) \
+	VS_EDIT_ROUTINE_DATA_FROM_ACTION(_TargetSelectFunc, _EditDataFunc, perform) \
 }; \
 bool _ActionName::undo() \
 { \
-	VS_EDIT_ROUTINE_DATA_FROM_ACTION(_TargetSelectFunc, _EditDataFunc) \
+	VS_EDIT_ROUTINE_DATA_FROM_ACTION(_TargetSelectFunc, _EditDataFunc, undo) \
 };
 
 //创建标准子对象添加方法定义
@@ -162,11 +168,11 @@ bool _ActionName::undo() \
 #define VS_CREATE_ADD_ROUTINE_DATA_ACTION_DEFINEITION(_ActionName, _TargetSelectFunc, _AddDataFunc, _RemoveDataFunc) \
 bool _ActionName::perform() \
 { \
-	VS_ADD_OR_REMOVE_ROUTINE_DATA_FROM_ACTION(_TargetSelectFunc, _AddDataFunc) \
+	VS_ADD_OR_REMOVE_ROUTINE_DATA_FROM_ACTION(_TargetSelectFunc, _AddDataFunc, perform) \
 }; \
 bool _ActionName::undo() \
 { \
-	VS_ADD_OR_REMOVE_ROUTINE_DATA_FROM_ACTION(_TargetSelectFunc, _RemoveDataFunc) \
+	VS_ADD_OR_REMOVE_ROUTINE_DATA_FROM_ACTION(_TargetSelectFunc, _RemoveDataFunc, undo) \
 };
 
 //创建标准子对象删除方法定义
@@ -177,11 +183,11 @@ bool _ActionName::undo() \
 #define VS_CREATE_REMOVE_ROUTINE_DATA_ACTION_DEFINEITION(_ActionName, _TargetSelectFunc, _AddDataFunc, _RemoveDataFunc) \
 bool _ActionName::perform() \
 { \
-	VS_ADD_OR_REMOVE_ROUTINE_DATA_FROM_ACTION(_TargetSelectFunc, _RemoveDataFunc) \
+	VS_ADD_OR_REMOVE_ROUTINE_DATA_FROM_ACTION(_TargetSelectFunc, _RemoveDataFunc, perform) \
 }; \
 bool _ActionName::undo() \
 { \
-	VS_ADD_OR_REMOVE_ROUTINE_DATA_FROM_ACTION(_TargetSelectFunc, _AddDataFunc) \
+	VS_ADD_OR_REMOVE_ROUTINE_DATA_FROM_ACTION(_TargetSelectFunc, _AddDataFunc, undo) \
 };
 
 //创建标准单一子对象添加方法定义
@@ -192,11 +198,11 @@ bool _ActionName::undo() \
 #define VS_CREATE_ADD_ROUTINE_SINGLE_DATA_ACTION_DEFINEITION(_ActionName, _TargetSelectFunc, _AddDataFunc, _RemoveDataFunc) \
 bool _ActionName::perform() \
 { \
-	VS_ADD_OR_REMOVE_ROUTINE_SINGLE_DATA_FROM_ACTION(_TargetSelectFunc, _AddDataFunc) \
+	VS_ADD_OR_REMOVE_ROUTINE_SINGLE_DATA_FROM_ACTION(_TargetSelectFunc, _AddDataFunc, perform) \
 }; \
 bool _ActionName::undo() \
 { \
-	VS_ADD_OR_REMOVE_ROUTINE_SINGLE_DATA_FROM_ACTION(_TargetSelectFunc, _RemoveDataFunc) \
+	VS_ADD_OR_REMOVE_ROUTINE_SINGLE_DATA_FROM_ACTION(_TargetSelectFunc, _RemoveDataFunc, undo) \
 };
 
 //创建标准单一子对象删除方法定义
@@ -207,11 +213,11 @@ bool _ActionName::undo() \
 #define VS_CREATE_REMOVE_ROUTINE_SINGLE_DATA_ACTION_DEFINEITION(_ActionName, _TargetSelectFunc, _AddDataFunc, _RemoveDataFunc) \
 bool _ActionName::perform() \
 { \
-	VS_ADD_OR_REMOVE_ROUTINE_SINGLE_DATA_FROM_ACTION(_TargetSelectFunc, _RemoveDataFunc) \
+	VS_ADD_OR_REMOVE_ROUTINE_SINGLE_DATA_FROM_ACTION(_TargetSelectFunc, _RemoveDataFunc, perform) \
 }; \
 bool _ActionName::undo() \
 { \
-	VS_ADD_OR_REMOVE_ROUTINE_SINGLE_DATA_FROM_ACTION(_TargetSelectFunc, _AddDataFunc) \
+	VS_ADD_OR_REMOVE_ROUTINE_SINGLE_DATA_FROM_ACTION(_TargetSelectFunc, _AddDataFunc, undo) \
 };
 
 //创建标准属性值交换方法
@@ -388,12 +394,36 @@ namespace vocalshaper {
 			VS_CREATE_ACTION_DATA_TYPE(LabelTypeData, vocalshaper::Label::LabelType, vocalshaper::Label::LabelType::Lua);
 			VS_CREATE_ACTION_DATA_TYPE(ScriptTypeData, vocalshaper::Script::ScriptType, vocalshaper::Script::ScriptType::Lua);
 
+			enum class UndoType
+			{
+				Perform,
+				Undo
+			};
+			using RuleFunc = std::function<void(const ActionBase&, UndoType)>;
+			using CallBackFunc = std::function<void(const ActionBase&, UndoType)>;
 		public:
 			int getType() const { return this->type; };
+			int getBaseType() const { return (this->type >> VS_ACTION_TYPE_CODE_BIT_MOVE); };
+			int getActionType() const { return ((this->type << VS_ACTION_TYPE_CODE_BIT_MOVE) >> VS_ACTION_TYPE_CODE_BIT_MOVE); };
 			Target* getTarget() const { return this->ptrTarget.get(); };
 			Data* getData() const { return this->ptrData.get(); };
 			ProjectProxy* getProxy() const { return this->proxy; };
 
+			void addRule(const RuleFunc& rule)
+			{ 
+				juce::ScopedWriteLock locker(this->ruleLock);
+				this->rules.add(rule); 
+			};
+			void addCallBack(const CallBackFunc& callBack)
+			{
+				juce::ScopedWriteLock locker(this->callBackLock);
+				this->callBacks.add(callBack);
+			};
+
+			void run()
+			{
+				this->perform();
+			};
 		protected:
 			//type:操作对象类型
 			//target:操作目标位置
@@ -403,8 +433,47 @@ namespace vocalshaper {
 				:type(type), ptrTarget(target), ptrData(data), proxy(proxy) {};
 
 			//执行更改与撤销更改
-			virtual bool perform() override = 0;
-			virtual bool undo() override = 0;
+			virtual bool perform() override
+			{
+				//执行规则
+				{
+					juce::ScopedReadLock locker(this->ruleLock);
+					for (auto& f : this->rules) {
+						f(*this, UndoType::Perform);
+					}
+				}
+				
+				//调用回调
+				{
+					juce::ScopedReadLock locker(this->callBackLock);
+					for (auto& f : this->callBacks) {
+						f(*this, UndoType::Perform);
+					}
+				}
+
+				return true;
+			};
+
+			virtual bool undo() override
+			{
+				//执行规则
+				{
+					juce::ScopedReadLock locker(this->ruleLock);
+					for (auto& f : this->rules) {
+						f(*this, UndoType::Undo);
+					}
+				}
+
+				//调用回调
+				{
+					juce::ScopedReadLock locker(this->callBackLock);
+					for (auto& f : this->callBacks) {
+						f(*this, UndoType::Undo);
+					}
+				}
+
+				return true;
+			};
 
 			//数据占内存空间大小的权重
 			virtual int getSizeInUnits() override { return 10; };
@@ -414,10 +483,13 @@ namespace vocalshaper {
 
 		private:
 			//type规则：前两字节对象类型代码，后两字节操作代码
-			int type = 0x0 | (Type::Empty << 4);			//修改目标的类型
+			int type = 0x0 | (Type::Empty << VS_ACTION_TYPE_CODE_BIT_MOVE);	//修改目标的类型
 			std::unique_ptr<Target> ptrTarget = nullptr;	//目标位置
 			std::unique_ptr<Data> ptrData = nullptr;		//数据储存
 			vocalshaper::ProjectProxy* proxy = nullptr;		//目标项目
+			juce::Array<RuleFunc> rules;					//处理规则
+			juce::Array<CallBackFunc> callBacks;			//回调函数
+			juce::ReadWriteLock ruleLock, callBackLock;		//读写锁
 
 			JUCE_LEAK_DETECTOR(ActionBase)
 		};

@@ -3,7 +3,6 @@
 
 #include <JuceHeader.h>
 #include "datas/Project.h"
-#include "events/Events.h"
 #include "tempo/LabelTemp.h"
 #include "tempo/TempoTemp.h"
 #include "ProjectMeta.h"
