@@ -409,6 +409,10 @@ namespace vocalshaper {
 			Data* getData() const { return this->ptrData.get(); };
 			ProjectProxy* getProxy() const { return this->proxy; };
 
+			//关于规则和回调的区别
+			//规则会先于回调执行
+			//故建议利用规则更新数据缓存，利用回调更新界面
+
 			void addRule(const RuleFunc& rule)
 			{ 
 				juce::ScopedWriteLock locker(this->ruleLock);

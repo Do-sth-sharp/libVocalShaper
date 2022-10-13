@@ -28,6 +28,21 @@ namespace vocalshaper {
 		}
 	}
 
+	void EventProcesser::processEvents(juce::OwnedArray<actions::ActionBase> events)
+	{
+		//事件入队列
+		{
+			juce::GenericScopedLock<juce::CriticalSection> locker(this->queueLock);
+			while (events.size() > 0) {
+				this->eventList.push(std::unique_ptr<actions::ActionBase>(events.removeAndReturn(0)));
+			}
+		}
+
+		if (!this->isThreadRunning()) {
+			this->startThread();
+		}
+	}
+
 	void EventProcesser::addEventHandles(const juce::Array<EventHandleFunc> list)
 	{
 		juce::ScopedWriteLock locker(this->handleLock);
