@@ -2,6 +2,7 @@
 #include "../Macros.h"
 
 #include <JuceHeader.h>
+#include "../projects/datas/Utils.h"
 
 namespace vocalshaper {
 	class VSAPI ProjectProxy;
@@ -22,6 +23,14 @@ namespace vocalshaper {
 		virtual void setToolID(uint8_t toolID);
 		//当切换当前轨道时调用
 		virtual void trackChanged(int trackID);
+		//切换水平浏览范围时调用
+		virtual void setHorizontalViewPort(ProjectTime startTime, ProjectTime endTime);
+		//切换垂直浏览范围时调用
+		virtual void setVerticalViewPort(double bottomPitch, double topPitch);
+		//更改总长度时调用
+		virtual void setTotalLength(ProjectTime totalLength);
+		//更改当前播放位置时调用
+		virtual void setCurrentPosition(ProjectTime currentTime);
 
 		//判断当前编辑器是否具有可编辑的焦点
 		//可编辑焦点指：

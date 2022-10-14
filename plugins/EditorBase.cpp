@@ -23,6 +23,26 @@ namespace vocalshaper {
 	{
 	}
 
+	void EditorBase::setHorizontalViewPort(ProjectTime startTime, ProjectTime endTime)
+	{
+
+	}
+
+	void EditorBase::setVerticalViewPort(double bottomPitch, double topPitch)
+	{
+
+	}
+
+	void EditorBase::setTotalLength(ProjectTime totalLength)
+	{
+
+	}
+
+	void EditorBase::setCurrentPosition(ProjectTime currentTime)
+	{
+
+	}
+
 	bool EditorBase::isActive()
 	{
 		return this->isVisible() && this->hasKeyboardFocus(true);
