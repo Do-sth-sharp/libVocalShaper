@@ -7,7 +7,7 @@ namespace vocalshaper {
 	{
 	}
 
-	void EditorBase::projectChanged(const vocalshaper::ProjectProxy* ptr)
+	void EditorBase::projectChanged(const ProjectProxy* ptr)
 	{
 	}
 
@@ -48,14 +48,14 @@ namespace vocalshaper {
 		return this->isVisible() && this->hasKeyboardFocus(true);
 	}
 
-	juce::OwnedArray<vocalshaper::SerializableProjectStructure> EditorBase::getCopy()
+	juce::OwnedArray<SerializableProjectStructure> EditorBase::getCopy()
 	{
-		return juce::OwnedArray<vocalshaper::SerializableProjectStructure>();
+		return juce::OwnedArray<SerializableProjectStructure>();
 	}
 
-	juce::OwnedArray<vocalshaper::SerializableProjectStructure> EditorBase::getCut()
+	juce::OwnedArray<SerializableProjectStructure> EditorBase::getCut()
 	{
-		return juce::OwnedArray<vocalshaper::SerializableProjectStructure>();
+		return juce::OwnedArray<SerializableProjectStructure>();
 	}
 
 	bool EditorBase::wannaDelete()
@@ -73,7 +73,7 @@ namespace vocalshaper {
 		return false;
 	}
 
-	bool EditorBase::wannaPaste(juce::OwnedArray<vocalshaper::SerializableProjectStructure> list)
+	bool EditorBase::wannaPaste(juce::OwnedArray<SerializableProjectStructure> list)
 	{
 		return false;
 	}
@@ -86,5 +86,55 @@ namespace vocalshaper {
 	int EditorBase::showClipBoard(const juce::StringArray& list)
 	{
 		return -1;
+	}
+
+	void EditorBase::setMethods(
+		const std::function<void(int)>& setCurrentTrackFunc,
+		const std::function<void(void)>& refreshTotalTimeFunc,
+		const std::function<void(ProjectTime)>& setCurrentPositionFunc,
+		const std::function<void(ProjectTime, ProjectTime)>& setHorizontalViewPortFunc,
+		const std::function<void(double, double)>& setVerticalViewPortFunc
+	)
+	{
+		this->setCurrentTrackFunc = setCurrentTrackFunc;
+		this->refreshTotalTimeFunc = refreshTotalTimeFunc;
+		this->setCurrentPositionFunc = setCurrentPositionFunc;
+		this->setHorizontalViewPortFunc = setHorizontalViewPortFunc;
+		this->setVerticalViewPortFunc = setVerticalViewPortFunc;
+	}
+
+	void EditorBase::setCurrentTrackMethod(int trackID) const
+	{
+		if (this->setCurrentTrackFunc) {
+			this->setCurrentTrackFunc(trackID);
+		}
+	}
+
+	void EditorBase::refreshTotalTimeMethod() const
+	{
+		if (this->refreshTotalTimeFunc) {
+			this->refreshTotalTimeFunc();
+		}
+	}
+
+	void EditorBase::setCurrentPositionMethod(ProjectTime currentTime) const
+	{
+		if (this->setCurrentPositionFunc) {
+			this->setCurrentPositionFunc(currentTime);
+		}
+	}
+
+	void EditorBase::setHorizontalViewPortMethod(ProjectTime startTime, ProjectTime endTime) const
+	{
+		if (this->setHorizontalViewPortFunc) {
+			this->setHorizontalViewPortFunc(startTime, endTime);
+		}
+	}
+
+	void EditorBase::setVerticalViewPortMethod(double bottomPitch, double topPitch) const
+	{
+		if (this->setVerticalViewPortFunc) {
+			this->setVerticalViewPortFunc(bottomPitch, topPitch);
+		}
 	}
 }
