@@ -26,6 +26,46 @@ namespace vocalshaper {
 			});
 	}
 
+	void ProjectProxy::addSaveCallbacks(const juce::Array<ProjectProxy::SaveCallbackFunc> list)
+	{
+		juce::ScopedWriteLock locker(this->callbackLock);
+		this->saveCallbackList.addArray(list);
+	}
+
+	void ProjectProxy::clearSaveCallbacks()
+	{
+		juce::ScopedWriteLock locker(this->callbackLock);
+		this->saveCallbackList.clear();
+	}
+
+	void ProjectProxy::addCloseCallbacks(const juce::Array<ProjectProxy::CloseCallbackFunc> list)
+	{
+		juce::ScopedWriteLock locker(this->callbackLock);
+		this->closeCallbackList.addArray(list);
+	}
+
+	void ProjectProxy::clearCloseCallbacks()
+	{
+		juce::ScopedWriteLock locker(this->callbackLock);
+		this->closeCallbackList.clear();
+	}
+
+	void ProjectProxy::noticeSave()
+	{
+		juce::ScopedReadLock locker(this->callbackLock);
+		for (auto& f : this->saveCallbackList) {
+			f(this);
+		}
+	}
+
+	void ProjectProxy::noticeClose()
+	{
+		juce::ScopedReadLock locker(this->callbackLock);
+		for (auto& f : this->closeCallbackList) {
+			f(this);
+		}
+	}
+
 	const juce::String& ProjectProxy::getName() const
 	{
 		return this->name;

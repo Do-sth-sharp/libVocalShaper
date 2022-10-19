@@ -33,6 +33,16 @@ namespace vocalshaper {
 
 	}
 
+	void EditorBase::setHViewPort(ProjectTime startTime, ProjectTime endTime)
+	{
+
+	}
+
+	void EditorBase::setVViewPort(double bottomPer, double topPer)
+	{
+
+	}
+
 	void EditorBase::setTotalLength(ProjectTime totalLength)
 	{
 
@@ -113,6 +123,15 @@ namespace vocalshaper {
 		this->setVerticalViewPortFunc = setVerticalViewPortFunc;
 	}
 
+	void EditorBase::setTrackViewMethods(
+		std::function<void(ProjectTime, ProjectTime)> setHViewPortFunc,
+		std::function<void(double, double)> setVViewPortFunc
+	)
+	{
+		this->setHViewPortFunc = setHViewPortFunc;
+		this->setVViewPortFunc = setVViewPortFunc;
+	}
+
 	void EditorBase::setCurrentTrackMethod(int trackID) const
 	{
 		if (this->setCurrentTrackFunc) {
@@ -145,6 +164,20 @@ namespace vocalshaper {
 	{
 		if (this->setVerticalViewPortFunc) {
 			this->setVerticalViewPortFunc(bottomPitch, topPitch);
+		}
+	}
+
+	void EditorBase::setHViewPortMethod(ProjectTime startTime, ProjectTime endTime) const
+	{
+		if (this->setHViewPortFunc) {
+			this->setHViewPortFunc(startTime, endTime);
+		}
+	}
+
+	void EditorBase::setVViewPortMethod(double bottomPer, double topPer) const
+	{
+		if (this->setVViewPortFunc) {
+			this->setVViewPortFunc(bottomPer, topPer);
 		}
 	}
 }

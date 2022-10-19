@@ -24,10 +24,14 @@ namespace vocalshaper {
 		virtual void setToolID(uint8_t toolID);
 		//当切换当前轨道时被调用
 		virtual void trackChanged(int trackID);
-		//切换水平浏览范围时被调用
+		//切换水平浏览范围时被调用（针对混合编辑器）
 		virtual void setHorizontalViewPort(ProjectTime startTime, ProjectTime endTime);
-		//切换垂直浏览范围时被调用
+		//切换垂直浏览范围时被调用（针对混合编辑器）
 		virtual void setVerticalViewPort(double bottomPitch, double topPitch);
+		//切换水平浏览范围时被调用（针对轨道面板）
+		virtual void setHViewPort(ProjectTime startTime, ProjectTime endTime);
+		//切换垂直浏览范围时被调用（针对轨道面板）
+		virtual void setVViewPort(double bottomPer, double topPer);
 		//更改总长度时被调用
 		virtual void setTotalLength(ProjectTime totalLength);
 		//更改当前播放位置时被调用
@@ -67,6 +71,10 @@ namespace vocalshaper {
 			const std::function<void(ProjectTime, ProjectTime)>& setHorizontalViewPortFunc,
 			const std::function<void(double, double)>& setVerticalViewPortFunc
 		);
+		virtual void setTrackViewMethods(
+			std::function<void(ProjectTime, ProjectTime)> setHViewPortFunc,
+			std::function<void(double, double)> setVViewPortFunc
+		);
 
 	protected:
 		//调用此方法更改当前轨道
@@ -75,10 +83,14 @@ namespace vocalshaper {
 		void refreshTotalTimeMethod() const;
 		//调用此方法设置当前播放位置
 		void setCurrentPositionMethod(ProjectTime currentTime) const;
-		//调用此方法设置水平浏览范围
+		//调用此方法设置水平浏览范围（针对混合编辑器）
 		void setHorizontalViewPortMethod(ProjectTime startTime, ProjectTime endTime) const;
-		//调用此方法设置钢琴窗垂直浏览范围
+		//调用此方法设置钢琴窗垂直浏览范围（针对混合编辑器）
 		void setVerticalViewPortMethod(double bottomPitch, double topPitch) const;
+		//调用此方法设置水平浏览范围（针对轨道面板）
+		void setHViewPortMethod(ProjectTime startTime, ProjectTime endTime) const;
+		//调用此方法设置钢琴窗垂直浏览范围（针对轨道面板）
+		void setVViewPortMethod(double bottomPer, double topPer) const;
 
 	private:
 		//调用此方法更改当前轨道
@@ -87,10 +99,14 @@ namespace vocalshaper {
 		std::function<void(void)> refreshTotalTimeFunc;
 		//调用此方法设置当前播放位置
 		std::function<void(ProjectTime)> setCurrentPositionFunc;
-		//调用此方法设置水平浏览范围
+		//调用此方法设置水平浏览范围（针对混合编辑器）
 		std::function<void(ProjectTime, ProjectTime)> setHorizontalViewPortFunc;
-		//调用此方法设置钢琴窗垂直浏览范围
+		//调用此方法设置水平浏览范围（针对轨道面板）
+		std::function<void(ProjectTime, ProjectTime)> setHViewPortFunc;
+		//调用此方法设置钢琴窗垂直浏览范围（针对混合编辑器）
 		std::function<void(double, double)> setVerticalViewPortFunc;
+		//调用此方法设置钢琴窗垂直浏览范围（针对轨道面板）
+		std::function<void(double, double)> setVViewPortFunc;
 
 	private:
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(EditorBase)
