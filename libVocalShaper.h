@@ -12,6 +12,7 @@
 #include "files/vsp3/vsp3.h"
 
 #include "plugins/EditorBase.h"
+#include "plugins/Utils.h"
 
 #include "utils/IniParser.h"
 

@@ -3,6 +3,7 @@
 
 #include <JuceHeader.h>
 #include "../projects/datas/Utils.h"
+#include "Utils.h"
 
 namespace vocalshaper {
 	class VSAPI ProjectProxy;
@@ -31,6 +32,10 @@ namespace vocalshaper {
 		virtual void setTotalLength(ProjectTime totalLength);
 		//更改当前播放位置时被调用
 		virtual void setCurrentPosition(ProjectTime currentTime);
+		//更改吸附时被调用
+		virtual void setAdsorb(AdsorbState state);
+		//更改网格时被调用
+		virtual void setGrid(GridState state);
 
 		//判断当前编辑器是否具有可编辑的焦点
 		//可编辑焦点指：

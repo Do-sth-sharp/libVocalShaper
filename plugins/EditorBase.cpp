@@ -43,6 +43,16 @@ namespace vocalshaper {
 
 	}
 
+	void EditorBase::setAdsorb(AdsorbState state)
+	{
+
+	}
+
+	void EditorBase::setGrid(GridState state)
+	{
+
+	}
+
 	bool EditorBase::isActive()
 	{
 		return this->isVisible() && this->hasKeyboardFocus(true);
