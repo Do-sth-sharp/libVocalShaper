@@ -11,6 +11,7 @@ namespace vocalshaper {
 		this->eventProcesser = std::make_unique<EventProcesser>();
 		this->labelTemp = std::make_unique<LabelTemp>(this);
 		this->tempoTemp = std::make_unique<TempoTemp>(this->labelTemp.get());
+		this->beatTemp = std::make_unique<BeatTemp>(this->labelTemp.get());
 
 		//添加规则
 		this->eventProcesser->addEventRules({
@@ -116,5 +117,6 @@ namespace vocalshaper {
 	{
 		this->labelTemp->refresh();
 		this->tempoTemp->refresh();
+		this->beatTemp->refresh();
 	}
 }

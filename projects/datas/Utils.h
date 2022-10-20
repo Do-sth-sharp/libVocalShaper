@@ -9,6 +9,7 @@ namespace vocalshaper {
 	ProjectTime VSAPI make_time(uint32_t beatPos, uint32_t deviation);
 
 	double VSAPI timeToDouble(ProjectTime time, uint32_t curveQuantification);
+	uint64_t VSAPI timeToU64(ProjectTime time, uint32_t curveQuantification);
 	ProjectTime VSAPI timeFine(ProjectTime time, uint32_t curveQuantification);
 
 	ProjectTime VSAPI getTail(ProjectTime time, uint32_t length, uint32_t curveQuantification);
@@ -23,6 +24,10 @@ namespace vocalshaper {
 	ProjectTime VSAPI max(ProjectTime t1, ProjectTime t2, uint32_t curveQuantification);
 	ProjectTime VSAPI min(ProjectTime t1, ProjectTime t2, uint32_t curveQuantification);
 
+	ProjectTime VSAPI round(ProjectTime t, uint32_t curveQuantification);
+	ProjectTime VSAPI floor(ProjectTime t, uint32_t curveQuantification);
+	ProjectTime VSAPI ceil(ProjectTime t, uint32_t curveQuantification);
+
 	//以下实现内联函数
 
 	inline ProjectTime make_time(uint32_t beatPos, uint32_t deviation)
@@ -33,6 +38,11 @@ namespace vocalshaper {
 	inline double timeToDouble(ProjectTime time, uint32_t curveQuantification)
 	{
 		return time.first + ((double)time.second / curveQuantification);
+	}
+
+	inline uint64_t timeToU64(ProjectTime time, uint32_t curveQuantification)
+	{
+		return time.first * static_cast<uint64_t>(curveQuantification) + time.second;
 	}
 
 	inline ProjectTime timeFine(ProjectTime time, uint32_t curveQuantification)
@@ -91,5 +101,27 @@ namespace vocalshaper {
 	inline ProjectTime min(ProjectTime t1, ProjectTime t2, uint32_t curveQuantification)
 	{
 		return timeLSS(t1, t2, curveQuantification) ? t1 : t2;
+	}
+
+	inline ProjectTime round(ProjectTime t, uint32_t curveQuantification)
+	{
+		t = timeFine(t, curveQuantification);
+		if (t.second >= curveQuantification / 2) { t.first++;}
+		t.second = 0;
+		return t;
+	}
+
+	inline ProjectTime floor(ProjectTime t, uint32_t curveQuantification)
+	{
+		t = timeFine(t, curveQuantification);
+		t.second = 0;
+		return t;
+	}
+
+	inline ProjectTime ceil(ProjectTime t, uint32_t curveQuantification)
+	{
+		t = timeFine(t, curveQuantification);
+		if (t.second > 0) { t.first++; t.second = 0; }
+		return t;
 	}
 }

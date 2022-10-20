@@ -40,6 +40,17 @@ namespace vocalshaper {
 
 		LabelTemp* labels = nullptr;
 
+		//使用后向缓存加速遍历
+		mutable int lastIndex = 0;
+
+		enum class CompareResult {
+			EQ,
+			GTR,
+			LSS
+		};
+		template<typename Func, typename T>
+		int search(int low, int high, T value, Func func) const;
+
 	public:
 		inline static double typeA_t(double x, double xs, double Ts, double ts);
 		inline static double typeA_x(double t, double ts, double Ts, double xs);

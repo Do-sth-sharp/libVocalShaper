@@ -10,6 +10,7 @@ extern "C" {
 namespace vocalshaper {
 	class VSAPI ProjectProxy;
 	class VSAPI Label;
+
 	class VSAPI LabelTemp final
 	{
 	public:
@@ -28,6 +29,7 @@ namespace vocalshaper {
 
 	private:
 		friend class TempoTemp;
+		friend class BeatTemp;
 
 		std::unique_ptr<lua_State, std::function<void(lua_State*)>> luaState;
 		juce::Array<LabelData> list;

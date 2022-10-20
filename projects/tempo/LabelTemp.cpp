@@ -61,8 +61,16 @@ namespace vocalshaper {
 			{
 				LabelData label;
 				if (this->parseLabel(ptrLabel, label, curveQuantification, tempoTemp, beatTemp)) {
+					//合法检查
+					if (label.beat <= 0 || label.beat > 20) { beatTemp = label.beat = 4; }
+					if (label.tempo <= 0. || label.tempo > 500.) { tempoTemp = label.tempo = 120.; }
+
+					//防重叠写入
 					if (label.x > this->list.getLast().x) {
 						this->list.add(label);
+					}
+					else if (label.x == this->list.getLast().x) {
+						this->list.getReference(this->list.size() - 1) = label;
 					}
 				}
 			}

@@ -5,6 +5,7 @@
 #include "datas/Project.h"
 #include "tempo/LabelTemp.h"
 #include "tempo/TempoTemp.h"
+#include "tempo/BeatTemp.h"
 #include "ProjectMeta.h"
 #include "EventProcesser.h"
 
@@ -68,6 +69,7 @@ namespace vocalshaper {
 		std::unique_ptr<EventProcesser> eventProcesser;	//工程事件处理器
 		std::unique_ptr<LabelTemp> labelTemp;			//标签缓存
 		std::unique_ptr<TempoTemp> tempoTemp;			//曲速缓存
+		std::unique_ptr<BeatTemp> beatTemp;				//节拍缓存
 		
 		juce::ReadWriteLock lock;
 		juce::ReadWriteLock callbackLock;				//回调列表锁

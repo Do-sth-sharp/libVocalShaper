@@ -6,7 +6,9 @@
 namespace vocalshaper {
 	TempoTemp::TempoTemp(LabelTemp* labels)
 		:labels(labels)
-	{};
+	{
+		this->list.add(TempoData());
+	};
 
 	void TempoTemp::refresh()
 	{
@@ -19,6 +21,7 @@ namespace vocalshaper {
 
 		//清空缓存
 		this->list.clear();
+		this->lastIndex = 0;
 
 		//上一标签状态缓存
 		double temp_te = 0.;
@@ -162,26 +165,111 @@ namespace vocalshaper {
 	{
 		juce::ScopedReadLock locker(this->lock);
 
-		for (int i = 0; i < this->list.size(); i++) {
-			auto& current = this->list.getReference(i);
-			if (x >= current.xs && x < current.xe) {
-				return i;
+		//取出缓存的块
+		auto& tempBlock = this->list.getReference(this->lastIndex);
+
+		//如果时间在当前与下一块之间，缓存命中
+		if ((x >= tempBlock.xs) && (x < tempBlock.xe)) {
+			return this->lastIndex;
+		}
+
+		//缓存命中下一块
+		if (this->lastIndex < this->list.size() - 1) {
+			auto& nextBlock = this->list.getReference(this->lastIndex + 1);
+			if ((x >= nextBlock.xs) && (x < nextBlock.xe)) {
+				return ++(this->lastIndex);
 			}
 		}
-		return this->list.size() - 1;
+
+		//查找比较函数
+		auto CFunc = [](double x, const TempoData& curr)->CompareResult {
+			if (x >= curr.xs && x < curr.xe) {
+				return CompareResult::EQ;
+			}
+			else if (x >= curr.xe) {
+				return CompareResult::GTR;
+			}
+			else {
+				return CompareResult::LSS;
+			}
+		};
+
+		//缓存未命中，判断缓存在当前之前还是之后
+		if (x < tempBlock.xs) {
+			//之前
+
+			//二分查找
+			return this->lastIndex = this->search(0, this->lastIndex, x, CFunc);
+		}
+		else {
+			//之后
+
+			//二分查找
+			return this->lastIndex = this->search(this->lastIndex, this->list.size() - 1, x, CFunc);
+		}
 	}
 
 	int TempoTemp::selectLabelBy_t(double t) const
 	{
 		juce::ScopedReadLock locker(this->lock);
 
-		for (int i = 0; i < this->list.size(); i++) {
-			auto& current = this->list.getReference(i);
-			if (t >= current.ts && t < current.te) {
-				return i;
+		//取出缓存的块
+		auto& tempBlock = this->list.getReference(this->lastIndex);
+
+		//如果时间在当前与下一块之间，缓存命中
+		if ((t >= tempBlock.ts) && (t < tempBlock.te)) {
+			return this->lastIndex;
+		}
+
+		//缓存命中下一块
+		if (this->lastIndex < this->list.size() - 1) {
+			auto& nextBlock = this->list.getReference(this->lastIndex + 1);
+			if ((t >= nextBlock.ts) && (t < nextBlock.te)) {
+				return ++(this->lastIndex);
 			}
 		}
-		return this->list.size() - 1;
+
+		//查找比较函数
+		auto CFunc = [](double t, const TempoData& curr)->CompareResult {
+			if (t >= curr.ts && t < curr.te) {
+				return CompareResult::EQ;
+			}
+			else if (t >= curr.te) {
+				return CompareResult::GTR;
+			}
+			else {
+				return CompareResult::LSS;
+			}
+		};
+
+		//缓存未命中，判断缓存在当前之前还是之后
+		if (t < tempBlock.ts) {
+			//之前
+
+			//二分查找
+			return this->lastIndex = this->search(0, this->lastIndex, t, CFunc);
+		}
+		else {
+			//之后
+
+			//二分查找
+			return this->lastIndex = this->search(this->lastIndex, this->list.size() - 1, t, CFunc);
+		}
+	}
+
+	template<typename Func, typename T>
+	int TempoTemp::search(int low, int high, T value, Func func) const
+	{
+		int mid = (low + high) / 2;
+		if (func(value, this->list.getReference(mid)) == CompareResult::EQ) {
+			return mid;
+		}
+		else if (func(value, this->list.getReference(mid)) == CompareResult::GTR) {
+			return this->search(mid, high, value, func);
+		}
+		else {
+			return this->search(low, mid, value, func);
+		}
 	}
 
 	//关于x-t映射函数的数学推导详见文档
