@@ -102,6 +102,11 @@ namespace vocalshaper {
 		return this->tempoTemp.get();
 	}
 
+	const BeatTemp* ProjectProxy::getBeat()
+	{
+		return this->beatTemp.get();
+	}
+
 	const juce::ReadWriteLock& ProjectProxy::getLock() const
 	{
 		return this->lock;

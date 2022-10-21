@@ -48,6 +48,7 @@ namespace vocalshaper {
 		ProjectMeta* getMeta();
 		EventProcesser* getProcesser();
 		const TempoTemp* getTempo();
+		const BeatTemp* getBeat();
 
 		const juce::ReadWriteLock& getLock() const;
 

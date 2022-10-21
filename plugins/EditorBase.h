@@ -36,6 +36,10 @@ namespace vocalshaper {
 		virtual void setTotalLength(ProjectTime totalLength);
 		//更改当前播放位置时被调用
 		virtual void setCurrentPosition(ProjectTime currentTime);
+		//更改播放跟随状态时被调用
+		virtual void setFollowState(bool follow);
+		//更改播放循环范围时被调用
+		virtual void setLoopRange(ProjectTime startTime, ProjectTime endTime);
 		//更改吸附时被调用
 		virtual void setAdsorb(AdsorbState state);
 		//更改网格时被调用
@@ -68,6 +72,7 @@ namespace vocalshaper {
 			const std::function<void(int)>& setCurrentTrackFunc,
 			const std::function<void(void)>& refreshTotalTimeFunc,
 			const std::function<void(ProjectTime)>& setCurrentPositionFunc,
+			const std::function<void(ProjectTime, ProjectTime)>& setLoopRangeFunc,
 			const std::function<void(ProjectTime, ProjectTime)>& setHorizontalViewPortFunc,
 			const std::function<void(double, double)>& setVerticalViewPortFunc
 		);
@@ -77,19 +82,21 @@ namespace vocalshaper {
 		);
 
 	protected:
-		//调用此方法更改当前轨道
+		//调用此方法申请更改当前轨道
 		void setCurrentTrackMethod(int trackID) const;
-		//调用此方法刷新轨道总时长显示范围
+		//调用此方法申请刷新轨道总时长显示范围
 		void refreshTotalTimeMethod() const;
-		//调用此方法设置当前播放位置
+		//调用此方法申请设置当前播放位置
 		void setCurrentPositionMethod(ProjectTime currentTime) const;
-		//调用此方法设置水平浏览范围（针对混合编辑器）
+		//调用此方法申请设置循环范围
+		void setLoopRangeMethod(ProjectTime startTime, ProjectTime endTime) const;
+		//调用此方法申请设置水平浏览范围（针对混合编辑器）
 		void setHorizontalViewPortMethod(ProjectTime startTime, ProjectTime endTime) const;
-		//调用此方法设置钢琴窗垂直浏览范围（针对混合编辑器）
+		//调用此方法申请设置垂直浏览范围（针对混合编辑器）
 		void setVerticalViewPortMethod(double bottomPitch, double topPitch) const;
-		//调用此方法设置水平浏览范围（针对轨道面板）
+		//调用此方法申请设置水平浏览范围（针对轨道面板）
 		void setHViewPortMethod(ProjectTime startTime, ProjectTime endTime) const;
-		//调用此方法设置钢琴窗垂直浏览范围（针对轨道面板）
+		//调用此方法申请设置垂直浏览范围（针对轨道面板）
 		void setVViewPortMethod(double bottomPer, double topPer) const;
 
 	private:
@@ -99,13 +106,15 @@ namespace vocalshaper {
 		std::function<void(void)> refreshTotalTimeFunc;
 		//调用此方法设置当前播放位置
 		std::function<void(ProjectTime)> setCurrentPositionFunc;
+		//调用此方法设置循环范围
+		std::function<void(ProjectTime, ProjectTime)> setLoopRangeFunc;
 		//调用此方法设置水平浏览范围（针对混合编辑器）
 		std::function<void(ProjectTime, ProjectTime)> setHorizontalViewPortFunc;
 		//调用此方法设置水平浏览范围（针对轨道面板）
 		std::function<void(ProjectTime, ProjectTime)> setHViewPortFunc;
-		//调用此方法设置钢琴窗垂直浏览范围（针对混合编辑器）
+		//调用此方法设置垂直浏览范围（针对混合编辑器）
 		std::function<void(double, double)> setVerticalViewPortFunc;
-		//调用此方法设置钢琴窗垂直浏览范围（针对轨道面板）
+		//调用此方法设置垂直浏览范围（针对轨道面板）
 		std::function<void(double, double)> setVViewPortFunc;
 
 	private:

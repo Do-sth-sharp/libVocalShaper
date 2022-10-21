@@ -53,6 +53,16 @@ namespace vocalshaper {
 
 	}
 
+	void EditorBase::setFollowState(bool follow)
+	{
+
+	}
+
+	void EditorBase::setLoopRange(ProjectTime startTime, ProjectTime endTime)
+	{
+
+	}
+
 	void EditorBase::setAdsorb(AdsorbState state)
 	{
 
@@ -112,6 +122,7 @@ namespace vocalshaper {
 		const std::function<void(int)>& setCurrentTrackFunc,
 		const std::function<void(void)>& refreshTotalTimeFunc,
 		const std::function<void(ProjectTime)>& setCurrentPositionFunc,
+		const std::function<void(ProjectTime, ProjectTime)>& setLoopRangeFunc,
 		const std::function<void(ProjectTime, ProjectTime)>& setHorizontalViewPortFunc,
 		const std::function<void(double, double)>& setVerticalViewPortFunc
 	)
@@ -119,6 +130,7 @@ namespace vocalshaper {
 		this->setCurrentTrackFunc = setCurrentTrackFunc;
 		this->refreshTotalTimeFunc = refreshTotalTimeFunc;
 		this->setCurrentPositionFunc = setCurrentPositionFunc;
+		this->setLoopRangeFunc = setLoopRangeFunc;
 		this->setHorizontalViewPortFunc = setHorizontalViewPortFunc;
 		this->setVerticalViewPortFunc = setVerticalViewPortFunc;
 	}
@@ -150,6 +162,13 @@ namespace vocalshaper {
 	{
 		if (this->setCurrentPositionFunc) {
 			this->setCurrentPositionFunc(currentTime);
+		}
+	}
+
+	void EditorBase::setLoopRangeMethod(ProjectTime startTime, ProjectTime endTime) const
+	{
+		if (this->setLoopRangeFunc) {
+			this->setLoopRangeFunc(startTime, endTime);
 		}
 	}
 
