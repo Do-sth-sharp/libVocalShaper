@@ -262,7 +262,7 @@ namespace vocalshaper {
 	template<typename Func, typename T>
 	int BeatTemp::search(int low, int high, T value, Func func) const
 	{
-		int mid = (low + high) / 2;
+		int mid = low + (high - low) / 2;
 		if (func(value, this->list.getReference(mid), this->list.getReference(mid + 1)) == CompareResult::EQ) {
 			return mid;
 		}
