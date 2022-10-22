@@ -31,6 +31,7 @@ endif ()
 set (PROTOBUF_DIR ${CMAKE_CURRENT_SOURCE_DIR}/protobuf)
 set (LUA_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lua)
 set (MINI_DIR ${CMAKE_CURRENT_SOURCE_DIR}/mINI)
+set (SIGAR_DIR ${CMAKE_CURRENT_SOURCE_DIR}/sigar)
 
 #使用protobuf库
 set (protobuf_BUILD_SHARED_LIBS ON)
@@ -38,6 +39,9 @@ set (protobuf_BUILD_TESTS OFF)
 set (protobuf_WITH_ZLIB OFF)
 set (CMAKE_POLICY_DEFAULT_CMP0077 NEW)
 add_subdirectory (${PROTOBUF_DIR})
+
+#使用sigar库
+add_subdirectory (${SIGAR_DIR})
 
 #外部库文件搜索目录
 include_directories (${CMAKE_CURRENT_SOURCE_DIR})
@@ -47,6 +51,7 @@ include_directories (${MINI_DIR}/src/mini)
 
 #libVocalShaper库文件搜索目录
 include_directories (${PROTOBUF_DIR}/src)
+include_directories (${SIGAR_DIR}/include)
 
 #设置语言标准
 set(CMAKE_CXX_STANDARD 20)#使用C++20
@@ -174,7 +179,7 @@ add_library (
 #链接库
 target_link_libraries (
 	${TARGET_NAME}
-	JUCE protobuf::libprotobuf
+	JUCE protobuf::libprotobuf sigar
 )
 
 #设置目标位置
@@ -190,8 +195,6 @@ set_target_properties (
 #添加依赖
 add_dependencies (
 	${TARGET_NAME}
-	JUCE
-	protobuf::libprotobuf
 	files_vsp3_proto_generate
 )
 
@@ -199,4 +202,10 @@ add_dependencies (
 add_custom_command (TARGET ${TARGET_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
     $<TARGET_FILE:protobuf::libprotobuf> ${OUT_DIR}
+)
+
+#复制sigar库
+add_custom_command (TARGET ${TARGET_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    $<TARGET_FILE:sigar> ${OUT_DIR}
 )
