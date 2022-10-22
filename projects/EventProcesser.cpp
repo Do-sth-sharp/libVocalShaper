@@ -2,6 +2,7 @@
 
 #include "actions/Actions.h"
 #include "ProjectProxy.h"
+#include "../utils/MemLimit.h"
 
 namespace vocalshaper {
 	EventProcesser::EventProcesser()
@@ -17,6 +18,13 @@ namespace vocalshaper {
 
 	void EventProcesser::processEvent(std::unique_ptr<actions::ActionBase> event)
 	{
+		//触发内存限制，执行被拒绝
+		if (!utils::system::MemLimit::sizeIsNotReachedLimit()) {
+			//TODO 发送通知
+			jassertfalse;
+			return;
+		}
+
 		//事件入队列
 		{
 			juce::GenericScopedLock<juce::CriticalSection> locker(this->queueLock);
@@ -30,6 +38,13 @@ namespace vocalshaper {
 
 	void EventProcesser::processEvents(juce::OwnedArray<actions::ActionBase> events)
 	{
+		//触发内存限制，执行被拒绝
+		if (!utils::system::MemLimit::sizeIsNotReachedLimit()) {
+			//TODO 发送通知
+			jassertfalse;
+			return;
+		}
+
 		//事件入队列
 		{
 			juce::GenericScopedLock<juce::CriticalSection> locker(this->queueLock);
@@ -68,6 +83,13 @@ namespace vocalshaper {
 		while (true) {
 			//判断停止
 			if (this->threadShouldExit()) {
+				return;
+			}
+
+			//触发内存限制，执行被拒绝
+			if (!utils::system::MemLimit::sizeIsNotReachedLimit()) {
+				//TODO 发送通知
+				jassertfalse;
 				return;
 			}
 

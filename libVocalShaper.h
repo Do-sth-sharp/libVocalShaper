@@ -15,5 +15,6 @@
 #include "plugins/Utils.h"
 
 #include "utils/IniParser.h"
+#include "utils/MemLimit.h"
 
 #include "lua/lua.hpp"
