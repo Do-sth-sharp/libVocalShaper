@@ -31,7 +31,7 @@ namespace vocalshaper {
 		//切换水平浏览范围时被调用（针对轨道面板）
 		virtual void setHViewPort(ProjectTime startTime, ProjectTime endTime);
 		//切换垂直浏览范围时被调用（针对轨道面板）
-		virtual void setVViewPort(double bottomPer, double topPer);
+		virtual void setVViewPort(double bottomTrack, double topTrack);
 		//更改总长度时被调用
 		virtual void setTotalLength(ProjectTime totalLength);
 		//更改当前播放位置时被调用
@@ -97,7 +97,7 @@ namespace vocalshaper {
 		//调用此方法申请设置水平浏览范围（针对轨道面板）
 		void setHViewPortMethod(ProjectTime startTime, ProjectTime endTime) const;
 		//调用此方法申请设置垂直浏览范围（针对轨道面板）
-		void setVViewPortMethod(double bottomPer, double topPer) const;
+		void setVViewPortMethod(double bottomTrack, double topTrack) const;
 
 	private:
 		//调用此方法更改当前轨道

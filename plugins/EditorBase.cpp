@@ -38,7 +38,7 @@ namespace vocalshaper {
 
 	}
 
-	void EditorBase::setVViewPort(double bottomPer, double topPer)
+	void EditorBase::setVViewPort(double bottomTrack, double topTrack)
 	{
 
 	}
@@ -193,10 +193,10 @@ namespace vocalshaper {
 		}
 	}
 
-	void EditorBase::setVViewPortMethod(double bottomPer, double topPer) const
+	void EditorBase::setVViewPortMethod(double bottomTrack, double topTrack) const
 	{
 		if (this->setVViewPortFunc) {
-			this->setVViewPortFunc(bottomPer, topPer);
+			this->setVViewPortFunc(bottomTrack, topTrack);
 		}
 	}
 }
