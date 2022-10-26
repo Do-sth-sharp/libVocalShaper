@@ -10,6 +10,8 @@ namespace vocalshaper {
 
 	double VSAPI timeToDouble(ProjectTime time, uint32_t curveQuantification);
 	uint64_t VSAPI timeToU64(ProjectTime time, uint32_t curveQuantification);
+	ProjectTime VSAPI doubleToTime(double time, uint32_t curveQuantification);
+	ProjectTime VSAPI u64ToTime(uint64_t time, uint32_t curveQuantification);
 	ProjectTime VSAPI timeFine(ProjectTime time, uint32_t curveQuantification);
 
 	ProjectTime VSAPI getTail(ProjectTime time, uint32_t length, uint32_t curveQuantification);
@@ -43,6 +45,16 @@ namespace vocalshaper {
 	inline uint64_t timeToU64(ProjectTime time, uint32_t curveQuantification)
 	{
 		return time.first * static_cast<uint64_t>(curveQuantification) + time.second;
+	}
+
+	inline ProjectTime doubleToTime(double time, uint32_t curveQuantification)
+	{
+		return make_time(std::floor(time), (time - std::floor(time)) * curveQuantification);
+	}
+
+	inline ProjectTime u64ToTime(uint64_t time, uint32_t curveQuantification)
+	{
+		return make_time(std::floor(time / (double)curveQuantification), time % curveQuantification);
 	}
 
 	inline ProjectTime timeFine(ProjectTime time, uint32_t curveQuantification)
