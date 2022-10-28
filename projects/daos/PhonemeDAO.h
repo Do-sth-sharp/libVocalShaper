@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "../../Macros.h"
 
 #include <JuceHeader.h>
@@ -11,8 +11,8 @@ namespace vocalshaper {
 		PhonemeDAO() = default;
 
 	public:
-		static uint32_t getDeviation(const Phoneme* ptr);
-		static void setDeviation(Phoneme* ptr, uint32_t deviation);
+		static double getDeviation(const Phoneme* ptr);
+		static void setDeviation(Phoneme* ptr, double deviation);
 		static juce::String getName(const Phoneme* ptr);
 		static void setName(Phoneme* ptr, juce::String name);
 		static bool getIsPre(const Phoneme* ptr);

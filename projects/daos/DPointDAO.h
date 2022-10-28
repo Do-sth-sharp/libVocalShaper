@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "../../Macros.h"
 
 #include <JuceHeader.h>
@@ -10,8 +10,8 @@ namespace vocalshaper {
 		DPointDAO() = default;
 
 	public:
-		static ProjectTime getTime(const DPoint* ptr);
-		static void setTime(DPoint* ptr, ProjectTime time);
+		static double getTime(const DPoint* ptr);
+		static void setTime(DPoint* ptr, double time);
 		static double getY(const DPoint* ptr);
 		static void setY(DPoint* ptr, double y);
 		static double getDl(const DPoint* ptr);

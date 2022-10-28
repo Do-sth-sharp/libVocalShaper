@@ -2,8 +2,6 @@
 
 package vocalshaper.files.vsp3;
 
-import "Utils.proto";
-
 message Label {
   enum LabelType {
     LUA = 0;
@@ -13,6 +11,6 @@ message Label {
   }
 
   LabelType label_type = 1; //标签类型
-  ProjectTime position = 2; //标签位置
+  double position = 2;      //标签位置
   string data = 3;          //标签内容
 }

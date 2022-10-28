@@ -28,8 +28,8 @@ namespace vocalshaper {
 		VS_CREATE_ROUTINE_ACTION_BASE(NoteAction, NoteTarget, Note, VS_NOTE_TARGET_LIST, VS_NOTE_ACTION_LIST);
 
 		namespace note {
-			VS_CREATE_ROUTINE_NOTE_ACTION(StartTimeAction, TimeData, StartTime);
-			VS_CREATE_ROUTINE_NOTE_ACTION(LengthAction, UInt32Data, Length);
+			VS_CREATE_ROUTINE_NOTE_ACTION(StartTimeAction, DoubleData, StartTime);
+			VS_CREATE_ROUTINE_NOTE_ACTION(LengthAction, DoubleData, Length);
 			VS_CREATE_ROUTINE_NOTE_ACTION(PitchAction, UInt8Data, Pitch);
 			VS_CREATE_ROUTINE_NOTE_ACTION(TenutoAction, BoolData, Tenuto);
 			VS_CREATE_ROUTINE_NOTE_ACTION(NameAction, StringData, Name);

@@ -2,7 +2,6 @@
 #include "../../Macros.h"
 
 #include <JuceHeader.h>
-#include "../datas/Utils.h"
 #include "../datas/Project.h"
 
 //移位量
@@ -387,7 +386,6 @@ namespace vocalshaper {
 			VS_CREATE_ACTION_DATA_TYPE(FloatData, float, 0.f);
 			VS_CREATE_ACTION_DATA_TYPE(StringData, juce::String, juce::String());
 			VS_CREATE_ACTION_DATA_TYPE(ColorData, juce::Colour, juce::Colour());
-			VS_CREATE_ACTION_DATA_TYPE(TimeData, vocalshaper::ProjectTime, vocalshaper::make_time(0, 0));
 			VS_CREATE_ACTION_DATA_TYPE(ObjectData, std::unique_ptr<vocalshaper::SerializableProjectStructure>, nullptr);
 			VS_CREATE_ACTION_DATA_TYPE_WITH_INDEX(IndexObjectData, std::unique_ptr<vocalshaper::SerializableProjectStructure>, nullptr);
 

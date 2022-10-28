@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "../../Macros.h"
 
 #include <JuceHeader.h>
@@ -13,8 +13,8 @@ namespace vocalshaper {
 		static Label::LabelType getLabelType(const Label* ptr);
 		static void setLabelType(Label* ptr, Label::LabelType type);
 
-		static ProjectTime getPosition(const Label* ptr);
-		static void setPosition(Label* ptr, ProjectTime time);
+		static double getPosition(const Label* ptr);
+		static void setPosition(Label* ptr, double time);
 		static juce::String getData(const Label* ptr);
 		static void setData(Label* ptr, juce::String data);
 

@@ -2,7 +2,6 @@
 
 package vocalshaper.files.vsp3;
 
-import "Utils.proto";
 import "Phoneme.proto";
 import "Param.proto";
 
@@ -13,10 +12,10 @@ message Note {
   }
 
   NoteType note_type = 1; //音符类型
-  ProjectTime st = 2;    //起始位置
-  uint32 length = 3;     //音符长度
-  uint32 pitch = 4;      //音高
-  bool tenuto = 5;       //延音
+  double st = 2;          //起始位置
+  double length = 3;      //音符长度
+  uint32 pitch = 4;       //音高
+  bool tenuto = 5;        //延音
 
   // Voice
   string name = 6;               //歌词

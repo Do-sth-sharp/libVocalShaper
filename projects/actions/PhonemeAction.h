@@ -24,7 +24,7 @@ namespace vocalshaper {
 		VS_CREATE_ROUTINE_ACTION_BASE(PhonemeAction, PhonemeTarget, Phoneme, VS_PHONEME_TARGET_LIST, VS_PHONEME_ACTION_LIST);
 
 		namespace phoneme {
-			VS_CREATE_ROUTINE_PHONEME_ACTION(DeviationAction, UInt32Data, Deviation);
+			VS_CREATE_ROUTINE_PHONEME_ACTION(DeviationAction, DoubleData, Deviation);
 			VS_CREATE_ROUTINE_PHONEME_ACTION(NameAction, StringData, Name);
 			VS_CREATE_ROUTINE_PHONEME_ACTION(IsPreAction, BoolData, IsPre);
 

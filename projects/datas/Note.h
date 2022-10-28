@@ -3,7 +3,6 @@
 
 #include <JuceHeader.h>
 #include "SerializableProjectStructure.h"
-#include "Utils.h"
 #include "Param.h"
 #include "Phoneme.h"
 
@@ -26,18 +25,18 @@ namespace vocalshaper {
 		~Note() override = default;
 
 	private:
-		ProjectTime st = make_time(0, 0);							//起始位置
-		uint32_t length = 0;										//长度
-		uint8_t pitch = 60;											//音高
-		bool tenuto = false;										//延音
+		double st = 0;									//起始位置
+		double length = 0;								//长度
+		uint8_t pitch = 60;								//音高
+		bool tenuto = false;							//延音
 
 		//Voice
-		juce::String name = "a";									//歌词
-		juce::OwnedArray<Phoneme> phonemes;							//音素
-		juce::String flag;											//标志
+		juce::String name = "a";						//歌词
+		juce::OwnedArray<Phoneme> phonemes;				//音素
+		juce::String flag;								//标志
 
 		//MIDI & Voice
-		juce::OwnedArray<Param> params;								//参数
+		juce::OwnedArray<Param> params;					//参数
 
 	private:
 		friend class NoteDAO;

@@ -1,7 +1,7 @@
 ﻿#include "PhonemeDAO.h"
 
 namespace vocalshaper {
-	uint32_t PhonemeDAO::getDeviation(const Phoneme* ptr)
+	double PhonemeDAO::getDeviation(const Phoneme* ptr)
 	{
 		if (!ptr) {
 			return 0;
@@ -10,7 +10,7 @@ namespace vocalshaper {
 		return ptr->deviation;
 	}
 
-	void PhonemeDAO::setDeviation(Phoneme* ptr, uint32_t deviation)
+	void PhonemeDAO::setDeviation(Phoneme* ptr, double deviation)
 	{
 		if (!ptr) {
 			return;

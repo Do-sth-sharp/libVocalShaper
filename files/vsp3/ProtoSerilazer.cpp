@@ -164,10 +164,7 @@ namespace vocalshaper {
 					break;
 				}
 
-				auto position = ::vocalshaper::LabelDAO::getPosition(label);
-				proto->mutable_position()->set_beat_pos(position.first);
-				proto->mutable_position()->set_deviation(position.second);
-
+				proto->set_position(::vocalshaper::LabelDAO::getPosition(label));
 				proto->set_data(::vocalshaper::LabelDAO::getData(label).toStdString());
 
 				return true;
@@ -298,10 +295,7 @@ namespace vocalshaper {
 					break;
 				}
 
-				auto st = ::vocalshaper::NoteDAO::getSt(note);
-				proto->mutable_st()->set_beat_pos(st.first);
-				proto->mutable_st()->set_deviation(st.second);
-
+				proto->set_st(::vocalshaper::NoteDAO::getSt(note));
 				proto->set_length(::vocalshaper::NoteDAO::getLength(note));
 				proto->set_pitch(::vocalshaper::NoteDAO::getPitch(note));
 				proto->set_tenuto(::vocalshaper::NoteDAO::getTenuto(note));
@@ -376,11 +370,7 @@ namespace vocalshaper {
 
 				proto->set_source(::vocalshaper::WaveDAO::getSource(wave).toStdString());
 				proto->set_deviation(::vocalshaper::WaveDAO::getDeviation(wave));
-
-				auto st = ::vocalshaper::WaveDAO::getSt(wave);
-				proto->mutable_st()->set_beat_pos(st.first);
-				proto->mutable_st()->set_deviation(st.second);
-
+				proto->set_st(::vocalshaper::WaveDAO::getSt(wave));
 				proto->set_length(::vocalshaper::WaveDAO::getLength(wave));
 
 				return true;
@@ -431,10 +421,7 @@ namespace vocalshaper {
 					return false;
 				}
 
-				auto x = ::vocalshaper::DPointDAO::getTime(point);
-				proto->mutable_x()->set_beat_pos(x.first);
-				proto->mutable_x()->set_deviation(x.second);
-
+				proto->set_x(::vocalshaper::DPointDAO::getTime(point));
 				proto->set_y(::vocalshaper::DPointDAO::getY(point));
 				proto->set_dl(::vocalshaper::DPointDAO::getDl(point));
 				proto->set_dr(::vocalshaper::DPointDAO::getDr(point));

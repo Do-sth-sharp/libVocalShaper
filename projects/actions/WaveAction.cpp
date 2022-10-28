@@ -18,9 +18,9 @@ namespace vocalshaper {
 	namespace actions {
 		namespace wave {
 			VS_CREATE_ROUTINE_WAVE_DATA_SWAP_METHOD(swapSource, juce::String, getSource, setSource);
-			VS_CREATE_ROUTINE_WAVE_DATA_SWAP_METHOD(swapDeviation, uint64_t, getDeviation, setDeviation);
-			VS_CREATE_ROUTINE_WAVE_DATA_SWAP_METHOD(swapStartTime, vocalshaper::ProjectTime, getSt, setSt);
-			VS_CREATE_ROUTINE_WAVE_DATA_SWAP_METHOD(swapLength, uint32_t, getLength, setLength);
+			VS_CREATE_ROUTINE_WAVE_DATA_SWAP_METHOD(swapDeviation, double, getDeviation, setDeviation);
+			VS_CREATE_ROUTINE_WAVE_DATA_SWAP_METHOD(swapStartTime, double, getSt, setSt);
+			VS_CREATE_ROUTINE_WAVE_DATA_SWAP_METHOD(swapLength, double, getLength, setLength);
 
 			VS_CREATE_OBJECT_SELECT_METHOD_BY_ACTION(selectWave, Wave, WaveAction, VS_WAVE_SELECT);
 

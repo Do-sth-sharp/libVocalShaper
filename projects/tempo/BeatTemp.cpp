@@ -23,12 +23,12 @@ namespace vocalshaper {
 		this->lastIndex = 0;
 
 		//上一标签状态缓存
-		uint32_t actPlaceInBeat = 0;		//上一标签生效拍号
-		uint32_t actPlaceInBar = 0;			//上一标签生效小节
+		double actPlaceInBeat = 0;			//上一标签生效拍号
+		double actPlaceInBar = 0;			//上一标签生效小节
 
 		//已确认有效的标签状态缓存
-		uint32_t lastInBeat = 0;			//生效拍号
-		uint32_t lastInBar = 0;				//生效小节
+		double lastInBeat = 0;				//生效拍号
+		double lastInBar = 0;				//生效小节
 		uint8_t lastBeat = 4;				//设定的节拍
 
 		//添加初始值
@@ -39,13 +39,13 @@ namespace vocalshaper {
 			auto& currentLabel = this->labels->list.getReference(i);
 
 			//计算标签生效位置
-			uint32_t labelBeat = std::floor(currentLabel.x);	//标签所在的拍
-			uint32_t labelBar = lastInBar + std::floor((labelBeat - lastInBeat) / (double)lastBeat);	//标签所在的小节
+			double labelBeat = std::floor(currentLabel.x);	//标签所在的拍
+			double labelBar = lastInBar + std::floor((labelBeat - lastInBeat) / lastBeat);	//标签所在的小节
 
 			//判断标签生效于当前小节还是下一小节
-			uint32_t labelBarAct = labelBar;
-			uint32_t labelBeatAct = lastInBeat + (labelBar - lastInBar) * lastBeat;
-			if ((labelBeat - lastInBeat) % lastBeat > 0) {
+			double labelBarAct = labelBar;
+			double labelBeatAct = lastInBeat + (labelBar - lastInBar) * lastBeat;
+			if ((uint64_t)(labelBeat - lastInBeat) % lastBeat > 0) {
 				labelBarAct++;
 				labelBeatAct += lastBeat;
 			}
@@ -92,7 +92,7 @@ namespace vocalshaper {
 		}
 	}
 
-	uint8_t BeatTemp::getBeatAtTime(uint32_t x) const
+	uint8_t BeatTemp::getBeatAtTime(double x) const
 	{
 		juce::ScopedReadLock locker1(this->lock);
 
@@ -103,7 +103,7 @@ namespace vocalshaper {
 		return current.beat;
 	}
 
-	uint32_t BeatTemp::getBarAtTime(uint32_t x) const
+	double BeatTemp::getBarAtTime(double x) const
 	{
 		juce::ScopedReadLock locker1(this->lock);
 
@@ -111,10 +111,10 @@ namespace vocalshaper {
 		auto& current = this->list.getReference(this->selectBy_x(x));
 
 		//返回小节号
-		return current.xInBar + std::floor((x - current.xInBeat) / (double)current.beat);
+		return current.xInBar + (x - current.xInBeat) / (double)current.beat;
 	}
 
-	uint32_t BeatTemp::getTimeAtBar(uint32_t bar) const
+	double BeatTemp::getTimeAtBar(double bar) const
 	{
 		juce::ScopedReadLock locker1(this->lock);
 
@@ -125,7 +125,7 @@ namespace vocalshaper {
 		return current.xInBeat + (bar - current.xInBar) * current.beat;
 	}
 
-	int BeatTemp::selectBy_x(uint32_t x) const
+	int BeatTemp::selectBy_x(double x) const
 	{
 		juce::ScopedReadLock locker1(this->lock);
 
@@ -160,7 +160,7 @@ namespace vocalshaper {
 		}
 
 		//查找比较函数
-		auto CFunc = [](uint32_t x, const BeatData& curr, const BeatData& next)->CompareResult {
+		auto CFunc = [](double x, const BeatData& curr, const BeatData& next)->CompareResult {
 			if (x >= curr.xInBeat && x < next.xInBeat) {
 				return CompareResult::EQ;
 			}
@@ -192,7 +192,7 @@ namespace vocalshaper {
 		}
 	}
 
-	int BeatTemp::selectBy_bar(uint32_t bar) const
+	int BeatTemp::selectBy_bar(double bar) const
 	{
 		juce::ScopedReadLock locker1(this->lock);
 
@@ -227,7 +227,7 @@ namespace vocalshaper {
 		}
 
 		//查找比较函数
-		auto CFunc = [](uint32_t bar, const BeatData& curr, const BeatData& next)->CompareResult {
+		auto CFunc = [](double bar, const BeatData& curr, const BeatData& next)->CompareResult {
 			if (bar >= curr.xInBar && bar < next.xInBar) {
 				return CompareResult::EQ;
 			}

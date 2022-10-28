@@ -2,11 +2,9 @@
 
 package vocalshaper.files.vsp3;
 
-import "Utils.proto";
-
 message DPoint {
-  ProjectTime x = 1; //时间
-  double y = 2;      //值
-  double dl = 3;     //左导数
-  double dr = 4;     //右导数
+  double x = 1;       //时间
+  double y = 2;       //值
+  double dl = 3;      //左导数
+  double dr = 4;      //右导数
 }

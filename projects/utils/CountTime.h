@@ -11,13 +11,13 @@ namespace vocalshaper {
 		~CountTime() = delete;
 
 	public:
-		static ProjectTime count(const Project* ptr, uint32_t curveQuantification);
-		static ProjectTime count(const Track* ptr, uint32_t curveQuantification);
-		static ProjectTime count(const Label* ptr, uint32_t curveQuantification);
-		static ProjectTime count(const Curve* ptr, uint32_t curveQuantification);
-		static ProjectTime count(const Note* ptr, uint32_t curveQuantification);
-		static ProjectTime count(const Wave* ptr, uint32_t curveQuantification);
-		static ProjectTime count(const DPoint* ptr, uint32_t curveQuantification);
+		static double count(const Project* ptr);
+		static double count(const Track* ptr);
+		static double count(const Label* ptr);
+		static double count(const Curve* ptr);
+		static double count(const Note* ptr);
+		static double count(const Wave* ptr);
+		static double count(const DPoint* ptr);
 	};
 
 

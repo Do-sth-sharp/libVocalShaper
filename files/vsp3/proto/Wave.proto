@@ -2,11 +2,9 @@
 
 package vocalshaper.files.vsp3;
 
-import "Utils.proto";
-
 message Wave {
   string source = 1;    //音频源
-  uint64 deviation = 2; //起始位置相较源偏移
-  ProjectTime st = 3;   //起始时间
-  uint32 length = 4;    //长度
+  double deviation = 2; //起始位置相较源偏移
+  double st = 3;        //起始时间
+  double length = 4;    //长度
 }

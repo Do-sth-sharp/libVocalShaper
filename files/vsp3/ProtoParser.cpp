@@ -257,8 +257,7 @@ namespace vocalshaper {
 					break;
 				}
 
-				::vocalshaper::LabelDAO::setPosition(label, ::vocalshaper::make_time(
-					proto->position().beat_pos(), proto->position().deviation()));
+				::vocalshaper::LabelDAO::setPosition(label, proto->position());
 				::vocalshaper::LabelDAO::setData(label, proto->data());
 
 				return true;
@@ -424,8 +423,7 @@ namespace vocalshaper {
 					return false;
 				}
 
-				::vocalshaper::NoteDAO::setSt(note, ::vocalshaper::make_time(
-					proto->st().beat_pos(), proto->st().deviation()));
+				::vocalshaper::NoteDAO::setSt(note, proto->st());
 				::vocalshaper::NoteDAO::setLength(note, proto->length());
 				::vocalshaper::NoteDAO::setPitch(note, proto->pitch());
 				::vocalshaper::NoteDAO::setTenuto(note, proto->tenuto());
@@ -486,8 +484,7 @@ namespace vocalshaper {
 
 				::vocalshaper::WaveDAO::setSource(wave, proto->source());
 				::vocalshaper::WaveDAO::setDeviation(wave, proto->deviation());
-				::vocalshaper::WaveDAO::setSt(wave, ::vocalshaper::make_time(
-					proto->st().beat_pos(), proto->st().deviation()));
+				::vocalshaper::WaveDAO::setSt(wave, proto->st());
 				::vocalshaper::WaveDAO::setLength(wave, proto->length());
 
 				return true;
@@ -534,8 +531,7 @@ namespace vocalshaper {
 					return false;
 				}
 
-				::vocalshaper::DPointDAO::setTime(point, ::vocalshaper::make_time(
-					proto->x().beat_pos(), proto->x().deviation()));
+				::vocalshaper::DPointDAO::setTime(point, proto->x());
 				::vocalshaper::DPointDAO::setY(point, proto->y());
 				::vocalshaper::DPointDAO::setDl(point, proto->dl());
 				::vocalshaper::DPointDAO::setDr(point, proto->dr());

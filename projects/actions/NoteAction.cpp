@@ -17,8 +17,8 @@ TrackDAO::getNote(ProjectDAO::getTrack(ptr, target->track), target->note)
 namespace vocalshaper {
 	namespace actions {
 		namespace note {
-			VS_CREATE_ROUTINE_NOTE_DATA_SWAP_METHOD(swapStartTime, vocalshaper::ProjectTime, getSt, setSt);
-			VS_CREATE_ROUTINE_NOTE_DATA_SWAP_METHOD(swapLength, uint32_t, getLength, setLength);
+			VS_CREATE_ROUTINE_NOTE_DATA_SWAP_METHOD(swapStartTime, double, getSt, setSt);
+			VS_CREATE_ROUTINE_NOTE_DATA_SWAP_METHOD(swapLength, double, getLength, setLength);
 			VS_CREATE_ROUTINE_NOTE_DATA_SWAP_METHOD(swapPitch, uint8_t, getPitch, setPitch);
 			VS_CREATE_ROUTINE_NOTE_DATA_SWAP_METHOD(swapTenuto, bool, getTenuto, setTenuto);
 			VS_CREATE_ROUTINE_NOTE_DATA_SWAP_METHOD(swapName, juce::String, getName, setName);

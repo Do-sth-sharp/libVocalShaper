@@ -23,9 +23,9 @@ namespace vocalshaper {
 
 		namespace wave {
 			VS_CREATE_ROUTINE_WAVE_ACTION(SourceAction, StringData, Source);
-			VS_CREATE_ROUTINE_WAVE_ACTION(DeviationAction, UInt64Data, Deviation);
-			VS_CREATE_ROUTINE_WAVE_ACTION(StartTimeAction, TimeData, StartTime);
-			VS_CREATE_ROUTINE_WAVE_ACTION(LengthAction, UInt32Data, Length);
+			VS_CREATE_ROUTINE_WAVE_ACTION(DeviationAction, DoubleData, Deviation);
+			VS_CREATE_ROUTINE_WAVE_ACTION(StartTimeAction, DoubleData, StartTime);
+			VS_CREATE_ROUTINE_WAVE_ACTION(LengthAction, DoubleData, Length);
 		}
 	}
 }

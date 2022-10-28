@@ -2,7 +2,6 @@
 #include "../Macros.h"
 
 #include <JuceHeader.h>
-#include "../projects/datas/Utils.h"
 #include "Utils.h"
 
 namespace vocalshaper {
@@ -25,21 +24,21 @@ namespace vocalshaper {
 		//当切换当前轨道时被调用
 		virtual void trackChanged(int trackID);
 		//切换水平浏览范围时被调用（针对混合编辑器）
-		virtual void setHorizontalViewPort(ProjectTime startTime, ProjectTime endTime);
+		virtual void setHorizontalViewPort(double startTime, double endTime);
 		//切换垂直浏览范围时被调用（针对混合编辑器）
 		virtual void setVerticalViewPort(double bottomPitch, double topPitch);
 		//切换水平浏览范围时被调用（针对轨道面板）
-		virtual void setHViewPort(ProjectTime startTime, ProjectTime endTime);
+		virtual void setHViewPort(double startTime, double endTime);
 		//切换垂直浏览范围时被调用（针对轨道面板）
 		virtual void setVViewPort(double bottomTrack, double topTrack);
 		//更改总长度时被调用
-		virtual void setTotalLength(ProjectTime totalLength);
+		virtual void setTotalLength(double totalLength);
 		//更改当前播放位置时被调用
-		virtual void setCurrentPosition(ProjectTime currentTime);
+		virtual void setCurrentPosition(double currentTime);
 		//更改播放跟随状态时被调用
 		virtual void setFollowState(bool follow);
 		//更改播放循环范围时被调用
-		virtual void setLoopRange(ProjectTime startTime, ProjectTime endTime);
+		virtual void setLoopRange(double startTime, double endTime);
 		//更改吸附时被调用
 		virtual void setAdsorb(AdsorbState state);
 		//更改网格时被调用
@@ -71,13 +70,13 @@ namespace vocalshaper {
 		virtual void setMethods(
 			const std::function<void(int)>& setCurrentTrackFunc,
 			const std::function<void(void)>& refreshTotalTimeFunc,
-			const std::function<void(ProjectTime)>& setCurrentPositionFunc,
-			const std::function<void(ProjectTime, ProjectTime)>& setLoopRangeFunc,
-			const std::function<void(ProjectTime, ProjectTime)>& setHorizontalViewPortFunc,
+			const std::function<void(double)>& setCurrentPositionFunc,
+			const std::function<void(double, double)>& setLoopRangeFunc,
+			const std::function<void(double, double)>& setHorizontalViewPortFunc,
 			const std::function<void(double, double)>& setVerticalViewPortFunc
 		);
 		virtual void setTrackViewMethods(
-			std::function<void(ProjectTime, ProjectTime)> setHViewPortFunc,
+			std::function<void(double, double)> setHViewPortFunc,
 			std::function<void(double, double)> setVViewPortFunc
 		);
 
@@ -87,15 +86,15 @@ namespace vocalshaper {
 		//调用此方法申请刷新轨道总时长显示范围
 		void refreshTotalTimeMethod() const;
 		//调用此方法申请设置当前播放位置
-		void setCurrentPositionMethod(ProjectTime currentTime) const;
+		void setCurrentPositionMethod(double currentTime) const;
 		//调用此方法申请设置循环范围
-		void setLoopRangeMethod(ProjectTime startTime, ProjectTime endTime) const;
+		void setLoopRangeMethod(double startTime, double endTime) const;
 		//调用此方法申请设置水平浏览范围（针对混合编辑器）
-		void setHorizontalViewPortMethod(ProjectTime startTime, ProjectTime endTime) const;
+		void setHorizontalViewPortMethod(double startTime, double endTime) const;
 		//调用此方法申请设置垂直浏览范围（针对混合编辑器）
 		void setVerticalViewPortMethod(double bottomPitch, double topPitch) const;
 		//调用此方法申请设置水平浏览范围（针对轨道面板）
-		void setHViewPortMethod(ProjectTime startTime, ProjectTime endTime) const;
+		void setHViewPortMethod(double startTime, double endTime) const;
 		//调用此方法申请设置垂直浏览范围（针对轨道面板）
 		void setVViewPortMethod(double bottomTrack, double topTrack) const;
 
@@ -105,13 +104,13 @@ namespace vocalshaper {
 		//调用此方法刷新轨道总时长显示范围
 		std::function<void(void)> refreshTotalTimeFunc;
 		//调用此方法设置当前播放位置
-		std::function<void(ProjectTime)> setCurrentPositionFunc;
+		std::function<void(double)> setCurrentPositionFunc;
 		//调用此方法设置循环范围
-		std::function<void(ProjectTime, ProjectTime)> setLoopRangeFunc;
+		std::function<void(double, double)> setLoopRangeFunc;
 		//调用此方法设置水平浏览范围（针对混合编辑器）
-		std::function<void(ProjectTime, ProjectTime)> setHorizontalViewPortFunc;
+		std::function<void(double, double)> setHorizontalViewPortFunc;
 		//调用此方法设置水平浏览范围（针对轨道面板）
-		std::function<void(ProjectTime, ProjectTime)> setHViewPortFunc;
+		std::function<void(double, double)> setHViewPortFunc;
 		//调用此方法设置垂直浏览范围（针对混合编辑器）
 		std::function<void(double, double)> setVerticalViewPortFunc;
 		//调用此方法设置垂直浏览范围（针对轨道面板）

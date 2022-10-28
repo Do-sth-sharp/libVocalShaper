@@ -23,7 +23,7 @@ namespace vocalshaper {
 		VS_CREATE_ROUTINE_ACTION_BASE(DPointAction, DPointTarget, DPoint, VS_DPOINT_TARGET_LIST, VS_DPOINT_ACTION_LIST);
 
 		namespace dpoint {
-			VS_CREATE_ROUTINE_DPOINT_ACTION(XAction, TimeData, X);
+			VS_CREATE_ROUTINE_DPOINT_ACTION(XAction, DoubleData, X);
 			VS_CREATE_ROUTINE_DPOINT_ACTION(YAction, DoubleData, Y);
 			VS_CREATE_ROUTINE_DPOINT_ACTION(DlAction, DoubleData, Dl);
 			VS_CREATE_ROUTINE_DPOINT_ACTION(DrAction, DoubleData, Dr);

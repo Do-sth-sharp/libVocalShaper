@@ -3,7 +3,6 @@
 
 #include <JuceHeader.h>
 #include "SerializableProjectStructure.h"
-#include "Utils.h"
 
 namespace vocalshaper {
 	class VSAPI DPoint : public SerializableProjectStructure
@@ -15,9 +14,9 @@ namespace vocalshaper {
 		~DPoint() override = default;
 
 	private:
-		ProjectTime x = make_time(0, 0);								//时间
-		double y = 0;													//值
-		double dl = 0, dr = 0;											//左右导数
+		double x = 0;								//时间
+		double y = 0;								//值
+		double dl = 0, dr = 0;						//左右导数
 
 	private:
 		friend class DPointDAO;

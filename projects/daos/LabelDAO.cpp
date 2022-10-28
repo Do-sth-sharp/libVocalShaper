@@ -1,4 +1,4 @@
-#include "LabelDAO.h"
+﻿#include "LabelDAO.h"
 
 namespace vocalshaper {
 	Label::LabelType LabelDAO::getLabelType(const Label* ptr)
@@ -23,16 +23,16 @@ namespace vocalshaper {
 		ptr->labelType = type;
 	}
 
-	ProjectTime LabelDAO::getPosition(const Label* ptr)
+	double LabelDAO::getPosition(const Label* ptr)
 	{
 		if (!ptr) {
-			return make_time(0, 0);
+			return 0;
 		}
 		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->position;
 	}
 
-	void LabelDAO::setPosition(Label* ptr, ProjectTime time)
+	void LabelDAO::setPosition(Label* ptr, double time)
 	{
 		if (!ptr) {
 			return;

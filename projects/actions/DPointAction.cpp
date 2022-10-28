@@ -18,7 +18,7 @@ VS_CREATE_ROUTINE_DATA_REMOVE_METHOD(_MethodName, DPoint, _SubObjectPtrType, DPo
 namespace vocalshaper {
 	namespace actions {
 		namespace dpoint {
-			VS_CREATE_ROUTINE_DPOINT_DATA_SWAP_METHOD(swapX, vocalshaper::ProjectTime, getTime, setTime);
+			VS_CREATE_ROUTINE_DPOINT_DATA_SWAP_METHOD(swapX, double, getTime, setTime);
 			VS_CREATE_ROUTINE_DPOINT_DATA_SWAP_METHOD(swapY, double, getY, setY);
 			VS_CREATE_ROUTINE_DPOINT_DATA_SWAP_METHOD(swapDl, double, getDl, setDl);
 			VS_CREATE_ROUTINE_DPOINT_DATA_SWAP_METHOD(swapDr, double, getDr, setDr);

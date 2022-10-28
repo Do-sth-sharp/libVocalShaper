@@ -1,4 +1,4 @@
-#include "WaveDAO.h"
+﻿#include "WaveDAO.h"
 
 namespace vocalshaper {
 	juce::String WaveDAO::getSource(const Wave* ptr)
@@ -23,7 +23,7 @@ namespace vocalshaper {
 		ptr->source = source;
 	}
 
-	uint64_t WaveDAO::getDeviation(const Wave* ptr)
+	double WaveDAO::getDeviation(const Wave* ptr)
 	{
 		if (!ptr) {
 			return 0;
@@ -32,7 +32,7 @@ namespace vocalshaper {
 		return ptr->deviation;
 	}
 
-	void WaveDAO::setDeviation(Wave* ptr, uint64_t deviation)
+	void WaveDAO::setDeviation(Wave* ptr, double deviation)
 	{
 		if (!ptr) {
 			return;
@@ -45,16 +45,16 @@ namespace vocalshaper {
 		ptr->deviation = deviation;
 	}
 
-	ProjectTime WaveDAO::getSt(const Wave* ptr)
+	double WaveDAO::getSt(const Wave* ptr)
 	{
 		if (!ptr) {
-			return make_time(0, 0);
+			return 0;
 		}
 		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->st;
 	}
 
-	void WaveDAO::setSt(Wave* ptr, ProjectTime time)
+	void WaveDAO::setSt(Wave* ptr, double time)
 	{
 		if (!ptr) {
 			return;
@@ -67,7 +67,7 @@ namespace vocalshaper {
 		ptr->st = time;
 	}
 
-	uint32_t WaveDAO::getLength(const Wave* ptr)
+	double WaveDAO::getLength(const Wave* ptr)
 	{
 		if (!ptr) {
 			return 0;
@@ -76,7 +76,7 @@ namespace vocalshaper {
 		return ptr->length;
 	}
 
-	void WaveDAO::setLength(Wave* ptr, uint32_t length)
+	void WaveDAO::setLength(Wave* ptr, double length)
 	{
 		if (!ptr) {
 			return;

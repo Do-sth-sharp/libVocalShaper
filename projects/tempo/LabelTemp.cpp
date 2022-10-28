@@ -33,9 +33,6 @@ namespace vocalshaper {
 		//获取标签数量
 		int labelSize = ProjectDAO::labelSize(ptrProject);
 
-		//获取量化值
-		uint32_t curveQuantification = ProjectDAO::getCurveQuantification(ptrProject);
-
 		//标签状态缓存
 		double tempoTemp = 120.0;
 		uint8_t beatTemp = 4;
@@ -53,14 +50,14 @@ namespace vocalshaper {
 			}
 
 			//如果首个标签不在最开始
-			if (i == 0 && timeToDouble(LabelDAO::getPosition(ptrLabel), curveQuantification) > 0) {
+			if (i == 0 && LabelDAO::getPosition(ptrLabel) > 0) {
 				this->list.add({ 0.0, tempoTemp, beatTemp, false });
 			}
 
 			//解析标签并放入列表
 			{
 				LabelData label;
-				if (this->parseLabel(ptrLabel, label, curveQuantification, tempoTemp, beatTemp)) {
+				if (this->parseLabel(ptrLabel, label, tempoTemp, beatTemp)) {
 					//合法检查
 					if (label.beat <= 0 || label.beat > 20) { beatTemp = label.beat = 4; }
 					if (label.tempo <= 0. || label.tempo > 500.) { tempoTemp = label.tempo = 120.; }
@@ -78,7 +75,7 @@ namespace vocalshaper {
 	}
 
 	bool LabelTemp::parseLabel(
-		const Label* label, LabelTemp::LabelData& result, uint32_t curveQ, double& tempoTemp, uint8_t& beatTemp)
+		const Label* label, LabelTemp::LabelData& result, double& tempoTemp, uint8_t& beatTemp)
 	{
 		if (!label) {
 			return false;
@@ -112,7 +109,7 @@ namespace vocalshaper {
 		}
 
 		//设置时间
-		result.x = timeToDouble(LabelDAO::getPosition(label), curveQ);
+		result.x = LabelDAO::getPosition(label);
 		return true;
 	}
 

@@ -21,7 +21,7 @@ namespace vocalshaper {
 
 		namespace label {
 			VS_CREATE_ROUTINE_LABEL_ACTION(TypeAction, LabelTypeData, Type);
-			VS_CREATE_ROUTINE_LABEL_ACTION(PositionAction, TimeData, Position);
+			VS_CREATE_ROUTINE_LABEL_ACTION(PositionAction, DoubleData, Position);
 			VS_CREATE_ROUTINE_LABEL_ACTION(DataAction, StringData, Data);
 		}
 	}

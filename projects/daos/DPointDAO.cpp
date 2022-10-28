@@ -1,16 +1,16 @@
-#include "DPointDAO.h"
+﻿#include "DPointDAO.h"
 
 namespace vocalshaper {
-	ProjectTime DPointDAO::getTime(const DPoint* ptr)
+	double DPointDAO::getTime(const DPoint* ptr)
 	{
 		if (!ptr) {
-			return make_time(0, 0);
+			return 0;
 		}
 		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->x;
 	}
 
-	void DPointDAO::setTime(DPoint* ptr, ProjectTime time)
+	void DPointDAO::setTime(DPoint* ptr, double time)
 	{
 		if (!ptr) {
 			return;

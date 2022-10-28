@@ -23,7 +23,7 @@ namespace vocalshaper {
 	{
 	}
 
-	void EditorBase::setHorizontalViewPort(ProjectTime startTime, ProjectTime endTime)
+	void EditorBase::setHorizontalViewPort(double startTime, double endTime)
 	{
 
 	}
@@ -33,7 +33,7 @@ namespace vocalshaper {
 
 	}
 
-	void EditorBase::setHViewPort(ProjectTime startTime, ProjectTime endTime)
+	void EditorBase::setHViewPort(double startTime, double endTime)
 	{
 
 	}
@@ -43,12 +43,12 @@ namespace vocalshaper {
 
 	}
 
-	void EditorBase::setTotalLength(ProjectTime totalLength)
+	void EditorBase::setTotalLength(double totalLength)
 	{
 
 	}
 
-	void EditorBase::setCurrentPosition(ProjectTime currentTime)
+	void EditorBase::setCurrentPosition(double currentTime)
 	{
 
 	}
@@ -58,7 +58,7 @@ namespace vocalshaper {
 
 	}
 
-	void EditorBase::setLoopRange(ProjectTime startTime, ProjectTime endTime)
+	void EditorBase::setLoopRange(double startTime, double endTime)
 	{
 
 	}
@@ -121,9 +121,9 @@ namespace vocalshaper {
 	void EditorBase::setMethods(
 		const std::function<void(int)>& setCurrentTrackFunc,
 		const std::function<void(void)>& refreshTotalTimeFunc,
-		const std::function<void(ProjectTime)>& setCurrentPositionFunc,
-		const std::function<void(ProjectTime, ProjectTime)>& setLoopRangeFunc,
-		const std::function<void(ProjectTime, ProjectTime)>& setHorizontalViewPortFunc,
+		const std::function<void(double)>& setCurrentPositionFunc,
+		const std::function<void(double, double)>& setLoopRangeFunc,
+		const std::function<void(double, double)>& setHorizontalViewPortFunc,
 		const std::function<void(double, double)>& setVerticalViewPortFunc
 	)
 	{
@@ -136,7 +136,7 @@ namespace vocalshaper {
 	}
 
 	void EditorBase::setTrackViewMethods(
-		std::function<void(ProjectTime, ProjectTime)> setHViewPortFunc,
+		std::function<void(double, double)> setHViewPortFunc,
 		std::function<void(double, double)> setVViewPortFunc
 	)
 	{
@@ -158,21 +158,21 @@ namespace vocalshaper {
 		}
 	}
 
-	void EditorBase::setCurrentPositionMethod(ProjectTime currentTime) const
+	void EditorBase::setCurrentPositionMethod(double currentTime) const
 	{
 		if (this->setCurrentPositionFunc) {
 			this->setCurrentPositionFunc(currentTime);
 		}
 	}
 
-	void EditorBase::setLoopRangeMethod(ProjectTime startTime, ProjectTime endTime) const
+	void EditorBase::setLoopRangeMethod(double startTime, double endTime) const
 	{
 		if (this->setLoopRangeFunc) {
 			this->setLoopRangeFunc(startTime, endTime);
 		}
 	}
 
-	void EditorBase::setHorizontalViewPortMethod(ProjectTime startTime, ProjectTime endTime) const
+	void EditorBase::setHorizontalViewPortMethod(double startTime, double endTime) const
 	{
 		if (this->setHorizontalViewPortFunc) {
 			this->setHorizontalViewPortFunc(startTime, endTime);
@@ -186,7 +186,7 @@ namespace vocalshaper {
 		}
 	}
 
-	void EditorBase::setHViewPortMethod(ProjectTime startTime, ProjectTime endTime) const
+	void EditorBase::setHViewPortMethod(double startTime, double endTime) const
 	{
 		if (this->setHViewPortFunc) {
 			this->setHViewPortFunc(startTime, endTime);

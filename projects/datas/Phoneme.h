@@ -15,7 +15,7 @@ namespace vocalshaper {
 		~Phoneme() override = default;
 
 	private:
-		uint32_t deviation = 0;				//较音符起始位置偏移
+		double deviation = 0;				//较音符起始位置偏移
 		juce::String name = "a";			//音素名
 		bool isPre = false;					//先导音素
 

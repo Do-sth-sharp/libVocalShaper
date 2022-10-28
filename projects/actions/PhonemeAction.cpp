@@ -17,7 +17,7 @@ NoteDAO::getPhoneme(TrackDAO::getNote(ProjectDAO::getTrack(ptr, target->track), 
 namespace vocalshaper {
 	namespace actions {
 		namespace phoneme {
-			VS_CREATE_ROUTINE_PHONEME_DATA_SWAP_METHOD(swapDeviation, uint32_t, getDeviation, setDeviation);
+			VS_CREATE_ROUTINE_PHONEME_DATA_SWAP_METHOD(swapDeviation, double, getDeviation, setDeviation);
 			VS_CREATE_ROUTINE_PHONEME_DATA_SWAP_METHOD(swapName, juce::String, getName, setName);
 			VS_CREATE_ROUTINE_PHONEME_DATA_SWAP_METHOD(swapIsPre, bool, getIsPre, setIsPre);
 

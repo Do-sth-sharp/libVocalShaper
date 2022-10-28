@@ -34,7 +34,8 @@ namespace vocalshaper {
 				}
 
 				//check version
-				if (proto->version() > VS_PROJECT_VERSION) {
+				if (proto->version() > VS_PROJECT_VERSION ||
+					proto->version() < VS_PROJECT_MIN_VERSION) {
 					return false;
 				}
 

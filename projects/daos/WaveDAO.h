@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "../../Macros.h"
 
 #include <JuceHeader.h>
@@ -12,12 +12,12 @@ namespace vocalshaper {
 	public:
 		static juce::String getSource(const Wave* ptr);
 		static void setSource(Wave* ptr, juce::String source);
-		static uint64_t getDeviation(const Wave* ptr);
-		static void setDeviation(Wave* ptr, uint64_t deviation);
-		static ProjectTime getSt(const Wave* ptr);
-		static void setSt(Wave* ptr, ProjectTime time);
-		static uint32_t getLength(const Wave* ptr);
-		static void setLength(Wave* ptr, uint32_t length);
+		static double getDeviation(const Wave* ptr);
+		static void setDeviation(Wave* ptr, double deviation);
+		static double getSt(const Wave* ptr);
+		static void setSt(Wave* ptr, double time);
+		static double getLength(const Wave* ptr);
+		static void setLength(Wave* ptr, double length);
 
 	public:
 		static bool isSaved(const Wave* ptr);

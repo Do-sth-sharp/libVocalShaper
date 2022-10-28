@@ -18,7 +18,7 @@ namespace vocalshaper {
 	namespace actions {
 		namespace label {
 			VS_CREATE_ROUTINE_LABEL_DATA_SWAP_METHOD(swapType, vocalshaper::Label::LabelType, getLabelType, setLabelType);
-			VS_CREATE_ROUTINE_LABEL_DATA_SWAP_METHOD(swapPosition, vocalshaper::ProjectTime, getPosition, setPosition);
+			VS_CREATE_ROUTINE_LABEL_DATA_SWAP_METHOD(swapPosition, double, getPosition, setPosition);
 			VS_CREATE_ROUTINE_LABEL_DATA_SWAP_METHOD(swapData, juce::String, getData, setData);
 
 			VS_CREATE_OBJECT_SELECT_METHOD_BY_ACTION(selectLabel, Label, LabelAction, VS_LABEL_SELECT);

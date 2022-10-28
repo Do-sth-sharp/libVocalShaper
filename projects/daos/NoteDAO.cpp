@@ -10,16 +10,16 @@ namespace vocalshaper {
 		return ptr->noteType;
 	}
 
-	ProjectTime NoteDAO::getSt(const Note* ptr)
+	double NoteDAO::getSt(const Note* ptr)
 	{
 		if (!ptr) {
-			return make_time(0, 0);
+			return 0;
 		}
 		juce::ScopedReadLock locker(ptr->lock);
 		return ptr->st;
 	}
 
-	void NoteDAO::setSt(Note* ptr, ProjectTime time)
+	void NoteDAO::setSt(Note* ptr, double time)
 	{
 		if (!ptr) {
 			return;
@@ -32,7 +32,7 @@ namespace vocalshaper {
 		ptr->st = time;
 	}
 
-	uint32_t NoteDAO::getLength(const Note* ptr)
+	double NoteDAO::getLength(const Note* ptr)
 	{
 		if (!ptr) {
 			return 0;
@@ -41,7 +41,7 @@ namespace vocalshaper {
 		return ptr->length;
 	}
 
-	void NoteDAO::setLength(Note* ptr, uint32_t length)
+	void NoteDAO::setLength(Note* ptr, double length)
 	{
 		if (!ptr) {
 			return;

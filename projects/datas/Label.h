@@ -3,7 +3,6 @@
 
 #include <JuceHeader.h>
 #include "SerializableProjectStructure.h"
-#include "Utils.h"
 
 namespace vocalshaper {
 	class VSAPI Label : public SerializableProjectStructure
@@ -22,8 +21,8 @@ namespace vocalshaper {
 		}labelType = LabelType::Lua;					//标签数据类型
 
 	private:
-		ProjectTime position = make_time(0, 0);			//标签位置
-		juce::String data;								//标签内容
+		double position = 0;			//标签位置
+		juce::String data;				//标签内容
 
 		/*
 		* 标签内容规则

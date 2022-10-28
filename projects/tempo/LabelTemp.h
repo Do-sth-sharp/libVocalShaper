@@ -37,7 +37,7 @@ namespace vocalshaper {
 
 		ProjectProxy* parent = nullptr;
 
-		bool parseLabel(const Label* label, LabelData& result, uint32_t curveQ, double& tempoTemp, uint8_t& beatTemp);
+		bool parseLabel(const Label* label, LabelData& result, double& tempoTemp, uint8_t& beatTemp);
 		bool parseLuaLabel(const juce::String& data, LabelData& result, double& tempoTemp, uint8_t& beatTemp);
 		bool parseIniLabel(const juce::String& data, LabelData& result, double& tempoTemp, uint8_t& beatTemp);
 		bool parseXmlLabel(const juce::String& data, LabelData& result, double& tempoTemp, uint8_t& beatTemp);

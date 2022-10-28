@@ -1,4 +1,4 @@
-#include "ProjectCopier.h"
+﻿#include "ProjectCopier.h"
 #include "daos/ProjectDAO.h"
 
 #define RETURN_COPY_CASE_TYPE(t) \
@@ -83,6 +83,7 @@ namespace vocalshaper {
 		}
 
 		dst->trackType = ptr->trackType;
+		dst->name = ptr->name;
 		dst->color = ptr->color;
 		dst->solo = ptr->solo;
 		dst->mute = ptr->mute;
