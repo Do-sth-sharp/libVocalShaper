@@ -21,7 +21,7 @@
 //_DataInit:为用于储存修改数据的类中成员以初始化列表形式赋值
 //_ArgInit:二级Action类构造参数中与数据更改相关的部分
 #define VS_CREATE_ACTION(_ActionName, _ActionBaseType, _DataType, _ActionType, _DataInit, _ArgInit) \
-class _ActionName : public vocalshaper::actions::_ActionBaseType \
+class VSAPI _ActionName : public vocalshaper::actions::_ActionBaseType \
 { \
 public: \
 	using DataType = vocalshaper::actions::ActionBase::_DataType; \
@@ -77,7 +77,7 @@ VS_CREATE_ACTION(_ActionName, _ActionBaseType, IndexObjectData, _ActionType, VS_
 //_TargetList:定义操作目标位置类的成员
 //_ActionList:定义二级Action类型列表
 #define VS_CREATE_ROUTINE_ACTION_BASE(_ActionBaseName, _TargetType, _ActionBaseType, _TargetList, _ActionList) \
-class _ActionBaseName : public ActionBase \
+class VSAPI _ActionBaseName : public ActionBase \
 { \
 public: \
 	struct _TargetType : public ActionBase::Target { _TargetList }; \
