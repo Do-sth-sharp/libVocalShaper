@@ -37,21 +37,14 @@ namespace vocalshaper {
 		double tempoTemp = 120.0;
 		uint8_t beatTemp = 4;
 
-		//如果不存在标签
-		if (labelSize <= 0) {
-			this->list.add({ 0.0, tempoTemp, beatTemp, false });
-		}
+		//默认标签
+		this->list.add({ 0.0, tempoTemp, beatTemp, false });
 
 		//遍历标签
 		for (int i = 0; i < labelSize; i++) {
 			auto ptrLabel = ProjectDAO::getLabel(ptrProject, i);
 			if (!ptrLabel) {
 				continue;
-			}
-
-			//如果首个标签不在最开始
-			if (i == 0 && LabelDAO::getPosition(ptrLabel) > 0) {
-				this->list.add({ 0.0, tempoTemp, beatTemp, false });
 			}
 
 			//解析标签并放入列表

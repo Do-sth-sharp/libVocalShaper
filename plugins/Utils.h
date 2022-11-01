@@ -30,4 +30,6 @@ namespace vocalshaper {
 		Grid1_24Beat = 24,
 		Grid1_32Beat = 32
 	};
+
+	double VSAPI adsorb(double x, AdsorbState state);
 }
