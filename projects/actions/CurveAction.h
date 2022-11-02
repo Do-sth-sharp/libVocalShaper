@@ -24,7 +24,7 @@ namespace vocalshaper {
 			VS_CREATE_ROUTINE_CURVE_ACTION(IdAction, StringData, Id);
 
 			VS_CREATE_ROUTINE_CURVE_ACTION_WITH_INDEXED_OBJECT(AddDPointAction, vocalshaper::DPoint*, AddDPoint);
-			VS_CREATE_ROUTINE_CURVE_ACTION_WITH_INDEXED_OBJECT(RemoveDPointAction, std::nullptr_t*, RemoveDPoint);
+			VS_CREATE_ROUTINE_CURVE_ACTION_WITH_INDEXED_OBJECT(RemoveDPointAction, std::nullptr_t, RemoveDPoint);
 		}
 	}
 }

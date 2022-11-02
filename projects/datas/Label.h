@@ -11,7 +11,6 @@ namespace vocalshaper {
 		Label()
 			:SerializableProjectStructure(SerializableProjectStructure::Type::Label)
 		{};
-		~Label() override = default;
 
 		enum class LabelType {
 			Lua,

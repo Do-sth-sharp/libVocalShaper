@@ -36,10 +36,10 @@ namespace vocalshaper {
 			VS_CREATE_ROUTINE_NOTE_ACTION(FlagAction, StringData, Flag);
 
 			VS_CREATE_ROUTINE_NOTE_ACTION_WITH_INDEXED_OBJECT(AddPhonemeAction, vocalshaper::Phoneme*, AddPhoneme);
-			VS_CREATE_ROUTINE_NOTE_ACTION_WITH_INDEXED_OBJECT(RemovePhonemeAction, std::nullptr_t*, RemovePhoneme);
+			VS_CREATE_ROUTINE_NOTE_ACTION_WITH_INDEXED_OBJECT(RemovePhonemeAction, std::nullptr_t, RemovePhoneme);
 
 			VS_CREATE_ROUTINE_NOTE_ACTION_WITH_INDEXED_OBJECT(AddParamAction, vocalshaper::Param*, AddParam);
-			VS_CREATE_ROUTINE_NOTE_ACTION_WITH_INDEXED_OBJECT(RemoveParamAction, std::nullptr_t*, RemoveParam);
+			VS_CREATE_ROUTINE_NOTE_ACTION_WITH_INDEXED_OBJECT(RemoveParamAction, std::nullptr_t, RemoveParam);
 		}
 	}
 }

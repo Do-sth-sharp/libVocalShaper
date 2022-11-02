@@ -11,7 +11,6 @@ namespace vocalshaper {
 		Json()
 			:SerializableProjectStructure(SerializableProjectStructure::Type::Json)
 		{};
-		~Json() override = default;
 
 	private:
 		juce::var data = new juce::DynamicObject;			//数据

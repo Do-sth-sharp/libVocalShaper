@@ -29,7 +29,7 @@ namespace vocalshaper {
 			VS_CREATE_ROUTINE_PHONEME_ACTION(IsPreAction, BoolData, IsPre);
 
 			VS_CREATE_ROUTINE_PHONEME_ACTION_WITH_INDEXED_OBJECT(AddPointAction, vocalshaper::Point*, AddPoint);
-			VS_CREATE_ROUTINE_PHONEME_ACTION_WITH_INDEXED_OBJECT(RemovePointAction, std::nullptr_t*, RemovePoint);
+			VS_CREATE_ROUTINE_PHONEME_ACTION_WITH_INDEXED_OBJECT(RemovePointAction, std::nullptr_t, RemovePoint);
 		}
 	}
 }

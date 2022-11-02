@@ -23,7 +23,7 @@ namespace vocalshaper {
 			VS_CREATE_ROUTINE_INSTR_ACTION(UniqueIdAction, IntData, UniqueId);
 
 			VS_CREATE_ROUTINE_INSTR_ACTION_WITH_INDEXED_OBJECT(AddParamAction, vocalshaper::Param*, AddParam);
-			VS_CREATE_ROUTINE_INSTR_ACTION_WITH_INDEXED_OBJECT(RemoveParamAction, std::nullptr_t*, RemoveParam);
+			VS_CREATE_ROUTINE_INSTR_ACTION_WITH_INDEXED_OBJECT(RemoveParamAction, std::nullptr_t, RemoveParam);
 		}
 	}
 }

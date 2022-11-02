@@ -32,16 +32,16 @@ namespace vocalshaper {
 			VS_CREATE_ROUTINE_PROJECT_ACTION(CurveQuantificationAction, UInt32Data, CurveQuantification);
 
 			VS_CREATE_ROUTINE_PROJECT_ACTION_WITH_INDEXED_OBJECT(AddTrackAction, vocalshaper::Track*, AddTrack);
-			VS_CREATE_ROUTINE_PROJECT_ACTION_WITH_INDEXED_OBJECT(RemoveTrackAction, std::nullptr_t*, RemoveTrack);
+			VS_CREATE_ROUTINE_PROJECT_ACTION_WITH_INDEXED_OBJECT(RemoveTrackAction, std::nullptr_t, RemoveTrack);
 
 			VS_CREATE_ROUTINE_PROJECT_ACTION_WITH_INDEXED_OBJECT(AddLabelAction, vocalshaper::Label*, AddLabel);
-			VS_CREATE_ROUTINE_PROJECT_ACTION_WITH_INDEXED_OBJECT(RemoveLabelAction, std::nullptr_t*, RemoveLabel);
+			VS_CREATE_ROUTINE_PROJECT_ACTION_WITH_INDEXED_OBJECT(RemoveLabelAction, std::nullptr_t, RemoveLabel);
 
 			VS_CREATE_ROUTINE_PROJECT_ACTION_WITH_INDEXED_OBJECT(AddScriptAction, vocalshaper::Script*, AddScript);
-			VS_CREATE_ROUTINE_PROJECT_ACTION_WITH_INDEXED_OBJECT(RemoveScriptAction, std::nullptr_t*, RemoveScript);
+			VS_CREATE_ROUTINE_PROJECT_ACTION_WITH_INDEXED_OBJECT(RemoveScriptAction, std::nullptr_t, RemoveScript);
 
 			VS_CREATE_ROUTINE_PROJECT_ACTION_WITH_INDEXED_OBJECT(AddJsonAction, vocalshaper::Json*, AddJson);
-			VS_CREATE_ROUTINE_PROJECT_ACTION_WITH_INDEXED_OBJECT(RemoveJsonAction, std::nullptr_t*, RemoveJson);
+			VS_CREATE_ROUTINE_PROJECT_ACTION_WITH_INDEXED_OBJECT(RemoveJsonAction, std::nullptr_t, RemoveJson);
 		}
 	}
 }

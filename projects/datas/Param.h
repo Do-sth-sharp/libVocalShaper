@@ -22,7 +22,6 @@ namespace vocalshaper {
 			:SerializableProjectStructure(SerializableProjectStructure::Type::Param),
 			paramType(type)
 		{};
-		~Param() override = default;
 
 	private:
 		juce::String id;					//唯一id

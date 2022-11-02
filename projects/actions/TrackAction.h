@@ -46,22 +46,22 @@ namespace vocalshaper {
 			VS_CREATE_ROUTINE_TRACK_ACTION(StyleAction, StringData, Style);
 
 			VS_CREATE_ROUTINE_TRACK_ACTION_WITH_SINGLE_OBJECT(AddInstrAction, vocalshaper::Instr*, AddInstr);
-			VS_CREATE_ROUTINE_TRACK_ACTION_WITH_SINGLE_OBJECT(RemoveInstrAction, std::nullptr_t*, RemoveInstr);
+			VS_CREATE_ROUTINE_TRACK_ACTION_WITH_SINGLE_OBJECT(RemoveInstrAction, std::nullptr_t, RemoveInstr);
 
 			VS_CREATE_ROUTINE_TRACK_ACTION_WITH_INDEXED_OBJECT(AddCurveAction, vocalshaper::Curve*, AddCurve);
-			VS_CREATE_ROUTINE_TRACK_ACTION_WITH_INDEXED_OBJECT(RemoveCurveAction, std::nullptr_t*, RemoveCurve);
+			VS_CREATE_ROUTINE_TRACK_ACTION_WITH_INDEXED_OBJECT(RemoveCurveAction, std::nullptr_t, RemoveCurve);
 
 			VS_CREATE_ROUTINE_TRACK_ACTION_WITH_INDEXED_OBJECT(AddPluginAction, vocalshaper::Plugin*, AddPlugin);
-			VS_CREATE_ROUTINE_TRACK_ACTION_WITH_INDEXED_OBJECT(RemovePluginAction, std::nullptr_t*, RemovePlugin);
+			VS_CREATE_ROUTINE_TRACK_ACTION_WITH_INDEXED_OBJECT(RemovePluginAction, std::nullptr_t, RemovePlugin);
 
 			VS_CREATE_ROUTINE_TRACK_ACTION_WITH_INDEXED_OBJECT(AddNoteAction, vocalshaper::Note*, AddNote);
-			VS_CREATE_ROUTINE_TRACK_ACTION_WITH_INDEXED_OBJECT(RemoveNoteAction, std::nullptr_t*, RemoveNote);
+			VS_CREATE_ROUTINE_TRACK_ACTION_WITH_INDEXED_OBJECT(RemoveNoteAction, std::nullptr_t, RemoveNote);
 
 			VS_CREATE_ROUTINE_TRACK_ACTION_WITH_INDEXED_OBJECT(AddWaveAction, vocalshaper::Wave*, AddWave);
-			VS_CREATE_ROUTINE_TRACK_ACTION_WITH_INDEXED_OBJECT(RemoveWaveAction, std::nullptr_t*, RemoveWave);
+			VS_CREATE_ROUTINE_TRACK_ACTION_WITH_INDEXED_OBJECT(RemoveWaveAction, std::nullptr_t, RemoveWave);
 
 			VS_CREATE_ROUTINE_TRACK_ACTION_WITH_INDEXED_OBJECT(AddParamAction, vocalshaper::Param*, AddParam);
-			VS_CREATE_ROUTINE_TRACK_ACTION_WITH_INDEXED_OBJECT(RemoveParamAction, std::nullptr_t*, RemoveParam);
+			VS_CREATE_ROUTINE_TRACK_ACTION_WITH_INDEXED_OBJECT(RemoveParamAction, std::nullptr_t, RemoveParam);
 		}
 	}
 }

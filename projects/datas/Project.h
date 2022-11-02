@@ -16,7 +16,6 @@ namespace vocalshaper {
 			:SerializableProjectStructure(SerializableProjectStructure::Type::Project),
 			masterTrack(new Track)
 		{};
-		~Project() override = default;
 
 	private:
 		juce::OwnedArray<Track> tracks;									//轨道

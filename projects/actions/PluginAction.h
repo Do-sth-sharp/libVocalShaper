@@ -26,7 +26,7 @@ namespace vocalshaper {
 			VS_CREATE_ROUTINE_PLUGIN_ACTION(EnabledAction, BoolData, Enabled);
 
 			VS_CREATE_ROUTINE_PLUGIN_ACTION_WITH_INDEXED_OBJECT(AddParamAction, vocalshaper::Param*, AddParam);
-			VS_CREATE_ROUTINE_PLUGIN_ACTION_WITH_INDEXED_OBJECT(RemoveParamAction, std::nullptr_t*, RemoveParam);
+			VS_CREATE_ROUTINE_PLUGIN_ACTION_WITH_INDEXED_OBJECT(RemoveParamAction, std::nullptr_t, RemoveParam);
 		}
 	}
 }

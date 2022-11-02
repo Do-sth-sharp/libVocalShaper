@@ -12,7 +12,6 @@ namespace vocalshaper {
 		Curve()
 			:SerializableProjectStructure(SerializableProjectStructure::Type::Curve)
 		{};
-		~Curve() override = default;
 
 	private:
 		juce::String id;								//唯一id

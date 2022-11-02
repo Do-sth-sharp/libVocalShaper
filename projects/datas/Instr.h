@@ -22,7 +22,6 @@ namespace vocalshaper {
 			:SerializableProjectStructure(SerializableProjectStructure::Type::Instr),
 			instrType(type)
 		{};
-		~Instr() override = default;
 
 	private:
 		int uniqueId = 0;									//乐器唯一标识

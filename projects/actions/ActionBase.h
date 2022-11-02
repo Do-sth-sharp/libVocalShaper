@@ -27,7 +27,7 @@ public: \
 	using DataType = vocalshaper::actions::ActionBase::_DataType; \
 public: \
 	explicit _ActionName(TargetType target, _ArgInit, vocalshaper::ProjectProxy* proxy) \
-		:_ActionBaseType(ActionType::Actions::_ActionType, target, new DataType({ _DataInit }), proxy) {}; \
+		:_ActionBaseType(ActionType::Actions::_ActionType, target, new DataType(_DataInit), proxy) {}; \
 	virtual ~_ActionName() override = default; \
 protected: \
 	bool perform() override; \
@@ -37,14 +37,9 @@ private: \
 };
 
 //为用于储存修改数据的类中成员以初始化列表形式赋值
-#define VS_INIT_ROUTINE_DATA .data = data
-#define VS_INIT_ROUTINE_DATA_WITH_INDEXED_OBJECT \
-.data = std::unique_ptr<vocalshaper::SerializableProjectStructure>( \
-	reinterpret_cast<vocalshaper::SerializableProjectStructure*>(data)), \
-.index = index
-#define VS_INIT_ROUTINE_DATA_WITH_SINGLE_OBJECT \
-.data = std::unique_ptr<vocalshaper::SerializableProjectStructure>( \
-	reinterpret_cast<vocalshaper::SerializableProjectStructure*>(data))
+#define VS_INIT_ROUTINE_DATA data
+#define VS_INIT_ROUTINE_DATA_WITH_INDEXED_OBJECT data, index
+#define VS_INIT_ROUTINE_DATA_WITH_SINGLE_OBJECT data
 
 //创建进行工程数据属性修改的二级Action
 //_ActionName:二级Action类名
@@ -68,7 +63,7 @@ VS_CREATE_ACTION(_ActionName, _ActionBaseType, IndexObjectData, _ActionType, VS_
 //_DataMemType:工程结构的类型（应为一个指针）
 //_ActionType:二级Action类型，在一级Action类里以枚举的方式定义
 #define VS_CREATE_ROUTINE_ACTION_WITH_SINGLE_OBJECT(_ActionName, _ActionBaseType, _DataMemType, _ActionType) \
-VS_CREATE_ACTION(_ActionName, _ActionBaseType, IndexObjectData, _ActionType, VS_INIT_ROUTINE_DATA_WITH_SINGLE_OBJECT, VS_ACTION_INIT_ARG(_DataMemType))
+VS_CREATE_ACTION(_ActionName, _ActionBaseType, ObjectData, _ActionType, VS_INIT_ROUTINE_DATA_WITH_SINGLE_OBJECT, VS_ACTION_INIT_ARG(_DataMemType))
 
 //创建一级Action类
 //_ActionBaseType:一级Action类名
@@ -332,14 +327,28 @@ inline vocalshaper::_ObjectPtrType* _MethodName(vocalshaper::Project* ptr, vocal
 //_MemType:修改数据的数据类型
 //_DefaultValue:修改数据的默认值
 #define VS_CREATE_ACTION_DATA_TYPE(_TypeName, _MemType, _DefaultValue) \
-struct _TypeName : public Data { _MemType data = _DefaultValue; };
+struct _TypeName : public Data { _MemType data = _DefaultValue; _TypeName() = default; _TypeName(_MemType data) : data(data) {}; private: JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(_TypeName) };
 
 //用于储存修改数据的类，带index
 //_TypeName:储存修改数据的类的类名
 //_MemType:修改数据的数据类型
 //_DefaultValue:修改数据的默认值
 #define VS_CREATE_ACTION_DATA_TYPE_WITH_INDEX(_TypeName, _MemType, _DefaultValue) \
-struct _TypeName : public Data { _MemType data = _DefaultValue; int index = 0; };
+struct _TypeName : public Data { _MemType data = _DefaultValue; int index = 0; _TypeName() = default; _TypeName(_MemType data, int index) : data(data), index(index) {}; private: JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(_TypeName) };
+
+//用于储存修改对象的类，不含index
+//_TypeName:储存修改数据的类的类名
+//_MemType:修改数据的数据类型
+//_DefaultValue:修改数据的默认值
+#define VS_CREATE_ACTION_OBJECT_DATA_TYPE(_TypeName, _MemType) \
+struct _TypeName : public Data { std::unique_ptr<_MemType> data = nullptr; _TypeName() = default; _TypeName(_MemType* data) : data(data) {}; private: JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(_TypeName) };
+
+//用于储存修改对象的类，带index
+//_TypeName:储存修改数据的类的类名
+//_MemType:修改数据的数据类型
+//_DefaultValue:修改数据的默认值
+#define VS_CREATE_ACTION_OBJECT_DATA_TYPE_WITH_INDEX(_TypeName, _MemType) \
+struct _TypeName : public Data { std::unique_ptr<_MemType> data = nullptr; int index = 0; _TypeName() = default; _TypeName(_MemType* data, int index) : data(data), index(index) {}; private: JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(_TypeName) };
 
 namespace vocalshaper {
 	class VSAPI ProjectProxy;
@@ -370,7 +379,13 @@ namespace vocalshaper {
 			};
 
 			struct Target {};
-			struct Data {};
+			struct Data {
+				Data() = default;
+				virtual ~Data() = default;
+
+			private:
+				JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Data)
+			};
 
 			VS_CREATE_ACTION_DATA_TYPE(BoolData, bool, false);
 			VS_CREATE_ACTION_DATA_TYPE(IntData, int, 0);
@@ -386,8 +401,8 @@ namespace vocalshaper {
 			VS_CREATE_ACTION_DATA_TYPE(FloatData, float, 0.f);
 			VS_CREATE_ACTION_DATA_TYPE(StringData, juce::String, juce::String());
 			VS_CREATE_ACTION_DATA_TYPE(ColorData, juce::Colour, juce::Colour());
-			VS_CREATE_ACTION_DATA_TYPE(ObjectData, std::unique_ptr<vocalshaper::SerializableProjectStructure>, nullptr);
-			VS_CREATE_ACTION_DATA_TYPE_WITH_INDEX(IndexObjectData, std::unique_ptr<vocalshaper::SerializableProjectStructure>, nullptr);
+			VS_CREATE_ACTION_OBJECT_DATA_TYPE(ObjectData, vocalshaper::SerializableProjectStructure);
+			VS_CREATE_ACTION_OBJECT_DATA_TYPE_WITH_INDEX(IndexObjectData, vocalshaper::SerializableProjectStructure);
 
 			VS_CREATE_ACTION_DATA_TYPE(LabelTypeData, vocalshaper::Label::LabelType, vocalshaper::Label::LabelType::Lua);
 			VS_CREATE_ACTION_DATA_TYPE(ScriptTypeData, vocalshaper::Script::ScriptType, vocalshaper::Script::ScriptType::Lua);

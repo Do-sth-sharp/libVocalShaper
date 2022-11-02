@@ -17,7 +17,6 @@ namespace vocalshaper {
 		Track()
 			:SerializableProjectStructure(SerializableProjectStructure::Type::Track)
 		{};
-		~Track() override = default;
 
 		enum class TrackType {
 			Empty,

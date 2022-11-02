@@ -11,7 +11,6 @@ namespace vocalshaper {
 		Point()
 			:SerializableProjectStructure(SerializableProjectStructure::Type::Point)
 		{};
-		~Point() override = default;
 
 	private:
 		double x = 0;

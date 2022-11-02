@@ -23,7 +23,6 @@ namespace vocalshaper {
 			:SerializableProjectStructure(SerializableProjectStructure::Type::Plugin),
 			pluginType(type)
 		{};
-		~Plugin() override = default;
 
 	private:
 		int uniqueId = 0;									//效果器唯一标识

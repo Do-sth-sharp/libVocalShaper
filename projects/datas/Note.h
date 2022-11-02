@@ -22,7 +22,6 @@ namespace vocalshaper {
 			:SerializableProjectStructure(SerializableProjectStructure::Type::Note),
 			noteType(type), phonemes({ new Phoneme })
 		{};
-		~Note() override = default;
 
 	private:
 		double st = 0;									//起始位置

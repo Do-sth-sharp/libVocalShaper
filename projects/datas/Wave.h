@@ -11,7 +11,6 @@ namespace vocalshaper {
 		Wave()
 			:SerializableProjectStructure(SerializableProjectStructure::Type::Wave)
 		{};
-		~Wave() override = default;
 
 	private:
 		juce::String source;				//音频源

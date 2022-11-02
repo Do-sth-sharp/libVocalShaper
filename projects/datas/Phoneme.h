@@ -12,7 +12,6 @@ namespace vocalshaper {
 		Phoneme()
 			:SerializableProjectStructure(SerializableProjectStructure::Type::Phoneme)
 		{};
-		~Phoneme() override = default;
 
 	private:
 		double deviation = 0;				//较音符起始位置偏移

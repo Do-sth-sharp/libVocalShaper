@@ -11,7 +11,6 @@ namespace vocalshaper {
 		Script()
 			:SerializableProjectStructure(SerializableProjectStructure::Type::Script)
 		{};
-		~Script() override = default;
 
 		enum class ScriptType {
 			Lua,

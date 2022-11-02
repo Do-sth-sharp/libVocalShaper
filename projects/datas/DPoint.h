@@ -11,7 +11,6 @@ namespace vocalshaper {
 		DPoint()
 			:SerializableProjectStructure(SerializableProjectStructure::Type::DPoint)
 		{};
-		~DPoint() override = default;
 
 	private:
 		double x = 0;								//时间
