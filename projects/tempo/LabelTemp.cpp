@@ -67,6 +67,26 @@ namespace vocalshaper {
 		}
 	}
 
+	bool LabelTemp::parseNow(
+		const juce::String& data, LabelData& result, Label::LabelType type,
+		double x, double tempoTemp, uint8_t beatTemp)
+	{
+		//判断类型并分别解析
+		switch (type)
+		{
+		case Label::LabelType::Lua:
+			return this->parseLuaLabel(data, result, x, tempoTemp, beatTemp);
+		case Label::LabelType::Ini:
+			return this->parseIniLabel(data, result, x, tempoTemp, beatTemp);
+		case Label::LabelType::Xml:
+			return this->parseXmlLabel(data, result, x, tempoTemp, beatTemp);
+		case Label::LabelType::Json:
+			return this->parseJsonLabel(data, result, x, tempoTemp, beatTemp);
+		default:
+			return false;
+		}
+	}
+
 	bool LabelTemp::parseLabel(
 		const Label* label, LabelTemp::LabelData& result, double& tempoTemp, uint8_t& beatTemp)
 	{
@@ -74,26 +94,29 @@ namespace vocalshaper {
 			return false;
 		}
 
+		//设置时间
+		result.x = LabelDAO::getPosition(label);
+
 		//判断类型并分别解析
 		switch (LabelDAO::getLabelType(label))
 		{
 		case Label::LabelType::Lua:
-			if (!this->parseLuaLabel(LabelDAO::getData(label), result, tempoTemp, beatTemp)) {
+			if (!this->parseLuaLabel(LabelDAO::getData(label), result, result.x, tempoTemp, beatTemp)) {
 				return false;
 			}
 			break;
 		case Label::LabelType::Ini:
-			if (!this->parseIniLabel(LabelDAO::getData(label), result, tempoTemp, beatTemp)) {
+			if (!this->parseIniLabel(LabelDAO::getData(label), result, result.x, tempoTemp, beatTemp)) {
 				return false;
 			}
 			break;
 		case Label::LabelType::Xml:
-			if (!this->parseXmlLabel(LabelDAO::getData(label), result, tempoTemp, beatTemp)) {
+			if (!this->parseXmlLabel(LabelDAO::getData(label), result, result.x, tempoTemp, beatTemp)) {
 				return false;
 			}
 			break;
 		case Label::LabelType::Json:
-			if (!this->parseJsonLabel(LabelDAO::getData(label), result, tempoTemp, beatTemp)) {
+			if (!this->parseJsonLabel(LabelDAO::getData(label), result, result.x, tempoTemp, beatTemp)) {
 				return false;
 			}
 			break;
@@ -101,8 +124,6 @@ namespace vocalshaper {
 			return false;
 		}
 
-		//设置时间
-		result.x = LabelDAO::getPosition(label);
 		return true;
 	}
 
@@ -159,7 +180,7 @@ namespace vocalshaper {
 	};
 
 	bool LabelTemp::parseLuaLabel(
-		const juce::String& data, LabelTemp::LabelData& result, double& tempoTemp, uint8_t& beatTemp)
+		const juce::String& data, LabelTemp::LabelData& result, double x, double& tempoTemp, uint8_t& beatTemp)
 	{
 		//获取lua虚拟机
 		auto ptrLState = this->luaState.get();
@@ -169,11 +190,25 @@ namespace vocalshaper {
 
 		//清理lua虚拟机
 		lua_pushnil(ptrLState);
+		lua_setglobal(ptrLState, "time");
+		lua_pushnil(ptrLState);
+		lua_setglobal(ptrLState, "lastTempo");
+		lua_pushnil(ptrLState);
+		lua_setglobal(ptrLState, "lastBeat");
+		lua_pushnil(ptrLState);
 		lua_setglobal(ptrLState, "tempo");
 		lua_pushnil(ptrLState);
 		lua_setglobal(ptrLState, "beat");
 		lua_pushnil(ptrLState);
 		lua_setglobal(ptrLState, "auto");
+
+		//设置状态量
+		lua_pushnumber(ptrLState, x);
+		lua_setglobal(ptrLState, "time");
+		lua_pushnumber(ptrLState, tempoTemp);
+		lua_setglobal(ptrLState, "lastTempo");
+		lua_pushinteger(ptrLState, beatTemp);
+		lua_setglobal(ptrLState, "lastBeat");
 
 		//建立守护线程
 		LuaGuard guard(ptrLState);
@@ -217,7 +252,7 @@ namespace vocalshaper {
 	}
 
 	bool LabelTemp::parseIniLabel(
-		const juce::String& data, LabelTemp::LabelData& result, double& tempoTemp, uint8_t& beatTemp)
+		const juce::String& data, LabelTemp::LabelData& result, double x, double& tempoTemp, uint8_t& beatTemp)
 	{
 		//解析数据
 		utils::ini::IniObject object(data);
@@ -246,7 +281,7 @@ namespace vocalshaper {
 	}
 
 	bool LabelTemp::parseXmlLabel(
-		const juce::String& data, LabelTemp::LabelData& result, double& tempoTemp, uint8_t& beatTemp)
+		const juce::String& data, LabelTemp::LabelData& result, double x, double& tempoTemp, uint8_t& beatTemp)
 	{
 		//解析数据
 		auto ptrElement = juce::XmlDocument::parse(data);
@@ -280,7 +315,7 @@ namespace vocalshaper {
 	}
 
 	bool LabelTemp::parseJsonLabel(
-		const juce::String& data, LabelTemp::LabelData& result, double& tempoTemp, uint8_t& beatTemp)
+		const juce::String& data, LabelTemp::LabelData& result, double x, double& tempoTemp, uint8_t& beatTemp)
 	{
 		//解析数据
 		auto object = juce::JSON::parse(data);
