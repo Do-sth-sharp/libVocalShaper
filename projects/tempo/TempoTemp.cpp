@@ -257,6 +257,15 @@ namespace vocalshaper {
 		}
 	}
 
+	const TempoTemp::TempoData TempoTemp::getTempData(int index) const
+	{
+		juce::ScopedReadLock locker(this->lock);
+		if (index >= 0 && index < this->list.size()) {
+			return this->list.getReference(index);
+		}
+		return TempoData();
+	}
+
 	template<typename Func, typename T>
 	int TempoTemp::search(int low, int high, T value, Func func) const
 	{

@@ -97,6 +97,11 @@ namespace vocalshaper {
 		return this->eventProcesser.get();
 	}
 
+	const LabelTemp* ProjectProxy::getLabelParser()
+	{
+		return this->labelTemp.get();
+	}
+
 	const TempoTemp* ProjectProxy::getTempo()
 	{
 		return this->tempoTemp.get();

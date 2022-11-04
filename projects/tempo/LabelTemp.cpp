@@ -69,7 +69,7 @@ namespace vocalshaper {
 
 	bool LabelTemp::parseNow(
 		const juce::String& data, LabelData& result, Label::LabelType type,
-		double x, double tempoTemp, uint8_t beatTemp)
+		double x, double tempoTemp, uint8_t beatTemp) const
 	{
 		//判断类型并分别解析
 		switch (type)
@@ -88,7 +88,7 @@ namespace vocalshaper {
 	}
 
 	bool LabelTemp::parseLabel(
-		const Label* label, LabelTemp::LabelData& result, double& tempoTemp, uint8_t& beatTemp)
+		const Label* label, LabelTemp::LabelData& result, double& tempoTemp, uint8_t& beatTemp) const
 	{
 		if (!label) {
 			return false;
@@ -180,7 +180,7 @@ namespace vocalshaper {
 	};
 
 	bool LabelTemp::parseLuaLabel(
-		const juce::String& data, LabelTemp::LabelData& result, double x, double& tempoTemp, uint8_t& beatTemp)
+		const juce::String& data, LabelTemp::LabelData& result, double x, double& tempoTemp, uint8_t& beatTemp) const
 	{
 		//获取lua虚拟机
 		auto ptrLState = this->luaState.get();
@@ -252,7 +252,7 @@ namespace vocalshaper {
 	}
 
 	bool LabelTemp::parseIniLabel(
-		const juce::String& data, LabelTemp::LabelData& result, double x, double& tempoTemp, uint8_t& beatTemp)
+		const juce::String& data, LabelTemp::LabelData& result, double x, double& tempoTemp, uint8_t& beatTemp) const
 	{
 		//解析数据
 		utils::ini::IniObject object(data);
@@ -281,7 +281,7 @@ namespace vocalshaper {
 	}
 
 	bool LabelTemp::parseXmlLabel(
-		const juce::String& data, LabelTemp::LabelData& result, double x, double& tempoTemp, uint8_t& beatTemp)
+		const juce::String& data, LabelTemp::LabelData& result, double x, double& tempoTemp, uint8_t& beatTemp) const
 	{
 		//解析数据
 		auto ptrElement = juce::XmlDocument::parse(data);
@@ -315,7 +315,7 @@ namespace vocalshaper {
 	}
 
 	bool LabelTemp::parseJsonLabel(
-		const juce::String& data, LabelTemp::LabelData& result, double x, double& tempoTemp, uint8_t& beatTemp)
+		const juce::String& data, LabelTemp::LabelData& result, double x, double& tempoTemp, uint8_t& beatTemp) const
 	{
 		//解析数据
 		auto object = juce::JSON::parse(data);

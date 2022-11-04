@@ -34,6 +34,8 @@ namespace vocalshaper {
 		int selectLabelBy_x(double x) const;
 		int selectLabelBy_t(double t) const;
 
+		const TempoData getTempData(int index) const;
+
 	private:
 		juce::Array<TempoData> list;
 		juce::ReadWriteLock lock;

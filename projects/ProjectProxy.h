@@ -47,6 +47,7 @@ namespace vocalshaper {
 		Project* getPtr();
 		ProjectMeta* getMeta();
 		EventProcesser* getProcesser();
+		const LabelTemp* getLabelParser();
 		const TempoTemp* getTempo();
 		const BeatTemp* getBeat();
 
