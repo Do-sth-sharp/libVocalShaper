@@ -36,7 +36,7 @@ namespace vocalshaper {
 		}
 	}
 
-	void EventProcesser::processEvents(juce::OwnedArray<actions::ActionBase> events)
+	void EventProcesser::processEvents(juce::OwnedArray<actions::ActionBase>&& events)
 	{
 		//触发内存限制，执行被拒绝
 		if (!utils::system::MemLimit::sizeIsNotReachedLimit()) {

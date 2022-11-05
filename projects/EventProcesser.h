@@ -18,7 +18,7 @@ namespace vocalshaper {
 			= std::function<void(actions::ActionBase&)>;
 
 		void processEvent(std::unique_ptr<actions::ActionBase> event);
-		void processEvents(juce::OwnedArray<actions::ActionBase> events);
+		void processEvents(juce::OwnedArray<actions::ActionBase>&& events);
 
 		//这是提供给插件模块使用的回调管理方法
 		//在使用此方法前请考虑清楚你在做什么

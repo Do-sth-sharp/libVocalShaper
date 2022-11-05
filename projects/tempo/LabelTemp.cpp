@@ -71,6 +71,8 @@ namespace vocalshaper {
 		const juce::String& data, LabelData& result, Label::LabelType type,
 		double x, double tempoTemp, uint8_t beatTemp) const
 	{
+		result.x = x;
+
 		//判断类型并分别解析
 		switch (type)
 		{
@@ -185,6 +187,8 @@ namespace vocalshaper {
 		//获取lua虚拟机
 		auto ptrLState = this->luaState.get();
 		if (!ptrLState) {
+			result.tempo = tempoTemp;
+			result.beat = beatTemp;
 			return false;
 		}
 
@@ -247,7 +251,9 @@ namespace vocalshaper {
 
 			return true;
 		}
-
+		
+		result.tempo = tempoTemp;
+		result.beat = beatTemp;
 		return false;
 	}
 
@@ -286,6 +292,8 @@ namespace vocalshaper {
 		//解析数据
 		auto ptrElement = juce::XmlDocument::parse(data);
 		if ((!ptrElement)) {
+			result.tempo = tempoTemp;
+			result.beat = beatTemp;
 			return false;
 		}
 
@@ -320,6 +328,8 @@ namespace vocalshaper {
 		//解析数据
 		auto object = juce::JSON::parse(data);
 		if (!object.isObject()) {
+			result.tempo = tempoTemp;
+			result.beat = beatTemp;
 			return false;
 		}
 
