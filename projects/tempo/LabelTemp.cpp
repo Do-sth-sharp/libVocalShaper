@@ -50,7 +50,7 @@ namespace vocalshaper {
 			//解析标签并放入列表
 			{
 				LabelData label;
-				if (this->parseLabel(ptrLabel, label, tempoTemp, beatTemp)) {
+				if (this->parseLabel(ptrLabel, label, tempoTemp, beatTemp) == ParseResult::OK) {
 					//合法检查
 					if (label.beat <= 0 || label.beat > 20) { beatTemp = label.beat = 4; }
 					if (label.tempo <= 0. || label.tempo > 500.) { tempoTemp = label.tempo = 120.; }
@@ -67,7 +67,7 @@ namespace vocalshaper {
 		}
 	}
 
-	bool LabelTemp::parseNow(
+	LabelTemp::ParseResult LabelTemp::parseNow(
 		const juce::String& data, LabelData& result, Label::LabelType type,
 		double x, double tempoTemp, uint8_t beatTemp) const
 	{
@@ -85,15 +85,15 @@ namespace vocalshaper {
 		case Label::LabelType::Json:
 			return this->parseJsonLabel(data, result, x, tempoTemp, beatTemp);
 		default:
-			return false;
+			return ParseResult::TE;
 		}
 	}
 
-	bool LabelTemp::parseLabel(
+	LabelTemp::ParseResult LabelTemp::parseLabel(
 		const Label* label, LabelTemp::LabelData& result, double& tempoTemp, uint8_t& beatTemp) const
 	{
 		if (!label) {
-			return false;
+			return ParseResult::ME;
 		}
 
 		//设置时间
@@ -103,36 +103,22 @@ namespace vocalshaper {
 		switch (LabelDAO::getLabelType(label))
 		{
 		case Label::LabelType::Lua:
-			if (!this->parseLuaLabel(LabelDAO::getData(label), result, result.x, tempoTemp, beatTemp)) {
-				return false;
-			}
-			break;
+			return this->parseLuaLabel(LabelDAO::getData(label), result, result.x, tempoTemp, beatTemp);
 		case Label::LabelType::Ini:
-			if (!this->parseIniLabel(LabelDAO::getData(label), result, result.x, tempoTemp, beatTemp)) {
-				return false;
-			}
-			break;
+			return this->parseIniLabel(LabelDAO::getData(label), result, result.x, tempoTemp, beatTemp);
 		case Label::LabelType::Xml:
-			if (!this->parseXmlLabel(LabelDAO::getData(label), result, result.x, tempoTemp, beatTemp)) {
-				return false;
-			}
-			break;
+			return this->parseXmlLabel(LabelDAO::getData(label), result, result.x, tempoTemp, beatTemp);
 		case Label::LabelType::Json:
-			if (!this->parseJsonLabel(LabelDAO::getData(label), result, result.x, tempoTemp, beatTemp)) {
-				return false;
-			}
-			break;
+			return this->parseJsonLabel(LabelDAO::getData(label), result, result.x, tempoTemp, beatTemp);
 		default:
-			return false;
+			return ParseResult::TE;
 		}
-
-		return true;
 	}
 
 	class LuaGuard final : public juce::Thread
 	{
 	public:
-		explicit LuaGuard(lua_State* state, int timeOut = 3000)
+		explicit LuaGuard(lua_State* state, int timeOut = 100)
 			:Thread("Lua Guard Thread"),
 			state(state), timeOut(timeOut)
 		{};
@@ -176,12 +162,12 @@ namespace vocalshaper {
 
 	private:
 		lua_State* state = nullptr;
-		int timeOut = 3000;
+		int timeOut = 100;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(LuaGuard)
 	};
 
-	bool LabelTemp::parseLuaLabel(
+	LabelTemp::ParseResult LabelTemp::parseLuaLabel(
 		const juce::String& data, LabelTemp::LabelData& result, double x, double& tempoTemp, uint8_t& beatTemp) const
 	{
 		//获取lua虚拟机
@@ -189,7 +175,7 @@ namespace vocalshaper {
 		if (!ptrLState) {
 			result.tempo = tempoTemp;
 			result.beat = beatTemp;
-			return false;
+			return ParseResult::VME;
 		}
 
 		//清理lua虚拟机
@@ -222,9 +208,14 @@ namespace vocalshaper {
 		int err = luaL_dostring(ptrLState, data.toStdString().c_str());
 
 		//如果守护线程仍存活，则将其关闭
-		//之前想要在这里根据守护线程状态判断脚本是否超时，但应直接根据luaL_dostring返回值判断
+		//判断脚本是否超时
 		if (guard.isThreadRunning()) {
-			guard.stopThread(3000);
+			guard.stopThread(200);
+		}
+		else {
+			result.tempo = tempoTemp;
+			result.beat = beatTemp;
+			return ParseResult::TLE;
 		}
 		
 		//如果执行成功
@@ -249,19 +240,22 @@ namespace vocalshaper {
 				result.autoTempo = lua_toboolean(ptrLState, -1);
 			}
 
-			return true;
+			return ParseResult::OK;
 		}
 		
 		result.tempo = tempoTemp;
 		result.beat = beatTemp;
-		return false;
+		return ParseResult::SE;
 	}
 
-	bool LabelTemp::parseIniLabel(
+	LabelTemp::ParseResult LabelTemp::parseIniLabel(
 		const juce::String& data, LabelTemp::LabelData& result, double x, double& tempoTemp, uint8_t& beatTemp) const
 	{
 		//解析数据
-		utils::ini::IniObject object(data);
+		utils::ini::IniObject object;
+		if (!object.parse(data)) {
+			return ParseResult::SE;
+		}
 
 		//读取tempo
 		if (object.has("Label", "tempo")) {
@@ -283,10 +277,10 @@ namespace vocalshaper {
 				(sRes.toLowerCase() != "false") &&
 				(sRes.getIntValue() != 0);
 		}
-		return true;
+		return ParseResult::OK;
 	}
 
-	bool LabelTemp::parseXmlLabel(
+	LabelTemp::ParseResult LabelTemp::parseXmlLabel(
 		const juce::String& data, LabelTemp::LabelData& result, double x, double& tempoTemp, uint8_t& beatTemp) const
 	{
 		//解析数据
@@ -294,14 +288,14 @@ namespace vocalshaper {
 		if ((!ptrElement)) {
 			result.tempo = tempoTemp;
 			result.beat = beatTemp;
-			return false;
+			return ParseResult::SE;
 		}
 
 		//查找label标签
 		auto elementLabel =
 			(ptrElement->getTagName() == "label") ? ptrElement.get() : ptrElement->getNextElementWithTagName("label");
 		if (!elementLabel) {
-			return false;
+			return ParseResult::SE;
 		}
 
 		//读取tempo
@@ -319,10 +313,10 @@ namespace vocalshaper {
 				(sRes.getIntValue() != 0);
 		}
 
-		return true;
+		return ParseResult::OK;
 	}
 
-	bool LabelTemp::parseJsonLabel(
+	LabelTemp::ParseResult LabelTemp::parseJsonLabel(
 		const juce::String& data, LabelTemp::LabelData& result, double x, double& tempoTemp, uint8_t& beatTemp) const
 	{
 		//解析数据
@@ -330,7 +324,7 @@ namespace vocalshaper {
 		if (!object.isObject()) {
 			result.tempo = tempoTemp;
 			result.beat = beatTemp;
-			return false;
+			return ParseResult::SE;
 		}
 
 		//读取tempo
@@ -342,6 +336,6 @@ namespace vocalshaper {
 		//读取autoTempo
 		result.autoTempo = object.getProperty("auto", false);
 
-		return true;
+		return ParseResult::OK;
 	}
 }

@@ -24,10 +24,19 @@ namespace vocalshaper {
 			bool autoTempo = false;	//曲速自动插值
 		};
 
+		enum class ParseResult {
+			OK,		//成功
+			TLE,	//超时
+			SE,		//语法错误
+			TE,		//类型错误
+			ME,		//内存错误
+			VME		//虚拟机错误
+		};
+
 		//从data数据刷新缓存
 		void refresh();
 
-		bool parseNow(const juce::String& data, LabelData& result, Label::LabelType type, double x, double tempoTemp, uint8_t beatTemp) const;
+		ParseResult parseNow(const juce::String& data, LabelData& result, Label::LabelType type, double x, double tempoTemp, uint8_t beatTemp) const;
 
 	private:
 		friend class TempoTemp;
@@ -39,11 +48,11 @@ namespace vocalshaper {
 
 		ProjectProxy* parent = nullptr;
 
-		bool parseLabel(const Label* label, LabelData& result, double& tempoTemp, uint8_t& beatTemp) const;
-		bool parseLuaLabel(const juce::String& data, LabelData& result, double x, double& tempoTemp, uint8_t& beatTemp) const;
-		bool parseIniLabel(const juce::String& data, LabelData& result, double x, double& tempoTemp, uint8_t& beatTemp) const;
-		bool parseXmlLabel(const juce::String& data, LabelData& result, double x, double& tempoTemp, uint8_t& beatTemp) const;
-		bool parseJsonLabel(const juce::String& data, LabelData& result, double x, double& tempoTemp, uint8_t& beatTemp) const;
+		ParseResult parseLabel(const Label* label, LabelData& result, double& tempoTemp, uint8_t& beatTemp) const;
+		ParseResult parseLuaLabel(const juce::String& data, LabelData& result, double x, double& tempoTemp, uint8_t& beatTemp) const;
+		ParseResult parseIniLabel(const juce::String& data, LabelData& result, double x, double& tempoTemp, uint8_t& beatTemp) const;
+		ParseResult parseXmlLabel(const juce::String& data, LabelData& result, double x, double& tempoTemp, uint8_t& beatTemp) const;
+		ParseResult parseJsonLabel(const juce::String& data, LabelData& result, double x, double& tempoTemp, uint8_t& beatTemp) const;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(LabelTemp)
 	};
