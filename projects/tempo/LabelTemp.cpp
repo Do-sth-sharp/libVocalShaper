@@ -77,13 +77,45 @@ namespace vocalshaper {
 		switch (type)
 		{
 		case Label::LabelType::Lua:
-			return this->parseLuaLabel(data, result, x, tempoTemp, beatTemp);
+		{
+			auto parseState = this->parseLuaLabel(data, result, x, tempoTemp, beatTemp);
+			if (parseState == ParseResult::OK) {
+				//合法检查
+				if (result.beat <= 0 || result.beat > 20) { result.beat = 4; }
+				if (result.tempo <= 0. || result.tempo > 500.) { result.tempo = 120.; }
+			}
+			return parseState;
+		}
 		case Label::LabelType::Ini:
-			return this->parseIniLabel(data, result, x, tempoTemp, beatTemp);
+		{
+			auto parseState = this->parseIniLabel(data, result, x, tempoTemp, beatTemp);
+			if (parseState == ParseResult::OK) {
+				//合法检查
+				if (result.beat <= 0 || result.beat > 20) { result.beat = 4; }
+				if (result.tempo <= 0. || result.tempo > 500.) { result.tempo = 120.; }
+			}
+			return parseState;
+		}
 		case Label::LabelType::Xml:
-			return this->parseXmlLabel(data, result, x, tempoTemp, beatTemp);
+		{
+			auto parseState = this->parseXmlLabel(data, result, x, tempoTemp, beatTemp);
+			if (parseState == ParseResult::OK) {
+				//合法检查
+				if (result.beat <= 0 || result.beat > 20) { result.beat = 4; }
+				if (result.tempo <= 0. || result.tempo > 500.) { result.tempo = 120.; }
+			}
+			return parseState;
+		}
 		case Label::LabelType::Json:
-			return this->parseJsonLabel(data, result, x, tempoTemp, beatTemp);
+		{
+			auto parseState = this->parseJsonLabel(data, result, x, tempoTemp, beatTemp);
+			if (parseState == ParseResult::OK) {
+				//合法检查
+				if (result.beat <= 0 || result.beat > 20) { result.beat = 4; }
+				if (result.tempo <= 0. || result.tempo > 500.) { result.tempo = 120.; }
+			}
+			return parseState;
+		}
 		default:
 			return ParseResult::TE;
 		}
