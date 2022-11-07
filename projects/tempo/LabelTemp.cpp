@@ -274,8 +274,7 @@ namespace vocalshaper {
 			auto sRes = object.get("Label", "auto");
 			result.autoTempo =
 				(sRes.isNotEmpty()) &&
-				(sRes.toLowerCase() != "false") &&
-				(sRes.getIntValue() != 0);
+				(sRes.toLowerCase() != "false");
 		}
 		return ParseResult::OK;
 	}
@@ -307,10 +306,11 @@ namespace vocalshaper {
 		//读取autoTempo
 		{
 			auto& sRes = ptrElement->getStringAttribute("auto");
+			auto iRes = ptrElement->getDoubleAttribute("auto", 1);
 			result.autoTempo =
 				(sRes.isNotEmpty()) &&
 				(sRes.toLowerCase() != "false") &&
-				(sRes.getIntValue() != 0);
+				(iRes != 0);
 		}
 
 		return ParseResult::OK;

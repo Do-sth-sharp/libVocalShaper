@@ -16,5 +16,7 @@
 
 #include "utils/IniParser.h"
 #include "utils/MemLimit.h"
+#include "utils/IniTokeniser.h"
+#include "utils/JsonTokeniser.h"
 
 #include "lua/lua.hpp"
