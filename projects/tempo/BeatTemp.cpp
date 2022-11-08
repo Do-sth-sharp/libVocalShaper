@@ -267,10 +267,10 @@ namespace vocalshaper {
 			return mid;
 		}
 		else if (func(value, this->list.getReference(mid), this->list.getReference(mid + 1)) == CompareResult::GTR) {
-			return this->search(mid, high, value, func);
+			return this->search(mid + 1, high, value, func);
 		} 
 		else {
-			return this->search(low, mid, value, func);
+			return this->search(low, mid - 1, value, func);
 		}
 	}
 }
