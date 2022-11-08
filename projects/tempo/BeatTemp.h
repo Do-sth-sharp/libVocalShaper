@@ -13,9 +13,10 @@ namespace vocalshaper {
 		~BeatTemp() = default;
 
 		struct BeatData final {
-			double xInBeat = 0;	//位置，以拍记
-			double xInBar = 0;	//位置，以小节记
-			uint8_t beat = 4;	//拍号
+			double xInQuarter = 0;	//位置，以四分音符记
+			double xInBar = 0;		//位置，以小节记
+			uint8_t beat = 4;		//拍号
+			uint8_t base = 4;		//拍基
 		};
 
 		//由标签缓存刷新节拍缓存
@@ -23,6 +24,7 @@ namespace vocalshaper {
 
 		//从缓存获取数据
 		uint8_t getBeatAtTime(double x) const;
+		uint8_t getBaseAtTime(double x) const;
 		double getBarAtTime(double x) const;
 		double getTimeAtBar(double bar) const;
 

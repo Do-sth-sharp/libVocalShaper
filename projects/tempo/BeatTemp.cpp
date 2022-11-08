@@ -6,7 +6,7 @@ namespace vocalshaper {
 		: labels(labels)
 	{
 		//添加初始值
-		this->list.add({ 0, 0, 4 });
+		this->list.add({ 0, 0, 4, 4 });
 	}
 
 	void BeatTemp::refresh()
@@ -23,43 +23,45 @@ namespace vocalshaper {
 		this->lastIndex = 0;
 
 		//上一标签状态缓存
-		double actPlaceInBeat = 0;			//上一标签生效拍号
+		double actPlaceInQuarter = 0;		//上一标签生效拍号
 		double actPlaceInBar = 0;			//上一标签生效小节
 
 		//已确认有效的标签状态缓存
-		double lastInBeat = 0;				//生效拍号
+		double lastInQuarter = 0;			//生效位置
 		double lastInBar = 0;				//生效小节
 		uint8_t lastBeat = 4;				//设定的节拍
+		uint8_t lastBase = 4;				//设定的节拍基础
 
 		//添加初始值
-		this->list.add({ lastInBeat, lastInBar, lastBeat });
+		this->list.add({ lastInQuarter, lastInBar, lastBeat, lastBase });
 
 		//计算节拍缓存
 		for (int i = 0; i < this->labels->list.size(); i++) {
 			auto& currentLabel = this->labels->list.getReference(i);
 
 			//计算标签生效位置
-			double labelBeat = std::floor(currentLabel.x);	//标签所在的拍
-			double labelBar = lastInBar + std::floor((labelBeat - lastInBeat) / lastBeat);	//标签所在的小节
+			double labelQuarter = std::floor(currentLabel.x);	//标签所在四分音符
+			double labelBar = lastInBar + std::floor(((labelQuarter - lastInQuarter) * (lastBase / 4.)) / lastBeat);	//标签所在的小节
 
 			//判断标签生效于当前小节还是下一小节
 			double labelBarAct = labelBar;
-			double labelBeatAct = lastInBeat + (labelBar - lastInBar) * lastBeat;
-			if ((uint64_t)(labelBeat - lastInBeat) % lastBeat > 0) {
+			double labelQuarterAct = lastInQuarter + ((labelBar - lastInBar) * lastBeat) / (lastBase / 4.);
+			if (std::fmod((labelQuarter - lastInQuarter) * (lastBase / 4.), lastBeat) != 0) {
 				labelBarAct++;
-				labelBeatAct += lastBeat;
+				labelQuarterAct += (lastBeat / (lastBase / 4.));
 			}
 
 			//根据生效位置判断是否覆盖标签
 			if (labelBarAct > actPlaceInBar) {
 				//不需覆盖标签
-				this->list.add({ labelBeatAct, labelBarAct, currentLabel.beat });
+				this->list.add({ labelQuarterAct, labelBarAct, currentLabel.beat, currentLabel.base });
 			}
 			else {
 				//覆盖标签
 				auto& last = this->list.getReference(this->list.size() - 1);
 				last.beat = currentLabel.beat;
-				last.xInBeat = labelBeatAct;
+				last.base = currentLabel.base;
+				last.xInQuarter = labelQuarterAct;
 				last.xInBar = labelBarAct;
 			}
 
@@ -68,26 +70,28 @@ namespace vocalshaper {
 				auto& nextLabel = this->labels->list.getReference(i + 1);
 				
 				//下一标签的位置
-				double nextLabelBeat = nextLabel.x;
+				double nextLabelQuarter = nextLabel.x;
 
 				//下一标签位置大于当前标签生效位置，意味着当前标签不再被覆盖，标签确实生效，更改生效标签缓存
-				if (nextLabelBeat > labelBeatAct) {
-					lastInBeat = labelBeatAct;
+				if (nextLabelQuarter > labelQuarterAct) {
+					lastInQuarter = labelQuarterAct;
 					lastInBar = labelBarAct;
 					lastBeat = currentLabel.beat;
+					lastBase = currentLabel.base;
 				}
 			}
 			else {
 				//最后标签
 				
 				//标签确实生效，更改生效标签缓存
-				lastInBeat = labelBeatAct;
+				lastInQuarter = labelQuarterAct;
 				lastInBar = labelBarAct;
 				lastBeat = currentLabel.beat;
+				lastBase = currentLabel.base;
 			}
 
 			//记录状态缓存
-			actPlaceInBeat = labelBeatAct;
+			actPlaceInQuarter = labelQuarterAct;
 			actPlaceInBar = labelBarAct;
 		}
 	}
@@ -103,6 +107,17 @@ namespace vocalshaper {
 		return current.beat;
 	}
 
+	uint8_t BeatTemp::getBaseAtTime(double x) const
+	{
+		juce::ScopedReadLock locker1(this->lock);
+
+		//获取块
+		auto& current = this->list.getReference(this->selectBy_x(x));
+
+		//返回拍基
+		return current.base;
+	}
+
 	double BeatTemp::getBarAtTime(double x) const
 	{
 		juce::ScopedReadLock locker1(this->lock);
@@ -111,7 +126,7 @@ namespace vocalshaper {
 		auto& current = this->list.getReference(this->selectBy_x(x));
 
 		//返回小节号
-		return current.xInBar + (x - current.xInBeat) / (double)current.beat;
+		return current.xInBar + ((x - current.xInQuarter) * (current.base / 4.)) / (double)current.beat;
 	}
 
 	double BeatTemp::getTimeAtBar(double bar) const
@@ -122,7 +137,7 @@ namespace vocalshaper {
 		auto& current = this->list.getReference(this->selectBy_bar(bar));
 
 		//返回拍号
-		return current.xInBeat + (bar - current.xInBar) * current.beat;
+		return current.xInQuarter + ((bar - current.xInBar) * current.beat) / (current.base / 4.);
 	}
 
 	int BeatTemp::selectBy_x(double x) const
@@ -134,12 +149,12 @@ namespace vocalshaper {
 
 		//缓存命中
 		if (this->lastIndex == this->list.size() - 1) {
-			if (x >= tempBlock.xInBeat) {
+			if (x >= tempBlock.xInQuarter) {
 				return this->lastIndex;
 			}
 		}
 		else {
-			if ((x >= tempBlock.xInBeat) && (x < this->list.getReference(this->lastIndex).xInBeat)) {
+			if ((x >= tempBlock.xInQuarter) && (x < this->list.getReference(this->lastIndex).xInQuarter)) {
 				return this->lastIndex;
 			}
 		}
@@ -148,12 +163,12 @@ namespace vocalshaper {
 		if (this->lastIndex < this->list.size() - 1) {
 			auto& nextBlock = this->list.getReference(this->lastIndex + 1);
 			if (this->lastIndex < this->list.size() - 2) {
-				if ((x >= nextBlock.xInBeat) && (x < this->list.getReference(this->lastIndex + 2).xInBeat)) {
+				if ((x >= nextBlock.xInQuarter) && (x < this->list.getReference(this->lastIndex + 2).xInQuarter)) {
 					return ++(this->lastIndex);
 				}
 			}
 			else {
-				if (x >= nextBlock.xInBeat) {
+				if (x >= nextBlock.xInQuarter) {
 					return ++(this->lastIndex);
 				}
 			}
@@ -161,10 +176,10 @@ namespace vocalshaper {
 
 		//查找比较函数
 		auto CFunc = [](double x, const BeatData& curr, const BeatData& next)->CompareResult {
-			if (x >= curr.xInBeat && x < next.xInBeat) {
+			if (x >= curr.xInQuarter && x < next.xInQuarter) {
 				return CompareResult::EQ;
 			}
-			else if (x >= next.xInBeat) {
+			else if (x >= next.xInQuarter) {
 				return CompareResult::GTR;
 			}
 			else {
@@ -173,7 +188,7 @@ namespace vocalshaper {
 		};
 
 		//缓存未命中，判断缓存在当前之前还是之后
-		if (x < tempBlock.xInBeat) {
+		if (x < tempBlock.xInQuarter) {
 			//之前
 
 			//二分查找
@@ -183,7 +198,7 @@ namespace vocalshaper {
 			//之后
 			
 			//如果命中最末
-			if (x >= this->list.getReference(this->list.size() - 1).xInBeat) {
+			if (x >= this->list.getReference(this->list.size() - 1).xInQuarter) {
 				return this->lastIndex = this->list.size() - 1;
 			}
 

@@ -21,6 +21,7 @@ namespace vocalshaper {
 			double x = 0.0;			//位置
 			double tempo = 120.0;	//曲速
 			uint8_t beat = 4;		//拍号
+			uint8_t base = 4;		//拍基
 			bool autoTempo = false;	//曲速自动插值
 		};
 
@@ -36,7 +37,7 @@ namespace vocalshaper {
 		//从data数据刷新缓存
 		void refresh();
 
-		ParseResult parseNow(const juce::String& data, LabelData& result, Label::LabelType type, double x, double tempoTemp, uint8_t beatTemp) const;
+		ParseResult parseNow(const juce::String& data, LabelData& result, Label::LabelType type, double x, double tempoTemp, uint8_t beatTemp, uint8_t baseTemp) const;
 
 	private:
 		friend class TempoTemp;
@@ -48,11 +49,11 @@ namespace vocalshaper {
 
 		ProjectProxy* parent = nullptr;
 
-		ParseResult parseLabel(const Label* label, LabelData& result, double& tempoTemp, uint8_t& beatTemp) const;
-		ParseResult parseLuaLabel(const juce::String& data, LabelData& result, double x, double& tempoTemp, uint8_t& beatTemp) const;
-		ParseResult parseIniLabel(const juce::String& data, LabelData& result, double x, double& tempoTemp, uint8_t& beatTemp) const;
-		ParseResult parseXmlLabel(const juce::String& data, LabelData& result, double x, double& tempoTemp, uint8_t& beatTemp) const;
-		ParseResult parseJsonLabel(const juce::String& data, LabelData& result, double x, double& tempoTemp, uint8_t& beatTemp) const;
+		ParseResult parseLabel(const Label* label, LabelData& result, double& tempoTemp, uint8_t& beatTemp, uint8_t& baseTemp) const;
+		ParseResult parseLuaLabel(const juce::String& data, LabelData& result, double x, double& tempoTemp, uint8_t& beatTemp, uint8_t& baseTemp) const;
+		ParseResult parseIniLabel(const juce::String& data, LabelData& result, double x, double& tempoTemp, uint8_t& beatTemp, uint8_t& baseTemp) const;
+		ParseResult parseXmlLabel(const juce::String& data, LabelData& result, double x, double& tempoTemp, uint8_t& beatTemp, uint8_t& baseTemp) const;
+		ParseResult parseJsonLabel(const juce::String& data, LabelData& result, double x, double& tempoTemp, uint8_t& beatTemp, uint8_t& baseTemp) const;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(LabelTemp)
 	};

@@ -5,12 +5,12 @@
 
 |变量   |单位    |范围  |含义  |
 |:-----:|:-----:|:-----|:-----|
-|$x_s$     |$beat$          |$x_s\geq 0$        |当前标签所在节拍            |
-|$x_e$     |$beat$          |$x_e>x_s\geq 0$    |下一标签所在节拍            |
+|$x_s$     |$quarter$          |$x_s\geq 0$        |当前标签所在节拍            |
+|$x_e$     |$quarter$          |$x_e>x_s\geq 0$    |下一标签所在节拍            |
 |$t_s$     |$s$             |$t_s\geq 0$        |当前标签所在时间            |
 |$t_e$     |$s$             |$t_e>t_s\geq 0$    |下一标签所在时间            |
-|$T_s$     |$bpm$           |$T_s>0$            |当前标签曲速                |
-|$T_e$     |$bpm$           |$T_e>0$            |下一标签曲速                |
+|$T_s$     |$qpm$           |$T_s>0$            |当前标签曲速                |
+|$T_e$     |$qpm$           |$T_e>0$            |下一标签曲速                |
 |$\delta$  |$\frac{1}{min}$ |$\delta\neq 0$     |$\frac{T_e-T_s}{x_e-x_s}$  |
 
 
@@ -19,7 +19,7 @@ $T(x)=T_s$
 
 1. 由 $x_s$, $T_s$, $t_s$计算 $t(x)$, $x\in[x_s,x_e)$  
    
-   $$\Delta x=x-x_s \tag{beat}$$
+   $$\Delta x=x-x_s \tag{quarter}$$
 
    $$\Delta t'=\frac{\Delta x}{T_s} \tag{min}$$
 
@@ -39,9 +39,9 @@ $T(x)=T_s$
 
    $$\Delta t'=\frac{\Delta t}{60} \tag{min}$$
 
-   $$\Delta x=\Delta t'\cdot T_s \tag{beat}$$
+   $$\Delta x=\Delta t'\cdot T_s \tag{quarter}$$
 
-   $$x(t)=x_s+\Delta x \tag{beat}$$
+   $$x(t)=x_s+\Delta x \tag{quarter}$$
 
    $$\therefore x(t)=\frac{t-t_s}{60}\cdot T_s+x_s$$ 
 
@@ -50,7 +50,7 @@ $T(x)=(x-x_s)\cdot\delta+T_s$
 
 1. 由 $x_s$, $x_e$, $T_s$, $T_e$, $t_s$计算 $t(x)$, $x\in[x_s,x_e)$  
    
-   $$\Delta x=x-x_s \tag{beat}$$
+   $$\Delta x=x-x_s \tag{quarter}$$
 
    由 $T(x)$可得 $T'(\Delta x)=\delta\cdot\Delta x+T_s$.  
    则对于 $\forall\Delta x_0\in[0,x_e-x_s)$, 有  
@@ -87,8 +87,8 @@ $T(x)=(x-x_s)\cdot\delta+T_s$
 
    可得  
 
-   $$\Delta x=\frac{T_s\cdot e^{\delta\cdot\Delta t'}-T_s}{\delta} \tag{beat}$$
+   $$\Delta x=\frac{T_s\cdot e^{\delta\cdot\Delta t'}-T_s}{\delta} \tag{quarter}$$
    
-   $$x(t)=x_s+\Delta x \tag{beat}$$
+   $$x(t)=x_s+\Delta x \tag{quarter}$$
 
    $$\therefore x(t)=\frac{T_s\cdot e^{\delta\cdot\frac{t-t_s}{60}}-T_s}{\delta}+x_s$$
