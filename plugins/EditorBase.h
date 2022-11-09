@@ -12,7 +12,45 @@ namespace vocalshaper {
 	{
 	public:
 		EditorBase();
-		virtual ~EditorBase() override = default;
+		virtual ~EditorBase() override;
+
+	protected:
+		//添加或移除子编辑器树节点
+		void addChildEditor(EditorBase* editor, int zOrder = -1);
+		void addChildEditorAndMakeVisible(EditorBase* editor, int zOrder = -1);
+		void removeChildEditor(EditorBase* editor);
+
+	protected:
+		//调用此方法获取项目实例
+		ProjectProxy* getProject() const;
+		//调用此方法获取切换浏览/编辑模式
+		bool getEditMode() const;
+		//调用此方法获取工具
+		uint8_t getToolID() const;
+		//调用此方法获取当前轨道
+		int getTrackID() const;
+		//调用此方法获取当前项目信息锁
+		juce::ReadWriteLock& getProjLock() const;
+		//调用此方法获取水平浏览范围（针对混合编辑器）
+		std::tuple<double, double> getHorizontalViewPort() const;
+		//调用此方法获取垂直浏览范围（针对混合编辑器）
+		std::tuple<double, double> getVerticalViewPort() const;
+		//调用此方法获取水平浏览范围（针对轨道面板）
+		std::tuple<double, double> getHViewPort() const;
+		//调用此方法获取垂直浏览范围（针对轨道面板）
+		std::tuple<double, double> getVViewPort() const;
+		//调用此方法获取总长度
+		double getTotalLength() const;
+		//调用此方法获取当前播放位置
+		double getCurrentPosition() const;
+		//调用此方法获取播放跟随状态
+		double getFollowState() const;
+		//调用此方法获取播放循环范围
+		std::tuple<double, double> getLoopRange() const;
+		//调用此方法获取吸附
+		AdsorbState getAdsorb() const;
+		//调用此方法获取网格
+		GridState getGrid() const;
 
 	public:
 		//当项目实例发生切换时被调用
@@ -44,7 +82,7 @@ namespace vocalshaper {
 		//更改网格时被调用
 		virtual void setGrid(GridState state);
 
-		//判断当前编辑器是否具有可编辑的焦点
+		//判断当前编辑器或子编辑器是否具有可编辑的焦点
 		//可编辑焦点指：
 		//1.焦点在当前编辑器内
 		//2.焦点所在目标可以进行复制、剪切、删除、选择操作
@@ -67,6 +105,7 @@ namespace vocalshaper {
 		virtual int showClipBoard(const juce::StringArray& list);
 
 	public:
+		//用于顶层编辑器的导出接口
 		virtual void setMethods(
 			const std::function<void(int)>& setCurrentTrackFunc,
 			const std::function<void(void)>& refreshTotalTimeFunc,
@@ -115,6 +154,30 @@ namespace vocalshaper {
 		std::function<void(double, double)> setVerticalViewPortFunc;
 		//调用此方法设置垂直浏览范围（针对轨道面板）
 		std::function<void(double, double)> setVViewPortFunc;
+
+	private:
+		EditorBase* parentEditor = nullptr;
+		juce::Array<EditorBase*> childEditorList;
+
+	private:
+		ProjectProxy* project = nullptr;
+		int trackID = -1;
+		bool editMode = false;
+		uint8_t toolID = 1;
+		mutable juce::ReadWriteLock projLock;
+
+		double mixStartTime = 0., mixEndTime = 0.;
+		double bottomPitch = 0., topPitch = 0.;
+		double trackStartTime = 0., trackEndTime = 0.;
+		double bottomTrack = 0., topTrack = 0.;
+
+		double totalLength = 0.;
+		double currentTime = 0.;
+		bool follow = true;
+		double loopStartTime = -1., loopEndTime = -1.;
+
+		AdsorbState adsorb = AdsorbState::Adsorb1Beat;
+		GridState grid = GridState::Grid1Beat;
 
 	private:
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(EditorBase)
