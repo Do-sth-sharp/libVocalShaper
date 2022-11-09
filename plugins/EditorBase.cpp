@@ -124,7 +124,7 @@ namespace vocalshaper {
 		return this->grid;
 	}
 
-	void EditorBase::projectChangedCallback(const ProjectProxy* ptr)
+	void EditorBase::setProjectCallback(const ProjectProxy* ptr)
 	{
 	}
 
@@ -136,7 +136,7 @@ namespace vocalshaper {
 	{
 	}
 
-	void EditorBase::trackChangedCallback(int trackID)
+	void EditorBase::setTrackIDCallback(int trackID)
 	{
 	}
 
@@ -180,7 +180,7 @@ namespace vocalshaper {
 	{
 	}
 
-	void EditorBase::projectChanged(const ProjectProxy* ptr)
+	void EditorBase::setProject(const ProjectProxy* ptr)
 	{
 		{
 			juce::ScopedWriteLock locker(this->projLock);
@@ -188,10 +188,10 @@ namespace vocalshaper {
 		}
 		for (auto child : this->childEditorList) {
 			if (child) {
-				child->projectChanged(ptr);
+				child->setProject(ptr);
 			}
 		}
-		this->projectChangedCallback(ptr);
+		this->setProjectCallback(ptr);
 	}
 
 	void EditorBase::setEditMode(bool editMode)
@@ -216,7 +216,7 @@ namespace vocalshaper {
 		this->setToolIDCallback(toolID);
 	}
 
-	void EditorBase::trackChanged(int trackID)
+	void EditorBase::setTrackID(int trackID)
 	{
 		{
 			juce::ScopedWriteLock locker(this->projLock);
@@ -224,10 +224,10 @@ namespace vocalshaper {
 		}
 		for (auto child : this->childEditorList) {
 			if (child) {
-				child->trackChanged(trackID);
+				child->setTrackID(trackID);
 			}
 		}
-		this->trackChangedCallback(trackID);
+		this->setTrackIDCallback(trackID);
 	}
 
 	void EditorBase::setHorizontalViewPort(double startTime, double endTime)

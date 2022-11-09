@@ -54,13 +54,13 @@ namespace vocalshaper {
 
 	protected:
 		//当项目实例发生切换时被调用
-		virtual void projectChangedCallback(const ProjectProxy* ptr);
+		virtual void setProjectCallback(const ProjectProxy* ptr);
 		//当切换浏览/编辑模式时被调用
 		virtual void setEditModeCallback(bool editMode);
 		//当切换工具时被调用
 		virtual void setToolIDCallback(uint8_t toolID);
 		//当切换当前轨道时被调用
-		virtual void trackChangedCallback(int trackID);
+		virtual void setTrackIDCallback(int trackID);
 		//切换水平浏览范围时被调用（针对混合编辑器）
 		virtual void setHorizontalViewPortCallback(double startTime, double endTime);
 		//切换垂直浏览范围时被调用（针对混合编辑器）
@@ -84,13 +84,13 @@ namespace vocalshaper {
 
 	public:
 		//当项目实例发生切换时调用
-		void projectChanged(const ProjectProxy* ptr);
+		void setProject(const ProjectProxy* ptr);
 		//当切换浏览/编辑模式时调用
 		void setEditMode(bool editMode);
 		//当切换工具时调用
 		void setToolID(uint8_t toolID);
 		//当切换当前轨道时调用
-		void trackChanged(int trackID);
+		void setTrackID(int trackID);
 		//切换水平浏览范围时调用（针对混合编辑器）
 		void setHorizontalViewPort(double startTime, double endTime);
 		//切换垂直浏览范围时调用（针对混合编辑器）
