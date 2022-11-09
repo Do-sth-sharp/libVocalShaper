@@ -124,6 +124,62 @@ namespace vocalshaper {
 		return this->grid;
 	}
 
+	void EditorBase::projectChangedCallback(const ProjectProxy* ptr)
+	{
+	}
+
+	void EditorBase::setEditModeCallback(bool editMode)
+	{
+	}
+
+	void EditorBase::setToolIDCallback(uint8_t toolID)
+	{
+	}
+
+	void EditorBase::trackChangedCallback(int trackID)
+	{
+	}
+
+	void EditorBase::setHorizontalViewPortCallback(double startTime, double endTime)
+	{
+	}
+
+	void EditorBase::setVerticalViewPortCallback(double bottomPitch, double topPitch)
+	{
+	}
+
+	void EditorBase::setHViewPortCallback(double startTime, double endTime)
+	{
+	}
+
+	void EditorBase::setVViewPortCallback(double bottomTrack, double topTrack)
+	{
+	}
+
+	void EditorBase::setTotalLengthCallback(double totalLength)
+	{
+	}
+
+	void EditorBase::setCurrentPositionCallback(double currentTime)
+	{
+	}
+
+	void EditorBase::setFollowStateCallback(bool follow)
+	{
+	}
+
+	void EditorBase::setLoopRangeCallback(double startTime, double endTime)
+	{
+	}
+
+	void EditorBase::setAdsorbCallback(AdsorbState state)
+	{
+	}
+
+	void EditorBase::setGridCallback(GridState state)
+	{
+	}
+
 	void EditorBase::projectChanged(const ProjectProxy* ptr)
 	{
 		{
@@ -135,6 +191,7 @@ namespace vocalshaper {
 				child->projectChanged(ptr);
 			}
 		}
+		this->projectChangedCallback(ptr);
 	}
 
 	void EditorBase::setEditMode(bool editMode)
@@ -145,6 +202,7 @@ namespace vocalshaper {
 				child->setEditMode(editMode);
 			}
 		}
+		this->setEditModeCallback(editMode);
 	}
 
 	void EditorBase::setToolID(uint8_t toolID)
@@ -155,6 +213,7 @@ namespace vocalshaper {
 				child->setToolID(toolID);
 			}
 		}
+		this->setToolIDCallback(toolID);
 	}
 
 	void EditorBase::trackChanged(int trackID)
@@ -168,6 +227,7 @@ namespace vocalshaper {
 				child->trackChanged(trackID);
 			}
 		}
+		this->trackChangedCallback(trackID);
 	}
 
 	void EditorBase::setHorizontalViewPort(double startTime, double endTime)
@@ -179,6 +239,7 @@ namespace vocalshaper {
 				child->setHorizontalViewPort(startTime, endTime);
 			}
 		}
+		this->setHorizontalViewPortCallback(startTime, endTime);
 	}
 
 	void EditorBase::setVerticalViewPort(double bottomPitch, double topPitch)
@@ -190,6 +251,7 @@ namespace vocalshaper {
 				child->setVerticalViewPort(bottomPitch, topPitch);
 			}
 		}
+		this->setVerticalViewPortCallback(bottomPitch, topPitch);
 	}
 
 	void EditorBase::setHViewPort(double startTime, double endTime)
@@ -201,6 +263,7 @@ namespace vocalshaper {
 				child->setHViewPort(startTime, endTime);
 			}
 		}
+		this->setHViewPortCallback(startTime, endTime);
 	}
 
 	void EditorBase::setVViewPort(double bottomTrack, double topTrack)
@@ -212,6 +275,7 @@ namespace vocalshaper {
 				child->setVViewPort(bottomTrack, topTrack);
 			}
 		}
+		this->setVViewPortCallback(bottomTrack, topTrack);
 	}
 
 	void EditorBase::setTotalLength(double totalLength)
@@ -222,6 +286,7 @@ namespace vocalshaper {
 				child->setTotalLength(totalLength);
 			}
 		}
+		this->setTotalLengthCallback(totalLength);
 	}
 
 	void EditorBase::setCurrentPosition(double currentTime)
@@ -232,6 +297,7 @@ namespace vocalshaper {
 				child->setCurrentPosition(currentTime);
 			}
 		}
+		this->setCurrentPositionCallback(currentTime);
 	}
 
 	void EditorBase::setFollowState(bool follow)
@@ -242,6 +308,7 @@ namespace vocalshaper {
 				child->setFollowState(follow);
 			}
 		}
+		this->setFollowStateCallback(follow);
 	}
 
 	void EditorBase::setLoopRange(double startTime, double endTime)
@@ -253,6 +320,7 @@ namespace vocalshaper {
 				child->setLoopRange(startTime, endTime);
 			}
 		}
+		this->setLoopRangeCallback(startTime, endTime);
 	}
 
 	void EditorBase::setAdsorb(AdsorbState state)
@@ -263,6 +331,7 @@ namespace vocalshaper {
 				child->setAdsorb(state);
 			}
 		}
+		this->setAdsorbCallback(state);
 	}
 
 	void EditorBase::setGrid(GridState state)
@@ -273,6 +342,7 @@ namespace vocalshaper {
 				child->setGrid(state);
 			}
 		}
+		this->setGridCallback(state);
 	}
 
 	bool EditorBase::isActive()

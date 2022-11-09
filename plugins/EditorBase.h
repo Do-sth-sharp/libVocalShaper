@@ -52,36 +52,67 @@ namespace vocalshaper {
 		//调用此方法获取网格
 		GridState getGrid() const;
 
-	public:
+	protected:
 		//当项目实例发生切换时被调用
-		virtual void projectChanged(const ProjectProxy* ptr);
+		virtual void projectChangedCallback(const ProjectProxy* ptr);
 		//当切换浏览/编辑模式时被调用
-		virtual void setEditMode(bool editMode);
+		virtual void setEditModeCallback(bool editMode);
 		//当切换工具时被调用
-		virtual void setToolID(uint8_t toolID);
+		virtual void setToolIDCallback(uint8_t toolID);
 		//当切换当前轨道时被调用
-		virtual void trackChanged(int trackID);
+		virtual void trackChangedCallback(int trackID);
 		//切换水平浏览范围时被调用（针对混合编辑器）
-		virtual void setHorizontalViewPort(double startTime, double endTime);
+		virtual void setHorizontalViewPortCallback(double startTime, double endTime);
 		//切换垂直浏览范围时被调用（针对混合编辑器）
-		virtual void setVerticalViewPort(double bottomPitch, double topPitch);
+		virtual void setVerticalViewPortCallback(double bottomPitch, double topPitch);
 		//切换水平浏览范围时被调用（针对轨道面板）
-		virtual void setHViewPort(double startTime, double endTime);
+		virtual void setHViewPortCallback(double startTime, double endTime);
 		//切换垂直浏览范围时被调用（针对轨道面板）
-		virtual void setVViewPort(double bottomTrack, double topTrack);
+		virtual void setVViewPortCallback(double bottomTrack, double topTrack);
 		//更改总长度时被调用
-		virtual void setTotalLength(double totalLength);
+		virtual void setTotalLengthCallback(double totalLength);
 		//更改当前播放位置时被调用
-		virtual void setCurrentPosition(double currentTime);
+		virtual void setCurrentPositionCallback(double currentTime);
 		//更改播放跟随状态时被调用
-		virtual void setFollowState(bool follow);
+		virtual void setFollowStateCallback(bool follow);
 		//更改播放循环范围时被调用
-		virtual void setLoopRange(double startTime, double endTime);
+		virtual void setLoopRangeCallback(double startTime, double endTime);
 		//更改吸附时被调用
-		virtual void setAdsorb(AdsorbState state);
+		virtual void setAdsorbCallback(AdsorbState state);
 		//更改网格时被调用
-		virtual void setGrid(GridState state);
+		virtual void setGridCallback(GridState state);
 
+	public:
+		//当项目实例发生切换时调用
+		void projectChanged(const ProjectProxy* ptr);
+		//当切换浏览/编辑模式时调用
+		void setEditMode(bool editMode);
+		//当切换工具时调用
+		void setToolID(uint8_t toolID);
+		//当切换当前轨道时调用
+		void trackChanged(int trackID);
+		//切换水平浏览范围时调用（针对混合编辑器）
+		void setHorizontalViewPort(double startTime, double endTime);
+		//切换垂直浏览范围时调用（针对混合编辑器）
+		void setVerticalViewPort(double bottomPitch, double topPitch);
+		//切换水平浏览范围时调用（针对轨道面板）
+		void setHViewPort(double startTime, double endTime);
+		//切换垂直浏览范围时调用（针对轨道面板）
+		void setVViewPort(double bottomTrack, double topTrack);
+		//更改总长度时调用
+		void setTotalLength(double totalLength);
+		//更改当前播放位置时调用
+		void setCurrentPosition(double currentTime);
+		//更改播放跟随状态时调用
+		void setFollowState(bool follow);
+		//更改播放循环范围时调用
+		void setLoopRange(double startTime, double endTime);
+		//更改吸附时调用
+		void setAdsorb(AdsorbState state);
+		//更改网格时调用
+		void setGrid(GridState state);
+
+	public:
 		//判断当前编辑器或子编辑器是否具有可编辑的焦点
 		//可编辑焦点指：
 		//1.焦点在当前编辑器内
