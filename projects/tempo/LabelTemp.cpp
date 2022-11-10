@@ -214,6 +214,8 @@ namespace vocalshaper {
 		lua_pushnil(ptrLState);
 		lua_setglobal(ptrLState, "lastBeat");
 		lua_pushnil(ptrLState);
+		lua_setglobal(ptrLState, "lastBase");
+		lua_pushnil(ptrLState);
 		lua_setglobal(ptrLState, "tempo");
 		lua_pushnil(ptrLState);
 		lua_setglobal(ptrLState, "beat");
@@ -229,6 +231,8 @@ namespace vocalshaper {
 		lua_setglobal(ptrLState, "lastTempo");
 		lua_pushinteger(ptrLState, beatTemp);
 		lua_setglobal(ptrLState, "lastBeat");
+		lua_pushinteger(ptrLState, baseTemp);
+		lua_setglobal(ptrLState, "lastBase");
 
 		//建立守护线程
 		LuaGuard guard(ptrLState);
