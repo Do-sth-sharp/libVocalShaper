@@ -359,13 +359,8 @@ namespace vocalshaper {
 		this->setGridCallback(state);
 	}
 
-	void EditorBase::refreshSelectedArea()
+	void EditorBase::onCopy(SPSList& list)
 	{
-	}
-
-	juce::OwnedArray<SerializableProjectStructure>&& EditorBase::onCopy()
-	{
-		return std::move(juce::OwnedArray<SerializableProjectStructure>());
 	}
 
 	void EditorBase::onDelete()
@@ -376,139 +371,12 @@ namespace vocalshaper {
 	{
 	}
 
-	void EditorBase::onPaste(juce::OwnedArray<SerializableProjectStructure>&& objects)
+	void EditorBase::onUnselectAll()
 	{
 	}
 
-	void EditorBase::activeThis()
+	void EditorBase::onPaste(const SPSList& list)
 	{
-		this->sendActiveMessage(this);
-	}
-
-	void EditorBase::unactiveThis()
-	{
-		this->sendActiveMessage(nullptr);
-	}
-
-	bool EditorBase::isActive()
-	{
-		return checkForActiveWithChildren();
-	}
-
-	void EditorBase::select(
-		SerializableProjectStructure::Type type, int startIndex, int endIndex,
-		bool withoutActive)
-	{
-		{
-			static juce::CriticalSection lock;
-			juce::GenericScopedLock<juce::CriticalSection> locker(lock);
-
-			this->selectType = type;
-			this->selectStartIndex = startIndex;
-			this->selectEndIndex = endIndex;
-			this->refreshSelectedArea();
-		}
-
-		if (!withoutActive) {
-			this->activeThis();
-		}
-	}
-
-	void EditorBase::unselect()
-	{
-		this->select(SerializableProjectStructure::Type::Empty, -1, -1, true);
-	}
-
-	SerializableProjectStructure::Type EditorBase::getSelectType()
-	{
-		return this->selectType;
-	}
-
-	std::tuple<int, int> EditorBase::getSelectRange()
-	{
-		return std::make_tuple(this->selectStartIndex, this->selectEndIndex);
-	}
-
-	bool EditorBase::isThisActive()
-	{
-		return this->activeFlag && this->isVisible();
-	}
-
-	void EditorBase::setThisActive(bool active)
-	{
-		this->activeFlag = active;
-		if (!active) {
-			this->unselect();
-		}
-	}
-
-	bool EditorBase::checkForActiveWithChildren()
-	{
-		return this->getActiveEditorRecursive();
-	}
-
-	void EditorBase::unactive(const EditorBase* editorWithout)
-	{
-		this->setThisActive(this == editorWithout);
-		for (auto child : this->childEditorList) {
-			if (child) {
-				child->unactive(editorWithout);
-			}
-		}
-	}
-
-	void EditorBase::sendActiveMessage(const EditorBase* currentEditor)
-	{
-		if (this->parentEditor) {
-			this->parentEditor->sendActiveMessage(currentEditor);
-		}
-		else {
-			this->unactive(currentEditor);
-		}
-	}
-
-	EditorBase* EditorBase::getActiveEditorRecursive()
-	{
-		if (this->isThisActive()) {
-			return this;
-		}
-		for (auto child : this->childEditorList) {
-			if (child) {
-				if (auto ptr = child->getActiveEditorRecursive()) {
-					return ptr;
-				}
-			}
-		}
-		return nullptr;
-	}
-
-	juce::OwnedArray<SerializableProjectStructure>&& EditorBase::sendCopy()
-	{
-		if (auto ptr = this->getActiveEditorRecursive()) {
-			return std::move(ptr->onCopy());
-		}
-		return std::move(juce::OwnedArray<SerializableProjectStructure>());
-	}
-
-	void EditorBase::sendDelete()
-	{
-		if (auto ptr = this->getActiveEditorRecursive()) {
-			ptr->onDelete();
-		}
-	}
-
-	void EditorBase::sendSelectAll()
-	{
-		if (auto ptr = this->getActiveEditorRecursive()) {
-			ptr->onSelectAll();
-		}
-	}
-
-	void EditorBase::sendPaste(juce::OwnedArray<SerializableProjectStructure>&& objects)
-	{
-		if (auto ptr = this->getActiveEditorRecursive()) {
-			ptr->onPaste(std::move(objects));
-		}
 	}
 
 	void EditorBase::setMethods(

@@ -40,4 +40,6 @@ namespace vocalshaper {
 		bool saved = false;
 		juce::ReadWriteLock lock;
 	};
+
+	using SPSList = juce::OwnedArray<SerializableProjectStructure>;
 }

@@ -111,64 +111,17 @@ namespace vocalshaper {
 		//更改网格时调用
 		void setGrid(GridState state);
 
-	protected:
-		//提供给编辑器刷新选区
-		virtual void refreshSelectedArea();
-		//当前编辑器为活动时触发复制时被调用，返回选择目标的拷贝
-		virtual juce::OwnedArray<SerializableProjectStructure>&& onCopy();
-		//当前编辑器为活动时触发删除时被调用，在其中删除所有选择的对象
-		virtual void onDelete();
-		//当前编辑器为活动时触发全选时被调用，在其中选择目标
-		virtual void onSelectAll();
-		//当前编辑器为活动时触发粘贴时被调用，在其中将列表中对象放入项目
-		virtual void onPaste(juce::OwnedArray<SerializableProjectStructure>&& objects);
-
-	protected:
-		//触发此编辑器的活动
-		void activeThis();
-		//取消所有编辑器的活动
-		void unactiveThis();
-		//递归检查编辑器及子编辑器活动状态
-		bool isActive();
-
-		//触发此编辑器的选择
-		void select(
-			SerializableProjectStructure::Type type, int startIndex, int endIndex,
-			bool withoutActive = false);
-		//取消此编辑器的选择
-		void unselect();
-
-		//获取选择类型
-		SerializableProjectStructure::Type getSelectType();
-		//获取选择范围
-		std::tuple<int, int> getSelectRange();
-
-	private:
-		//检查当前编辑器的活动状态
-		bool isThisActive();
-		//设置当前编辑器的活动状态
-		void setThisActive(bool active);
-
-		//递归检查当前编辑器及子编辑器活动状态
-		bool checkForActiveWithChildren();
-		//递归取消当前编辑器及子编辑器活动状态
-		void unactive(const EditorBase* editorWithout = nullptr);
-
-		//在当前编辑器树中发送活动状态
-		void sendActiveMessage(const EditorBase* currentEditor = nullptr);
-
-		//在此编辑器或子编辑器范围内递归获取
-		EditorBase* getActiveEditorRecursive();
-
 	public:
-		//递归的发送复制操作
-		juce::OwnedArray<SerializableProjectStructure>&& sendCopy();
-		//递归的发送删除操作
-		void sendDelete();
-		//递归的发送全选操作
-		void sendSelectAll();
-		//递归的发送粘贴操作
-		void sendPaste(juce::OwnedArray<SerializableProjectStructure>&& objects);
+		//复制对象时被调用，返回选择对象的拷贝
+		virtual void onCopy(SPSList& list);
+		//删除对象时被调用
+		virtual void onDelete();
+		//全选对象时被调用
+		virtual void onSelectAll();
+		//取消全选对象时被调用
+		virtual void onUnselectAll();
+		//粘贴对象时被调用
+		virtual void onPaste(const SPSList& list);
 
 	public:
 		//用于顶层编辑器的导出接口
@@ -246,10 +199,6 @@ namespace vocalshaper {
 
 		AdsorbState adsorb = AdsorbState::Adsorb1Beat;
 		GridState grid = GridState::Grid1Beat;
-
-		SerializableProjectStructure::Type selectType 
-			= SerializableProjectStructure::Type::Empty;
-		int selectStartIndex = -1, selectEndIndex = -1;
 
 	private:
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(EditorBase)
