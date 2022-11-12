@@ -36,6 +36,8 @@ namespace vocalshaper {
 					const juce::String& json,
 					::vocalshaper::SerializableProjectStructure* object
 				);
+				static std::unique_ptr<::vocalshaper::SerializableProjectStructure>
+					parseFromJsonWithUnknownType(const juce::String& json);
 
 			private:
 				struct ColorRGBA
@@ -55,6 +57,15 @@ namespace vocalshaper {
 				template<class T, class P>
 				static bool parseFromJsonInternal(
 					const juce::String& json, ::vocalshaper::SerializableProjectStructure* object);
+
+				template<class P>
+				static bool serilazeToJsonInternalFromProto(
+					const P* proto, juce::String& result,
+					bool whiteSpace = false);
+
+				template<class P>
+				static bool parseFromJsonInternalToProto(
+					const juce::String& json, P* proto);
 
 			public:
 				static bool parse(

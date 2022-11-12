@@ -22,6 +22,14 @@ case ::vocalshaper::SerializableProjectStructure::Type::t: \
 	break; \
 }
 
+#define PARSE_FROM_JSON_RETURN_UNIQUE_PTR(t) \
+{ \
+	auto ptr = std::make_unique<::vocalshaper::t>(); \
+	if (ProtoConverter::parseFromJsonInternal<::vocalshaper::t, t>(json, ptr.get())) { \
+		return std::move(ptr); \
+	} \
+}
+
 namespace vocalshaper {
 	namespace files {
 		namespace vsp3 {
@@ -139,6 +147,173 @@ namespace vocalshaper {
 				return false;
 			}
 
+			std::unique_ptr<::vocalshaper::SerializableProjectStructure>
+				ProtoConverter::parseFromJsonWithUnknownType(const juce::String& json)
+			{
+				PARSE_FROM_JSON_RETURN_UNIQUE_PTR(Project);
+				PARSE_FROM_JSON_RETURN_UNIQUE_PTR(Track);
+				//PARSE_FROM_JSON_RETURN_UNIQUE_PTR(Note);
+				{
+					std::unique_ptr<Note> proto = std::make_unique<Note>();
+
+					if (ProtoConverter::parseFromJsonInternalToProto(json, proto.get())) {
+						std::unique_ptr<::vocalshaper::Note> ptr = nullptr;
+
+						switch (proto->note_type()) {
+						case Note::NoteType::Note_NoteType_VOICE:
+						{
+							ptr = std::make_unique<::vocalshaper::Note>(::vocalshaper::Note::NoteType::Voice);
+							break;
+						}
+						case Note::NoteType::Note_NoteType_MIDI:
+						{
+							ptr = std::make_unique<::vocalshaper::Note>(::vocalshaper::Note::NoteType::MIDI);
+							break;
+						}
+						}
+
+						if (!ProtoConverter::parse(proto.get(), ptr.get())) {
+							return std::move(ptr);
+						}
+					}
+				}
+				PARSE_FROM_JSON_RETURN_UNIQUE_PTR(Phoneme);
+				PARSE_FROM_JSON_RETURN_UNIQUE_PTR(Wave);
+				PARSE_FROM_JSON_RETURN_UNIQUE_PTR(Label);
+				PARSE_FROM_JSON_RETURN_UNIQUE_PTR(Script);
+				//PARSE_FROM_JSON_RETURN_UNIQUE_PTR(Plugin);
+				{
+					std::unique_ptr<Plugin> proto = std::make_unique<Plugin>();
+
+					if (ProtoConverter::parseFromJsonInternalToProto(json, proto.get())) {
+						std::unique_ptr<::vocalshaper::Plugin> ptr = nullptr;
+
+						switch (proto->plugin_type()) {
+						case Plugin::PluginType::Plugin_PluginType_UNKNOWN:
+						{
+							ptr = std::make_unique<::vocalshaper::Plugin>(::vocalshaper::Plugin::PluginType::Unknown);
+							break;
+						}
+						case Plugin::PluginType::Plugin_PluginType_VST:
+						{
+							ptr = std::make_unique<::vocalshaper::Plugin>(::vocalshaper::Plugin::PluginType::VST);
+							break;
+						}
+						case Plugin::PluginType::Plugin_PluginType_VST3:
+						{
+							ptr = std::make_unique<::vocalshaper::Plugin>(::vocalshaper::Plugin::PluginType::VST3);
+							break;
+						}
+						case Plugin::PluginType::Plugin_PluginType_AU:
+						{
+							ptr = std::make_unique<::vocalshaper::Plugin>(::vocalshaper::Plugin::PluginType::AU);
+							break;
+						}
+						case Plugin::PluginType::Plugin_PluginType_LADSPA:
+						{
+							ptr = std::make_unique<::vocalshaper::Plugin>(::vocalshaper::Plugin::PluginType::LADSPA);
+							break;
+						}
+						case Plugin::PluginType::Plugin_PluginType_BUILD_IN:
+						{
+							ptr = std::make_unique<::vocalshaper::Plugin>(::vocalshaper::Plugin::PluginType::BuildIn);
+							break;
+						}
+						}
+
+						if (!ProtoConverter::parse(proto.get(), ptr.get())) {
+							return std::move(ptr);
+						}
+					}
+				}
+				PARSE_FROM_JSON_RETURN_UNIQUE_PTR(Curve);
+				PARSE_FROM_JSON_RETURN_UNIQUE_PTR(DPoint);
+				PARSE_FROM_JSON_RETURN_UNIQUE_PTR(Point);
+				//PARSE_FROM_JSON_RETURN_UNIQUE_PTR(Param);
+				{
+					std::unique_ptr<Param> proto = std::make_unique<Param>();
+
+					if (ProtoConverter::parseFromJsonInternalToProto(json, proto.get())) {
+						std::unique_ptr<::vocalshaper::Param> ptr = nullptr;
+
+						switch (proto->param_type()) {
+						case Param::ParamType::Param_ParamType_EMPTY:
+						{
+							ptr = std::make_unique<::vocalshaper::Param>(::vocalshaper::Param::ParamType::Empty);
+							break;
+						}
+						case Param::ParamType::Param_ParamType_BOOL:
+						{
+							ptr = std::make_unique<::vocalshaper::Param>(::vocalshaper::Param::ParamType::Bool);
+							break;
+						}
+						case Param::ParamType::Param_ParamType_CHOICE:
+						{
+							ptr = std::make_unique<::vocalshaper::Param>(::vocalshaper::Param::ParamType::Choice);
+							break;
+						}
+						case Param::ParamType::Param_ParamType_FLOAT:
+						{
+							ptr = std::make_unique<::vocalshaper::Param>(::vocalshaper::Param::ParamType::Float);
+							break;
+						}
+						case Param::ParamType::Param_ParamType_INT:
+						{
+							ptr = std::make_unique<::vocalshaper::Param>(::vocalshaper::Param::ParamType::Int);
+							break;
+						}
+						}
+
+						if (!ProtoConverter::parse(proto.get(), ptr.get())) {
+							return std::move(ptr);
+						}
+					}
+				}
+				PARSE_FROM_JSON_RETURN_UNIQUE_PTR(Json);
+				//PARSE_FROM_JSON_RETURN_UNIQUE_PTR(Instr);
+				{
+					std::unique_ptr<Instr> proto = std::make_unique<Instr>();
+
+					if (ProtoConverter::parseFromJsonInternalToProto(json, proto.get())) {
+						std::unique_ptr<::vocalshaper::Instr> ptr = nullptr;
+
+						switch (proto->instr_type()) {
+						case Instr::InstrType::Instr_InstrType_UNKNOWN:
+						{
+							ptr = std::make_unique<::vocalshaper::Instr>(::vocalshaper::Instr::InstrType::Unknown);
+							break;
+						}
+						case Instr::InstrType::Instr_InstrType_VST:
+						{
+							ptr = std::make_unique<::vocalshaper::Instr>(::vocalshaper::Instr::InstrType::VST);
+							break;
+						}
+						case Instr::InstrType::Instr_InstrType_VST3:
+						{
+							ptr = std::make_unique<::vocalshaper::Instr>(::vocalshaper::Instr::InstrType::VST3);
+							break;
+						}
+						case Instr::InstrType::Instr_InstrType_AU:
+						{
+							ptr = std::make_unique<::vocalshaper::Instr>(::vocalshaper::Instr::InstrType::AU);
+							break;
+						}
+						case Instr::InstrType::Instr_InstrType_LADSPA:
+						{
+							ptr = std::make_unique<::vocalshaper::Instr>(::vocalshaper::Instr::InstrType::LADSPA);
+							break;
+						}
+						}
+
+						if (!ProtoConverter::parse(proto.get(), ptr.get())) {
+							return std::move(ptr);
+						}
+					}
+				}
+
+				return nullptr;
+			}
+
 			template<class T, class P>
 			bool ProtoConverter::serilazeToJsonInternal(
 				const ::vocalshaper::SerializableProjectStructure* object, juce::String& result, bool whiteSpace)
@@ -148,20 +323,7 @@ namespace vocalshaper {
 					return false;
 				}
 
-				std::string resultTemp;
-				::google::protobuf::util::JsonOptions option;
-				option.add_whitespace = whiteSpace;
-				option.always_print_primitive_fields = false;
-				option.always_print_enums_as_ints = false;
-				option.preserve_proto_field_names = true;
-
-				if (!::google::protobuf::util::MessageToJsonString(
-					*(proto.get()), &resultTemp, option).ok()) {
-					return false;
-				}
-
-				result = resultTemp;
-				return true;
+				return ProtoConverter::serilazeToJsonInternalFromProto(proto.get(), result, whiteSpace);
 			}
 
 			template<class T, class P>
@@ -173,12 +335,8 @@ namespace vocalshaper {
 				}
 
 				std::unique_ptr<P> proto = std::make_unique<P>();
-				::google::protobuf::util::JsonParseOptions option;
-				option.ignore_unknown_fields = false;
-				option.case_insensitive_enum_parsing = false;
 
-				if (!::google::protobuf::util::JsonStringToMessage(
-					json.toStdString(), proto.get(), option).ok()) {
+				if (!ProtoConverter::parseFromJsonInternalToProto(json, proto.get())) {
 					return false;
 				}
 
@@ -187,6 +345,47 @@ namespace vocalshaper {
 				}
 
 				return true;
+			}
+
+			template<class P>
+			static bool ProtoConverter::serilazeToJsonInternalFromProto(
+				const P* proto, juce::String& result,
+				bool whiteSpace)
+			{
+				if (!proto) {
+					return false;
+				}
+
+				std::string resultTemp;
+				::google::protobuf::util::JsonOptions option;
+				option.add_whitespace = whiteSpace;
+				option.always_print_primitive_fields = false;
+				option.always_print_enums_as_ints = false;
+				option.preserve_proto_field_names = true;
+
+				if (!::google::protobuf::util::MessageToJsonString(
+					*proto, &resultTemp, option).ok()) {
+					return false;
+				}
+
+				result = resultTemp;
+				return true;
+			}
+
+			template<class P>
+			static bool ProtoConverter::parseFromJsonInternalToProto(
+				const juce::String& json, P* proto)
+			{
+				if (!proto) {
+					return false;
+				}
+
+				::google::protobuf::util::JsonParseOptions option;
+				option.ignore_unknown_fields = false;
+				option.case_insensitive_enum_parsing = false;
+
+				return ::google::protobuf::util::JsonStringToMessage(
+					json.toStdString(), proto, option).ok();
 			}
 		}
 	}
