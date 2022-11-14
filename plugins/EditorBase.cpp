@@ -27,6 +27,24 @@ namespace vocalshaper {
 			editor->parentEditor = this;
 			this->childEditorList.insert(zOrder, editor);
 
+			{
+				juce::ScopedReadLock locker(this->projLock);
+				editor->setProject(this->project);
+				editor->setEditMode(this->editMode);
+				editor->setToolID(this->toolID);
+				editor->setTrackID(this->trackID);
+				editor->setHorizontalViewPort(this->mixStartTime, this->mixEndTime);
+				editor->setVerticalViewPort(this->bottomPitch, this->topPitch);
+				editor->setHViewPort(this->trackStartTime, this->trackEndTime);
+				editor->setVViewPort(this->bottomTrack, this->topTrack);
+				editor->setTotalLength(this->totalLength);
+				editor->setCurrentPosition(this->currentTime);
+				editor->setFollowState(this->follow);
+				editor->setLoopRange(this->loopStartTime,this->loopEndTime);
+				editor->setAdsorb(this->adsorb);
+				editor->setGrid(this->grid);
+			}
+
 			this->addChildComponent(editor, zOrder);
 		}
 	}
