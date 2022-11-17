@@ -86,7 +86,7 @@ namespace vocalshaper {
 						reinterpret_cast<ProtoConverter::ColorRGBA*>(&trackcolor)->a
 					));
 				::vocalshaper::TrackDAO::setSolo(track, proto->solo());
-				::vocalshaper::TrackDAO::setMute(track, proto->solo());
+				::vocalshaper::TrackDAO::setMute(track, proto->mute());
 
 				for (int i = 0; i < proto->curves_size(); i++) {
 					auto curve = new ::vocalshaper::Curve;

@@ -126,6 +126,7 @@ namespace vocalshaper {
 			{
 				if (event->getActionType() != 0x0000) {
 					//实际修改，可撤销
+					this->undoManager.beginNewTransaction();
 					this->undoManager.perform(event.release());
 				}
 				else {
