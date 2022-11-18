@@ -4,6 +4,7 @@ namespace vocalshaper {
 	EditorBase::EditorBase()
 		:Component("Editor")
 	{
+		this->setWantsKeyboardFocus(true);
 	}
 
 	EditorBase::~EditorBase()
