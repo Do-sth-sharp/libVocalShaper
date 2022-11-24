@@ -79,6 +79,7 @@ aux_source_directory (projects/utils TARGET_SRC)
 aux_source_directory (files TARGET_SRC)
 aux_source_directory (files/vsp3 TARGET_SRC)
 aux_source_directory (plugins TARGET_SRC)
+aux_source_directory (engines TARGET_SRC)
 aux_source_directory (utils TARGET_SRC)
 
 #设置编译目标

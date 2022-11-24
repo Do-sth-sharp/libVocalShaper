@@ -1,0 +1,27 @@
+﻿# 音素的类型
+- AFF  
+  affricate 塞擦音
+- ASP  
+  aspirate 送气音
+- BRE  
+  breath 呼吸音
+- CDA  
+  coda 尾音
+- DPT  
+  diphthong 双元音
+- FRI  
+  fricative 摩擦音
+- LIQ  
+  liquid 流音
+- LBR  
+  long breath 长呼吸音
+- NSL  
+  nasal 鼻音
+- SVW  
+  semivowel 半元音
+- SLI  
+  slience 静音
+- STP  
+  stop 爆破音
+- VWL  
+  vowel 元音

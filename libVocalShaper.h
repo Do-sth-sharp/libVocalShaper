@@ -19,4 +19,6 @@
 #include "utils/IniTokeniser.h"
 #include "utils/JsonTokeniser.h"
 
+#include "engines/EngineBase.h"
+
 #include "lua/lua.hpp"
