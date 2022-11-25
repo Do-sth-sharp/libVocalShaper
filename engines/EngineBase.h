@@ -26,8 +26,11 @@ namespace vocalshaper {
 		//引擎配置符号表
 		struct EngineFlags
 		{
-			bool renderPitch : 1 = false;			//引擎主动渲染音高曲线
-			bool exportSpectrogrum : 1 = false;		//引擎在渲染音频的同时导出语谱图
+			bool renderBasePitch : 1 = false;		//引擎主动渲染基础音高曲线
+			bool exportPitch : 1 = false;			//引擎可以导出实际音高曲线
+			bool exportDynamic : 1 = false;			//引擎可以导出实际动态曲线
+			bool exportSpectrogrum : 1 = false;		//引擎可以导出音频的语谱图
+			bool exportFormantrogrum : 1 = false;	//引擎可以导出音频的共振峰谱图
 		};
 
 		//重写此方法返回当前引擎的符号表
