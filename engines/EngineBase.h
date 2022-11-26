@@ -37,10 +37,6 @@ namespace vocalshaper {
 		//引擎符号表决定了引擎具有哪些基础功能
 		virtual const EngineFlags getEngineFlags() const = 0;
 
-		//重写此方法返回当前引擎的显示名称
-		//VocalShaper不会依赖该名称区分引擎种类，但要确保其人类可辨认性
-		virtual const juce::String getEngineShortName() const = 0;
-
 		//重写此方法返回当前引擎的渲染模式
 		//引擎托盘将根据该返回值决定调用渲染器的时机
 		virtual const RenderMode getRenderMode() const = 0;
