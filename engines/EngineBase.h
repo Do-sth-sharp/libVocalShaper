@@ -12,8 +12,8 @@ namespace vocalshaper {
 	class VSAPI EngineBase
 	{
 	public:
-		EngineBase() = default;
-		virtual ~EngineBase() = default;
+		EngineBase();
+		virtual ~EngineBase();
 
 		//渲染模式，决定当前引擎渲染时机
 		enum class RenderMode
