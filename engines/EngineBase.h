@@ -18,8 +18,8 @@ namespace vocalshaper {
 		//渲染模式，决定当前引擎渲染时机
 		enum class RenderMode
 		{
-			AOT = 0x01,			//预渲染，渲染在项目数据更改发生时执行
-			JIT = 0x02,			//实时渲染，渲染在播放时进行，渲染进度保持在领先于播放进度的位置
+			AOT = 0x01,			//渲染在项目数据更改发生时执行
+			JIT = 0x02,			//渲染在播放前进行
 			Both = AOT | JIT	//两个模式同时进行
 		};
 

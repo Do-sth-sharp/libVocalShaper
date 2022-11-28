@@ -35,7 +35,7 @@ namespace vocalshaper {
 		//重写此方法渲染某一乐句的基础音高曲线
 		//合成时实际的音高曲线应在基础音高曲线基础上叠加颤音参数与pit参数
 		//根据track和sentence中的数据，将音高曲线写入到pitchArray中
-		//返回曲线起始点相较于乐句首个音符起始点的偏移量，单位秒
+		//返回曲线起始点相较于乐句首个音符起始点的偏移量，单位四分音符时长
 		//sentence区间为闭区间
 		//pitchArray中的空间应自行分配，以占用空间最小为基本原则
 		//时间的转换可以从tempoTemp中获得
@@ -52,7 +52,7 @@ namespace vocalshaper {
 		//重写此方法获取某一乐句的音高曲线
 		//该音高曲线为渲染的音频的实际音高曲线
 		//根据track和sentence中的数据或audio中的音频（二选一），将音高曲线写入到pitchArray中
-		//返回曲线起始点相较于乐句首个音符起始点的偏移量，单位秒
+		//返回曲线起始点相较于乐句首个音符起始点的偏移量，单位四分音符时长
 		//sentence区间为闭区间
 		//pitchArray中的空间应自行分配，以占用空间最小为基本原则
 		//时间的转换可以从tempoTemp中获得
@@ -69,12 +69,12 @@ namespace vocalshaper {
 		//重写此方法获取某一乐句的动态曲线
 		//该动态曲线为渲染的音频的实际动态曲线
 		//根据track和sentence中的数据或audio中的音频（二选一），将动态曲线写入到dynamicArray中
-		//返回曲线起始点相较于乐句首个音符起始点的偏移量，单位秒
+		//返回曲线起始点相较于乐句首个音符起始点的偏移量，单位四分音符时长
 		//sentence区间为闭区间
 		//dynamicArray中的空间应自行分配，以占用空间最小为基本原则
 		//时间的转换可以从tempoTemp中获得
 		//sampleRate为音频的采样率，单位采样数每秒
-		//curveQuantification为音高曲线采样率，单位采样点数每四分音符时长
+		//curveQuantification为动态曲线采样率，单位采样点数每四分音符时长
 		//frameLength为信号处理帧长，单位为点数，数值通常为2的整数次幂，但不保证必然性
 		//注意该方法可能同时在多个线程上执行多次
 		virtual double getDynamic(
