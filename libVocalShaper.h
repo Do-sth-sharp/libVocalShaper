@@ -20,5 +20,6 @@
 #include "utils/JsonTokeniser.h"
 
 #include "engines/EngineBase.h"
+#include "engines/SingerHub.h"
 
 #include "lua/lua.hpp"
