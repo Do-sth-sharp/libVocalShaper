@@ -21,5 +21,6 @@
 
 #include "engines/EngineBase.h"
 #include "engines/SingerHub.h"
+#include "engines/EngineHelper.h"
 
 #include "lua/lua.hpp"

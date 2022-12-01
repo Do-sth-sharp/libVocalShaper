@@ -8,6 +8,7 @@ namespace vocalshaper {
 	{
 	public:
 		static bool add(const juce::String& path);
+		static void clear();
 		static void setDefault(const juce::String& id);
 
 		static const SingerInfo getInfoDefault();

@@ -7,8 +7,44 @@ namespace vocalshaper {
 
 	bool SingerHub::add(const juce::String& path)
 	{
-		//TODO 加载声库信息表
+		juce::String infoPath = path + "/singer.json";
+		juce::File infoFile(infoPath);
+		if (!infoFile.existsAsFile()) {
+			return false;
+		}
+
+		juce::var jsonData = juce::JSON::parse(infoFile);
+
+		SingerInfo info;
+		info.id = jsonData["id"].toString();
+		info.name = jsonData["name"].toString();
+		info.color = juce::Colour::fromString(jsonData["color"].toString());
+		info.portrait = jsonData["portrait"].toString();
+		auto styleArray = jsonData["styles"].getArray();
+		for (auto& i : *styleArray) {
+			info.styles.add(i.toString());
+		}
+		info.engine = std::make_tuple(jsonData["engine"]["id"].toString(),
+			jsonData["engine"]["minVersion"].toString());
+		auto languageArray = jsonData["languages"].getArray();
+		for (auto& i : *languageArray) {
+			info.languages.add(i.toString());
+		}
+		info.description = jsonData["description"].toString();
+		info.license = jsonData["license"].toString();
+
+		{
+			juce::ScopedWriteLock locker(SingerHub::lock);
+			SingerHub::list.insert(std::make_pair(info.id, info));
+		}
+
 		return true;
+	}
+
+	void SingerHub::clear()
+	{
+		juce::ScopedWriteLock locker(SingerHub::lock);
+		SingerHub::list.clear();
 	}
 
 	void SingerHub::setDefault(const juce::String& id)

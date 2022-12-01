@@ -27,6 +27,7 @@ namespace vocalshaper {
 		//sampleRate为采样率，单位采样数每秒
 		//frameLength为信号处理帧长，单位为点数，数值通常为2的整数次幂，但不保证必然性
 		//注意该方法可能同时在多个线程上执行多次
+		//循环时要注意使用juce::Thread::currentThreadShouldExit()判断中止符号
 		virtual double renderSentence(
 			juce::AudioBuffer<float>& buffer, const Track* track,
 			const std::tuple<int, int> sentence,
@@ -43,6 +44,7 @@ namespace vocalshaper {
 		//curveQuantification为音高曲线采样率，单位采样点数每四分音符时长
 		//frameLength为信号处理帧长，单位为点数，数值通常为2的整数次幂，但不保证必然性
 		//注意该方法可能同时在多个线程上执行多次
+		//循环时要注意使用juce::Thread::currentThreadShouldExit()判断中止符号
 		virtual double renderBasePitch(
 			PitchArray& pitchArray, const Track* track,
 			const std::tuple<int, int> sentence,
@@ -60,6 +62,7 @@ namespace vocalshaper {
 		//curveQuantification为音高曲线采样率，单位采样点数每四分音符时长
 		//frameLength为信号处理帧长，单位为点数，数值通常为2的整数次幂，但不保证必然性
 		//注意该方法可能同时在多个线程上执行多次
+		//循环时要注意使用juce::Thread::currentThreadShouldExit()判断中止符号
 		virtual double getPitch(
 			PitchArray& pitchArray, const juce::AudioBuffer<float>& audio,
 			const Track* track, const std::tuple<int, int> sentence,
@@ -77,6 +80,7 @@ namespace vocalshaper {
 		//curveQuantification为动态曲线采样率，单位采样点数每四分音符时长
 		//frameLength为信号处理帧长，单位为点数，数值通常为2的整数次幂，但不保证必然性
 		//注意该方法可能同时在多个线程上执行多次
+		//循环时要注意使用juce::Thread::currentThreadShouldExit()判断中止符号
 		virtual double getDynamic(
 			PitchArray& dynamicArray, const juce::AudioBuffer<float>& audio,
 			const Track* track, const std::tuple<int, int> sentence,
@@ -94,6 +98,7 @@ namespace vocalshaper {
 		//frameLength为信号处理帧长，单位为点数，数值通常为2的整数次幂，但不保证必然性
 		//图的水平分辨率应为采样率除以scaleRatio，纵向分辨率应为帧长的一半
 		//注意该方法可能同时在多个线程上执行多次
+		//循环时要注意使用juce::Thread::currentThreadShouldExit()判断中止符号
 		virtual double getSpectrogrum(
 			SpectrogrumArray& spectArray, const juce::AudioBuffer<float>& audio,
 			const Track* track, const std::tuple<int, int> sentence,
@@ -111,6 +116,7 @@ namespace vocalshaper {
 		//frameLength为信号处理帧长，单位为点数，数值通常为2的整数次幂，但不保证必然性
 		//图的水平分辨率应为采样率除以scaleRatio，纵向分辨率应为帧长的一半
 		//注意该方法可能同时在多个线程上执行多次
+		//循环时要注意使用juce::Thread::currentThreadShouldExit()判断中止符号
 		virtual double getFormantrogrum(
 			SpectrogrumArray& formantArray, const juce::AudioBuffer<float>& audio,
 			const Track* track, const std::tuple<int, int> sentence,
